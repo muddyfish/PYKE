@@ -1,0 +1,5 @@
+*.py[cod]
+
+*.log
+settings.json
+*.komodoproject

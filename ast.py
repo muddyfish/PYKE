@@ -9,6 +9,19 @@ class AST(object):
             code = self.add_node(code)
         print self.nodes
         
+    def run(self):
+        stack = []
+        counter = 0
+        while counter != len(self.nodes):
+            cur_node = self.nodes[counter]
+            #print cur_node, stack
+            no_args = cur_node.args
+            stack, args = stack[no_args:], stack[:no_args]
+            stack = cur_node(args) + stack
+            counter += 1
+        for obj in stack[::-1]:
+            print obj
+        
     def add_node(self, code):
         for name in nodes.nodes:
             node = nodes.nodes[name]
