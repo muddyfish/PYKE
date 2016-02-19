@@ -3,7 +3,7 @@
 from nodes import Node
 
 class HeadEnd(Node):
-    char = "~"
+    char = "|"
     args = 1
     results = 2
     def func(self, inp):
