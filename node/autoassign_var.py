@@ -24,3 +24,10 @@ class AutoAssignVar(Node):
         self.__class__.contents = arg
         if settings.WARNINGS: print "Stored %r in i"%arg
         return arg
+
+    @classmethod
+    def accepts(cls, code):
+        if cls is AutoAssignVar: return None, None
+        if code[0] == cls.char:
+            return code[1:], cls()
+        return None, None
