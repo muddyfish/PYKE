@@ -49,7 +49,7 @@ def load_node(node, file_path):
     main_module = imp.load_source(path_var, file_path)
     for c in main_module.__dict__.values():
         try:
-            if issubclass(c, Node) and c is not Node:
+            if issubclass(c, Node) and c.__module__ is main_module.__name__:
                 nodes[node] = c
                 return c
         except TypeError: pass

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from nodes import Node
+from node.numeric_literal import NumericLiteral
 
 class Duplicate(Node):
     char = "D"
