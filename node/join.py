@@ -4,7 +4,7 @@ from nodes import Node
 from node.string_literal import StringLiteral 
 
 class Join(Node):
-    char = "j"
+    char = "J"
     args = 0
     results = 1
     
@@ -22,7 +22,6 @@ class Join(Node):
         
     @classmethod
     def accepts(cls, code):
-        print code
         if code[0] == cls.char:
             new_code, string = StringLiteral.accepts('"'+code[1:])
             if new_code is None:
