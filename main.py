@@ -5,4 +5,9 @@ import sys
 
 code = " ".join(sys.argv[1:])
 print "RUNNING: %r"%code
-lang_ast.AST(code).run()
+ast = lang_ast.AST()
+ast.setup(code)
+stack = ast.run()
+print "STACK"
+for obj in stack[::-1]:
+    print obj

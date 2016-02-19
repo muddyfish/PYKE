@@ -3,26 +3,29 @@
 import nodes
 
 class AST(object):
-    def __init__(self, code):
+    END_CHARS = ");"
+    def setup(self, code):
         self.nodes = []
-        while code != "":
+        while code != "" and code[0] not in AST.END_CHARS:
             code, node = AST.add_node(code)
             self.nodes.append(node)
         print self.nodes
-        
-    def run(self):
-        stack = []
+        if code != "": code = code[1:]
+        return code
+    
+    def run(self, stack = None):
+        if stack is None:
+            stack = []
         counter = 0
         while counter != len(self.nodes):
             cur_node = self.nodes[counter]
-            print cur_node, stack
+            #print cur_node, stack
             cur_node.prepare(stack)
             no_args = cur_node.args
             stack, args = stack[no_args:], stack[:no_args]
             stack = cur_node(args) + stack
             counter += 1
-        for obj in stack[::-1]:
-            print obj
+        return stack
         
     @staticmethod
     def add_node(code):
