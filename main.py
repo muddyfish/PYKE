@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
-import ast
+import lang_ast
+import sys
 
-ast.AST('2 3/').run()
+code = " ".join(sys.argv[1:])
+print "RUNNING: %r"%code
+lang_ast.AST(code).run()

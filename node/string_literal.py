@@ -14,6 +14,7 @@ class StringLiteral(Node):
         
     @classmethod
     def accepts(cls, code):
+        if code == "": return None, None
         string = None
         if code[0] == '"':
             string = ""

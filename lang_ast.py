@@ -14,7 +14,8 @@ class AST(object):
         counter = 0
         while counter != len(self.nodes):
             cur_node = self.nodes[counter]
-            #print cur_node, stack
+            print cur_node, stack
+            cur_node.prepare(stack)
             no_args = cur_node.args
             stack, args = stack[no_args:], stack[:no_args]
             stack = cur_node(args) + stack
