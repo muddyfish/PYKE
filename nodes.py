@@ -2,9 +2,11 @@
 
 import glob, os, imp
 import node as _
+import eval as safe_eval
+import settings
 
 nodes = {}
-    
+
 class Node(object):
     char = ""
     func = lambda self: None
@@ -15,16 +17,25 @@ class Node(object):
         return self.__class__.__name__
         
     def __call__(self, args):
-        assert(len(args) == self.args)
+        while len(args) != self.args:
+            if settings.WARNINGS: print "Missing arg to %r, evaling input."%self
+            args.append(safe_eval.evals[settings.SAFE](raw_input()))
         if args == []:
             ret = self.func()
         else:
-            ret = self.func(*args)
+            try:
+                ret = self.func(*args)
+            except:
+                print "%r failed with args %r"%(self, args)
+                raise
         if self.results == 0: return []
         if not (isinstance(ret, list) or
                 isinstance(ret, tuple)): ret = [ret]
         assert(len(ret) == self.results)
         return ret
+
+    def prepare(self, stack):
+        pass
 
     @classmethod
     def accepts(cls, code):
