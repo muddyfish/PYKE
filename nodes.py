@@ -31,7 +31,10 @@ class Node(object):
         if self.results == 0: return []
         if not (isinstance(ret, list) or
                 isinstance(ret, tuple)): ret = [ret]
-        assert(len(ret) == self.results)
+        if self.results != None:
+            if len(ret) != self.results:
+                print "%r failed with args %r, returned %r"%(self, args, ret)
+                raise AssertionError("Function didn't return correct number of things")
         return ret
 
     def prepare(self, stack):

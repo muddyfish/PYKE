@@ -6,7 +6,7 @@ import copy
 import settings
 
 class AutoAssignVar(Node):
-    char = "i"
+    char = ""
     args = 0
     results = 1
     
@@ -18,12 +18,12 @@ class AutoAssignVar(Node):
             self.func = self.store
             
     def retrieve(self):
-        return copy.deepcopy(self.__class__.contents)
+        return [copy.deepcopy(self.__class__.contents)]
     
     def store(self, arg):
         self.__class__.contents = arg
-        if settings.WARNINGS: print "Stored %r in i"%arg
-        return arg
+        if settings.WARNINGS: print "Stored %r in %s"%(arg, self.char)
+        return [arg]
 
     @classmethod
     def accepts(cls, code):
