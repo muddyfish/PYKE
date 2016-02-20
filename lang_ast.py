@@ -3,7 +3,7 @@
 import nodes
 
 class AST(object):
-    END_CHARS = ");"
+    END_CHARS = ")"
     def setup(self, code):
         self.nodes = []
         while code != "" and code[0] not in AST.END_CHARS:

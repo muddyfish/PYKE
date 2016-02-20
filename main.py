@@ -14,6 +14,7 @@ if sys.argv[1] == "nodes":
             print("DUPLICATE CHARS: %r and %r"%(chars[node.char], node))
         else:
             chars[node.char] = node
+    print(chars[input()].__name__)
     sys.exit()
 code = " ".join(sys.argv[1:])
 print("RUNNING: %r"%code)
