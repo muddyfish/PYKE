@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-from __future__ import division
-
 from nodes import Node
 
 class Divide(Node):
