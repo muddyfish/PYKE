@@ -64,6 +64,7 @@ class Node(object):
                     if not isinstance(arg[1], tuple):length = 1
                     else: length = len(arg[1])
                     priority += 1/length
+                    if arg[1] is object: priority -= 1
                 if possible:
                     funcs[priority] = cur_func
         func = funcs[max(funcs.keys())]
