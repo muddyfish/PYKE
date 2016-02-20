@@ -17,6 +17,8 @@ class Base10Single(Node):
     def accepts(cls, code, accept = False):
         if not accept: return None, None
         if code == "": return None, None
-        value = int(code[0])
+        try:
+            value = int(code[0])
+        except ValueError:
+            return None, None
         return code[1:], cls(value)
-    
