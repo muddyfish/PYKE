@@ -42,8 +42,8 @@ class Node(object):
 
     @classmethod
     def accepts(cls, code):
-        if code[0] == cls.char:
-            return code[1:], cls()
+        if code.startswith(cls.char):
+            return code[len(cls.char):], cls()
         return None, None
 
 
