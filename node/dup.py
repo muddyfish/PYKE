@@ -6,6 +6,7 @@ class Duplicate(Node):
     char = "D"
     args = 1
     results = 0
+    default_arg = 2
     
     def __init__(self, amount: Node.NumericLiteral):
         self.results = amount

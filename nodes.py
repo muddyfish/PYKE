@@ -24,6 +24,7 @@ class Node(object):
     Base96Single = "base96_single"
     NumericLiteral = "numeric_literal"
     StringLiteral = "string_literal"
+    EvalLiteral = "eval_literal"
     
     def __init__(self):pass
     
@@ -98,7 +99,8 @@ class Node(object):
                     code = '"'+ code
                 accept_args.append(code)
                 if const_arg in ("base36_single",
-                                 "base10_single"):
+                                 "base10_single",
+                                 "eval_literal"):
                     accept_args.append(True)
                 new_code, results = node.accepts(*accept_args)
                 if new_code is None:
