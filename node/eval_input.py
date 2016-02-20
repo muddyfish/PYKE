@@ -19,6 +19,6 @@ class EvalInput(Node):
     def accepts(cls, code):
         if code[0] != cls.char: return None, None
         if hasattr(cls, "inp"): return code[1:], cls()
-        if settings.WARNINGS: print "Q:"
-        cls.inp = safe_eval.evals[settings.SAFE](raw_input())
+        if settings.WARNINGS: print("Q: ", end = "")
+        cls.inp = safe_eval.evals[settings.SAFE](input())
         return code[1:], cls()
