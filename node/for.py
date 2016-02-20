@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import lang_ast
 from nodes import Node
 from node.numeric_literal import NumericLiteral 
