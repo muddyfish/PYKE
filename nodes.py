@@ -14,9 +14,18 @@ class Node(object):
     func = lambda self: None
     args = 0
     results = 0
+    
     sequence = (list, tuple)
     number = (int, float)
     indexable = (list, tuple, str)
+    
+    Base10Single = "base10_single"
+    Base36Single = "base36_single"
+    Base96Single = "base96_single"
+    NumericLiteral = "numeric_literal"
+    StringLiteral = "string_literal"
+    
+    def __init__(self):pass
     
     def __repr__(self):
         return self.__class__.__name__
@@ -47,6 +56,7 @@ class Node(object):
         funcs = {0: self.func}
         for k, cur_func in self.__class__.__dict__.items():
             if isinstance(cur_func, types.FunctionType):
+                if k == "__init__": continue
                 cur_func = getattr(self, k)
                 arg_types_dict = cur_func.__annotations__
                 if arg_types_dict == {}: continue
@@ -76,9 +86,29 @@ class Node(object):
     @classmethod
     def accepts(cls, code):
         if code.startswith(cls.char):
-            return code[len(cls.char):], cls()
+            code = code[len(cls.char):]
+            annotations = cls.__init__.__annotations__
+            args = []
+            if annotations:
+                assert(len(annotations) == 1)
+                const_arg = list(annotations.values())[0]
+                node = nodes[const_arg]
+                accept_args = []
+                if const_arg == "string_literal":
+                    code = '"'+ code
+                accept_args.append(code)
+                if const_arg in ("base36_single",
+                                 "base10_single"):
+                    accept_args.append(True)
+                new_code, results = node.accepts(*accept_args)
+                if new_code is None:
+                    results = cls.default_arg
+                else:
+                    code = new_code
+                    results = results([])[0]
+                args.append(results)
+            return code, cls(*args)
         return None, None
-
 
 def load_node(node, file_path):
     path_var = "node.%s"%node
