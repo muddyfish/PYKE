@@ -11,31 +11,27 @@ class Base(Node):
     
     def __init__(self, base):
         self.base = base
-        
-    def func(self, a):
-        if isinstance(a, basestring):
-            #Convert to int
-            return int(a, self.base)
-        elif isinstance(a, list) or\
-             isinstance(a, tuple):
-            #Convert to int
-            result = 0
-            for i, value in enumerate(a):
-                result += value*(self.base**i)
-            return result
-        elif isinstance(a, int):
-            #Convert to string
-            if a == 0: return self.contents[0]
-            sign = "-"*(a<0)
-            a = abs(a)
-            digits = []
-            while a:
-                digits.append(self.contents[a % self.base])
-                a /= self.base
-            return sign+''.join(digits[::-1])
-        else:
-            raise TypeError("%r cannot be converted between bases")
     
+    def str_int(self, a: str):
+        return int(a, self.base)
+    
+    def seq_int(self, a: Node.sequence):
+        result = 0
+        for i, value in enumerate(a):
+            result += value*(self.base**i)
+        return result
+    
+    def int_str(self, a: int):
+        if a == 0: return self.contents[0]
+        sign = "-"*(a<0)
+        a = abs(a)
+        digits = []
+        while a:
+            print(a%self.base)
+            digits.append(self.contents[a%self.base])
+            a //= self.base
+        return sign+''.join(digits[::-1])
+        
     def __repr__(self):
         return "%s: %d"%(self.__class__.__name__, self.base)
         
