@@ -6,5 +6,9 @@ class Mod(Node):
     char = "%"
     args = 2
     results = 1
-    def func(self, a,b):
+    
+    def modulo(self, a:int,b:int):
         return a%b
+    
+    def every(self, seq:Node.indexable, b:int):
+        return seq[::b]

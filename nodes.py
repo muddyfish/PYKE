@@ -30,7 +30,7 @@ class Node(object):
             ret = func()
         else:
             try:
-                ret = func(self,*args)
+                ret = func(*args)
             except:
                 print("%r failed func %r with args %r"%(self, func.__name__, args))
                 raise
@@ -47,6 +47,7 @@ class Node(object):
         funcs = {0: self.func}
         for k, cur_func in self.__class__.__dict__.items():
             if isinstance(cur_func, types.FunctionType):
+                cur_func = getattr(self, k)
                 arg_types = cur_func.__annotations__
                 if arg_types == {}: continue
                 func_arg_names = cur_func.__code__.co_varnames[1:cur_func.__code__.co_argcount]
@@ -60,9 +61,7 @@ class Node(object):
                     priority += 1/length
                 if possible:
                     funcs[priority] = cur_func
-        print(funcs)
         func = funcs[max(funcs.keys())]
-        print(func)
         return func
 
     def prepare(self, stack):
