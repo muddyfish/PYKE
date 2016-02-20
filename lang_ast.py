@@ -9,7 +9,7 @@ class AST(object):
         while code != "" and code[0] not in AST.END_CHARS:
             code, node = AST.add_node(code)
             self.nodes.append(node)
-        print self.nodes
+        #print self.nodes
         if code != "": code = code[1:]
         return code
     

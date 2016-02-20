@@ -18,7 +18,7 @@ class Node(object):
         
     def __call__(self, args):
         while len(args) != self.args:
-            if settings.WARNINGS: print "Missing arg to %r, evaling input."%self
+            if settings.WARNINGS: print("Missing arg to %r, evaling input."%self)
             args.append(safe_eval.evals[settings.SAFE](raw_input()))
         if args == []:
             ret = self.func()
@@ -26,14 +26,14 @@ class Node(object):
             try:
                 ret = self.func(*args)
             except:
-                print "%r failed with args %r"%(self, args)
+                print("%r failed with args %r"%(self, args))
                 raise
         if self.results == 0: return []
         if not (isinstance(ret, list) or
                 isinstance(ret, tuple)): ret = [ret]
         if self.results != None:
             if len(ret) != self.results:
-                print "%r failed with args %r, returned %r"%(self, args, ret)
+                print("%r failed with args %r, returned %r"%(self, args, ret))
                 raise AssertionError("Function didn't return correct number of things")
         return ret
 

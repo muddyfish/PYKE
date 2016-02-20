@@ -22,7 +22,7 @@ class AutoAssignVar(Node):
     
     def store(self, arg):
         self.__class__.contents = arg
-        if settings.WARNINGS: print "Stored %r in %s"%(arg, self.char)
+        if settings.WARNINGS: print("Stored %r in %s"%(arg, self.char))
         return [arg]
 
     @classmethod
