@@ -60,14 +60,12 @@ class Node(object):
                 possible = True
                 priority = 0
                 for arg in zip(args, arg_types):
-                    print(arg)
                     if not isinstance(*arg): possible = False
                     if not isinstance(arg[1], tuple):length = 1
                     else: length = len(arg[1])
                     priority += 1/length
                 if possible:
                     funcs[priority] = cur_func
-        print(funcs)
         func = funcs[max(funcs.keys())]
         return func
 
