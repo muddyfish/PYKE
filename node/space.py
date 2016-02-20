@@ -2,6 +2,6 @@
 
 from generic_variable import Variable
 
-class Alphabet(Variable):
-    char = "k"
+class Space(Variable):
+    char = "d"
     contents = " "

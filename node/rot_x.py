@@ -11,6 +11,10 @@ class RotX(Node):
     def __init__(self, amount):
         self.args = self.results = amount
         
+    def prepare(self, stack):
+        if self.args == 1:
+            self.args = self.results = len(stack)
+            
     def func(self, *args):
         return list(args[1:]+args[:1])
     

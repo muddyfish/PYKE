@@ -3,7 +3,7 @@
 from nodes import Node
 
 class FloorDiv(Node):
-    char = "d"
+    char = "f"
     args = 2
     results = 1
     def func(self, a,b):
