@@ -2,6 +2,6 @@
 
 from generic_variable import Variable
 
-class Alphabet(Variable):
-    char = "b"
+class Newline(Variable):
+    char = "n"
     contents = "\n"
