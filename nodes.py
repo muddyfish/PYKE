@@ -48,19 +48,26 @@ class Node(object):
         for k, cur_func in self.__class__.__dict__.items():
             if isinstance(cur_func, types.FunctionType):
                 cur_func = getattr(self, k)
-                arg_types = cur_func.__annotations__
-                if arg_types == {}: continue
+                arg_types_dict = cur_func.__annotations__
+                if arg_types_dict == {}: continue
                 func_arg_names = cur_func.__code__.co_varnames[1:cur_func.__code__.co_argcount]
-                arg_types = [arg_types[arg] for arg in func_arg_names if arg in arg_types]
+                arg_types = []
+                for arg in func_arg_names:
+                    if arg in arg_types_dict:
+                        arg_types.append(arg_types_dict[arg])
+                    else:
+                        arg_types.append(object)
                 possible = True
                 priority = 0
                 for arg in zip(args, arg_types):
+                    print(arg)
                     if not isinstance(*arg): possible = False
                     if not isinstance(arg[1], tuple):length = 1
                     else: length = len(arg[1])
                     priority += 1/length
                 if possible:
                     funcs[priority] = cur_func
+        print(funcs)
         func = funcs[max(funcs.keys())]
         return func
 
