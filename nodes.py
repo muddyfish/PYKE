@@ -44,18 +44,25 @@ class Node(object):
         return ret
 
     def choose_function(self, args):
-        func = self.func
+        funcs = {0: self.func}
         for k, cur_func in self.__class__.__dict__.items():
             if isinstance(cur_func, types.FunctionType):
                 arg_types = cur_func.__annotations__
                 if arg_types == {}: continue
                 func_arg_names = cur_func.__code__.co_varnames[1:cur_func.__code__.co_argcount]
-                arg_types = [arg_types[arg] for arg in func_arg_names]
+                arg_types = [arg_types[arg] for arg in func_arg_names if arg in arg_types]
                 possible = True
+                priority = 0
                 for arg in zip(args, arg_types):
                     if not isinstance(*arg): possible = False
+                    if not isinstance(arg[1], tuple):length = 1
+                    else: length = len(arg[1])
+                    priority += 1/length
                 if possible:
-                    func = cur_func
+                    funcs[priority] = cur_func
+        print(funcs)
+        func = funcs[max(funcs.keys())]
+        print(func)
         return func
 
     def prepare(self, stack):

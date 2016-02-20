@@ -6,6 +6,9 @@ class End(Node):
     char = "e"
     args = 1
     results = 1
-    def func(self, a):
-        if isinstance(a, int): return ~a
-        return a[-1]
+    
+    def complement(self, inp: Node.number):
+        return ~inp
+    
+    def first(self, inp: Node.indexable):
+        return inp[-1]
