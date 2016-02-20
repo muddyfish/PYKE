@@ -13,6 +13,9 @@ class Splice(Node):
     def range(self, a:int, b:int, c:int):
         return [list(range(a,b,c))]
     
+    def replace(self, a:str, b:str, c:str):
+        return a.replace(b,c)
+    
     def multi_assign(self, a:Node.indexable, b: Node.indexable, c: Node.indexable):
         for i in b:
             a[i] = c[i]
