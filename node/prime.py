@@ -12,7 +12,7 @@ class Prime(Node):
     factors = {0: [],
                1: []}
     
-    def func(self, a):
+    def prime(self, a: Node.number):
         a = int(a)
         if a<0:
             return self.is_prime(-a)

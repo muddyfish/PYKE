@@ -16,7 +16,9 @@ class NumericLiteral(Node):
     def accepts(cls, code):
         if code == "": return None, None
         digits = ""
-        while len(code) != 0 and code[0].isdigit():
+        while len(code) != 0 and \
+              code[0].isdigit() and \
+              digits != "0":
             digits += code[0]
             code = code[1:]
         if digits:
