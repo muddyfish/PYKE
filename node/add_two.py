@@ -10,5 +10,5 @@ class Pop(Node):
     def add_two(self, inp: Node.number):
         return inp+2
     
-    def rm_first(self, inp: Node.indexable):
-        return inp[1:]
+    def rm_end(self, inp: Node.indexable):
+        return inp[:-1]
