@@ -6,6 +6,7 @@ import sys
 
 if sys.argv[1] == "nodes":
     import nodes
+    print("\n".join(sorted(nodes.nodes.keys())))
     print("".join(sorted(node.char for node in nodes.nodes.values())))
     chars = {}
     for node in nodes.nodes.values():
