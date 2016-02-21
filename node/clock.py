@@ -41,6 +41,7 @@ class Time(Node):
                 "Sunday"]
     
     def __init__(self, methods: Node.NumericLiteral):
+        print(methods)
         self.methods = [int(i)for i in str(methods)]
         self.results = len(self.methods)
         
