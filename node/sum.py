@@ -6,9 +6,11 @@ class Sum(Node):
     char = "s"
     args = 0
     results = 1
-    default_arg = 0
+    default_arg = None
     
     def __init__(self, args: Node.Base10Single):
+        if args == 0:
+            args = 10
         self.args = args
         
     def prepare(self, stack):
