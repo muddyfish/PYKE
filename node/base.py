@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 
 from nodes import Node
-from node.numeric_literal import NumericLiteral
 
 class Base(Node):
     char = "b"
     args = 1
     results = 1
     contents = "0123456789abcdefghijklmnopqrstuvwxyz"
+    default_arg = 10
     
-    def __init__(self, base):
+    def __init__(self, base: Node.NumericLiteral):
         self.base = base
     
     def str_int(self, a: str):
@@ -27,23 +27,20 @@ class Base(Node):
         a = abs(a)
         digits = []
         while a:
-            print(a%self.base)
             digits.append(self.contents[a%self.base])
             a //= self.base
         return sign+''.join(digits[::-1])
+    
+    def round(self, a: float):
+        mult = 1
+        if isinstance(self.base, str):
+            mult = -1
+            self.base = int(self.base, 10)
+        rtn = round(a, self.base*mult)
+        if rtn%1 == 0:
+            rtn = int(rtn)
+        return rtn
         
     def __repr__(self):
-        return "%s: %d"%(self.__class__.__name__, self.base)
+        return "%s: %s"%(self.__class__.__name__, self.base)
         
-    @classmethod
-    def accepts(cls, code):
-        if code[0] == cls.char:
-            new_code, digits = NumericLiteral.accepts(code[1:])
-            if new_code is None:
-                digits = 10
-                code = code[1:]
-            else:
-                digits = digits([])[0]
-                code = new_code
-            return code, cls(digits)
-        return None, None
