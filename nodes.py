@@ -100,7 +100,8 @@ class Node(object):
                 accept_args.append(code)
                 if const_arg in ("base36_single",
                                  "base10_single",
-                                 "eval_literal"):
+                                 "eval_literal",
+                                 "numeric_literal"):
                     accept_args.append(True)
                 new_code, results = node.accepts(*accept_args)
                 if new_code is None:

@@ -13,12 +13,12 @@ class NumericLiteral(Node):
         return "%s: %d"%(self.__class__.__name__, self.func())
         
     @classmethod
-    def accepts(cls, code):
+    def accepts(cls, code, ignore_zeros = False):
         if code == "": return None, None
         digits = ""
         while len(code) != 0 and \
               code[0].isdigit() and \
-              digits != "0":
+              (ignore_zeros or digits != "0"):
             digits += code[0]
             code = code[1:]
         if digits:
