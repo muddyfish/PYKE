@@ -60,7 +60,8 @@ class Node(object):
                 if k == "__init__": continue
                 cur_func = getattr(self, k)
                 arg_types_dict = cur_func.__annotations__
-                if arg_types_dict == {}: continue
+                if len(arg_types_dict) != self.args or arg_types_dict == {}:
+                    continue
                 func_arg_names = cur_func.__code__.co_varnames[1:cur_func.__code__.co_argcount]
                 arg_types = []
                 for arg in func_arg_names:

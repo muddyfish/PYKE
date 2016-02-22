@@ -6,6 +6,7 @@ class Join(Node):
     char = "]"
     args = 0
     results = 1
+    default_arg = 0
     
     def __init__(self, size: Node.Base10Single):
         self.args = size
