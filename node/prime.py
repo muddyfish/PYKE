@@ -37,7 +37,7 @@ class Prime(Node):
         for i in range(2, int(a**.5)+1):
             if a%i==0:
                 factors.append(i)
-                factors.extend(self.prime_factors(a/i)[0])
+                factors.extend(self.prime_factors(a//i)[0])
                 break
         Prime.factors[a] = factors
         return [factors]
