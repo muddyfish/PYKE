@@ -9,4 +9,6 @@ class Pow(Node):
     char = "^"
     args = 2
     results = 1
-    func = pow
+    
+    def func(self, a: Node.number, b: Node.number):
+        return a**b
