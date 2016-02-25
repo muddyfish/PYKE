@@ -7,9 +7,8 @@ class Sort(Node):
     args = 1
     results = 1
     def func(self, a: Node.indexable):
-        sorted_var = sorted(a)
         if isinstance(a, tuple):
-            sorted_var = tuple(sorted_var)
+            return [tuple(sorted(a))]
         if isinstance(a, str):
-            sorted_var = "".join(sorted_var)
-        return [sorted_var]
+            return "".join(sorted(a))
+        return [sorted(a)]

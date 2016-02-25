@@ -35,6 +35,7 @@ class Node(object):
         while len(args) != self.args:
             if settings.WARNINGS: print("Missing arg to %r, evaling input."%self)
             args.append(safe_eval.evals[settings.SAFE](input()))
+        args = args[::-1]
         func = self.choose_function(args)
         if args == []:
             ret = func()
@@ -60,7 +61,7 @@ class Node(object):
                 if k == "__init__": continue
                 cur_func = getattr(self, k)
                 arg_types_dict = cur_func.__annotations__
-                if len(arg_types_dict) != self.args or arg_types_dict == {}:
+                if arg_types_dict == {}:
                     continue
                 func_arg_names = cur_func.__code__.co_varnames[1:cur_func.__code__.co_argcount]
                 arg_types = []
@@ -99,10 +100,10 @@ class Node(object):
                 if const_arg == "string_literal":
                     code = '"'+ code
                 accept_args.append(code)
-                if const_arg in ("base36_single",
-                                 "base10_single",
-                                 "eval_literal",
-                                 "numeric_literal"):
+                if const_arg in (Node.Base36Single,
+                                 Node.Base10Single,
+                                 Node.EvalLiteral,
+                                 Node.NumericLiteral):
                     accept_args.append(True)
                 new_code, results = node.accepts(*accept_args)
                 if new_code is None:
@@ -114,6 +115,19 @@ class Node(object):
             return code, cls(*args)
         return None, None
 
+    @staticmethod
+    def test(code, input_stack, output_stack):
+        def inner(node_cls):
+            rtn_code, node = node_cls.accepts(code)
+            assert(rtn_code == "")
+            assert(node is not None)
+            node.prepare(input_stack)
+            rtn_stack = node(input_stack)
+            if rtn_stack != output_stack:
+                raise AssertionError(node_cls.__name__+": %r returned %r"%(input_stack, rtn_stack))
+            return node_cls
+        return inner
+
 def load_node(node, file_path):
     path_var = "node.%s"%node
     main_module = imp.load_source(path_var, file_path)
@@ -124,5 +138,15 @@ def load_node(node, file_path):
                 return c
         except TypeError: pass
       
-for node in glob.glob("node/*.py"):
+def get_nodes():
+    nodes = glob.glob("node/*.py")
+    return sorted(nodes, key = lambda node: node[5:-3] in
+                 (Node.Base10Single,
+                  Node.Base36Single,
+                  Node.Base96Single,
+                  Node.NumericLiteral,
+                  Node.StringLiteral,
+                  Node.EvalLiteral), reverse = True)
+      
+for node in get_nodes():
     load_node(node[5:-3], node)

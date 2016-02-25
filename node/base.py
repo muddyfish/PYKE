@@ -2,6 +2,14 @@
 
 from nodes import Node
 
+@Node.test("b2", [5], ["101"])
+@Node.test("b2", ["101"], [5])
+@Node.test("b", ["  101  "], [101])
+@Node.test("b2", [[2,1,0]], [10])
+@Node.test("b0", [10.1], [10])
+@Node.test("b0", [9.5], [10])
+@Node.test("b2", [913.567], [913.57])
+@Node.test("b02", [913.567], [900])
 class Base(Node):
     char = "b"
     args = 1
@@ -17,7 +25,7 @@ class Base(Node):
     
     def seq_int(self, a: Node.sequence):
         result = 0
-        for i, value in enumerate(a):
+        for i, value in enumerate(a[::-1]):
             result += value*(self.base**i)
         return result
     
