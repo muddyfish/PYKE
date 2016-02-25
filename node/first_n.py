@@ -2,7 +2,7 @@ import lang_ast
 from nodes import Node
 from node.numeric_literal import NumericLiteral 
 
-class First_N(Node):
+class FirstN(Node):
     char = ".f"
     args = 2
     results = 1

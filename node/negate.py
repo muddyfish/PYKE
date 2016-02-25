@@ -8,7 +8,7 @@ class Negate(Node):
     results = 1
     
     def reverse(self, sequence: Node.indexable):
-        return a[::-1]
+        return sequence[::-1]
     
     def func(self, a):
         return -a

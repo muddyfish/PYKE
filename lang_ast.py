@@ -35,4 +35,4 @@ class AST(object):
             if new_code is not None:
                 assert(new_node is not None)
                 return new_code, new_node
-        raise SyntaxError("No nodes will accept code: %s"%(code))
+        raise SyntaxError("No nodes will accept code: %r"%(code))

@@ -2,6 +2,10 @@
 
 from nodes import Node
 
+@Node.test("+", [1,2], [3])
+@Node.test("+", [0,[1,2,3]], [[1,2,3,0]])
+@Node.test("+", [[1,2,3],4], [[4,1,2,3]])
+@Node.test("+", [[3,4],[1,2]], [[1,2,3,4]])
 class Add(Node):
     """
     Takes two items from the stack and adds them
