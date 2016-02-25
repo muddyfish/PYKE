@@ -14,6 +14,7 @@ class Node(object):
     func = lambda self: None
     args = 0
     results = 0
+    reverse_first = False
     
     sequence = (list, tuple)
     number = (int, float)
@@ -32,10 +33,13 @@ class Node(object):
         return self.__class__.__name__
         
     def __call__(self, args):
+        if self.__class__.reverse_first:
+            args = args[::-1]
         while len(args) != self.args:
             if settings.WARNINGS: print("Missing arg to %r, evaling input."%self)
             args.append(safe_eval.evals[settings.SAFE](input()))
-        args = args[::-1]
+        if not self.__class__.reverse_first:
+            args = args[::-1]
         func = self.choose_function(args)
         if args == []:
             ret = func()

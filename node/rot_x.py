@@ -8,6 +8,7 @@ class RotX(Node):
     args = 0
     results = 0
     default_arg = 2
+    reverse_first = True
     
     def __init__(self, amount: Node.NumericLiteral):
         self.args = self.results = amount
