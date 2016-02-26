@@ -20,6 +20,15 @@ class Base(Node):
     def __init__(self, base: Node.NumericLiteral):
         self.base = base
     
+    def prepare(self, stack):
+        if not self.overwrote_default and self.base == 10:
+            self.base = Base.default_arg
+
+    @classmethod
+    def update_contents(cls, new_var):
+        cls.default_arg = len(new_var)
+        cls.contents = new_var
+    
     def str_int(self, a: str):
         return int(a, self.base)
     

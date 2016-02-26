@@ -22,7 +22,7 @@ class NumericLiteral(Node):
             digits += code[0]
             code = code[1:]
         if digits:
-            if digits[0] == "0":    
+            if digits[0] == "0" and digits != "0":    
                 return code, cls(digits)
             return code, cls(int(digits))
         return None, None
