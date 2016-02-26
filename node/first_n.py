@@ -6,6 +6,7 @@ class FirstN(Node):
     char = ".f"
     args = 2
     results = 1
+    contents = 1
     
     def __init__(self, ast: Node.EvalLiteral):
         self.ast = ast
@@ -25,7 +26,7 @@ class FirstN(Node):
         return [results]
     
     def first_n(self, count: int):
-        return self.first_n_start(count, 1)
+        return self.first_n_start(count, FirstN.contents)
     
     def __repr__(self):
         return "%s: %r"%(self.__class__.__name__, self.args)

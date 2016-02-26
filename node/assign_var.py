@@ -14,7 +14,7 @@ class AssignVar(Node):
         self.node_class = node_class
 
     def func(self, x):
-        setattr(self.node_class, "contents", x)
+        self.node_class.update_contents(x)
         return x
     
     def __repr__(self):

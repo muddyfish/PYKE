@@ -18,6 +18,7 @@ class RotX(Node):
             self.args = self.results = len(stack)
             
     def func(self, *args):
+        args = args[::-1]
         return list(args[1:]+args[:1])
     
     def __repr__(self):

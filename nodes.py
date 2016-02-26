@@ -15,6 +15,8 @@ class Node(object):
     args = 0
     results = 0
     reverse_first = False
+    default_arg = None
+    overwrote_default = False
     
     sequence = (list, tuple)
     number = (int, float)
@@ -113,15 +115,21 @@ class Node(object):
                 if new_code is None:
                     results = cls.default_arg
                 else:
+                    cls.overwrote_default = True
                     code = new_code
                     results = results([])[0]
                 args.append(results)
             return code, cls(*args)
         return None, None
 
+    @classmethod
+    def update_contents(cls, new_var):
+        cls.contents = new_var
+        
     @staticmethod
     def test(code, input_stack, output_stack):
         def inner(node_cls):
+            if not settings.DEBUG: return node_cls
             rtn_code, node = node_cls.accepts(code)
             assert(rtn_code == "")
             assert(node is not None)

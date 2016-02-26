@@ -2,3 +2,4 @@
 
 WARNINGS = True
 SAFE = False
+DEBUG = False
