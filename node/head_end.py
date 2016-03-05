@@ -6,5 +6,10 @@ class HeadEnd(Node):
     char = "}"
     args = 1
     results = 2
-    def func(self, inp:Node.indexable):
+    
+    def double(self, inp: Node.number):
+        return inp*2
+    
+    
+    def head_end(self, inp:Node.indexable):
         return [inp[0], inp[-1]]
