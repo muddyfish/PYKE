@@ -30,7 +30,10 @@ class Base(Node):
         cls.contents = new_var
     
     def str_int(self, a: str):
-        return int(a, self.base)
+        num = 0
+        for i,char in enumerate(a[::-1]):
+            num += self.base**i*self.contents.index(char)
+        return num
     
     def seq_int(self, a: Node.sequence):
         result = 0
