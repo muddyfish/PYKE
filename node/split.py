@@ -10,7 +10,7 @@ class Split(Node):
     default_arg = " "
     
     def __init__(self, string:Node.StringLiteral):
-        self.string = string
+        self.string = string or Split.default_arg
     
     def split(self, inp:str):
         return [inp.split(self.string)]
