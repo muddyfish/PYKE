@@ -11,4 +11,4 @@ class Tail(Node):
         return inp-1
     
     def first(self, inp: Node.indexable):
-        return inp[1:]
+        return [inp[1:]]
