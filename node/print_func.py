@@ -8,4 +8,4 @@ class PrintFunc(Node):
     results = 1
     def func(self, arg):
         print(arg)
-        return arg
+        return [arg]
