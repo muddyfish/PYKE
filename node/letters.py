@@ -9,8 +9,7 @@ class Letters(Node):
     args = 1
     results = 1
     
-    settings = [len,
-                lambda x: x.lower(),
+    settings = [lambda x: x.lower(),
                 lambda x: x.upper(),
                 lambda x: x.swapcase(),
                 lambda x: x.title(),
@@ -25,7 +24,14 @@ class Letters(Node):
         self.config = config
         
     def func(self, x):
-        return Letters.settings[self.config](x)
+        if self.config == 0:
+            return self.len(x)
+        return Letters.settings[self.config](x-1)
+    
+    def len(self, x):
+        if isinstance(x, Node.number):
+            return len(str(x)) - isinstance(x, float)
+        return len(x)
     
     def __repr__(self):
         return "%s: %d"%(self.__class__.__name__, self.results)

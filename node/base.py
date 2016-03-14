@@ -31,8 +31,12 @@ class Base(Node):
     
     def str_int(self, a: str):
         num = 0
+        a = a.replace(" ","")
+        mult = len(a)-a.index(".")-1
+        if mult == -1: mult = 0
+        a = a.replace(".","")
         for i,char in enumerate(a[::-1]):
-            num += self.base**i*self.contents.index(char)
+            num += self.base**(i-mult)*self.contents.index(char)
         return num
     
     def seq_int(self, a: Node.sequence):
