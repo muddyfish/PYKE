@@ -24,6 +24,8 @@ class Sum(Node):
     def func(self, *inp):
         if self.args == 1:
             inp = inp[0]
+        if str in map(type, inp):
+            inp = [str(i)for i in inp]
         current = inp[0]
         for val in inp[1:]:
             current += val
