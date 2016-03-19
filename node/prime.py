@@ -2,6 +2,7 @@
 
 from nodes import Node
 from node.numeric_literal import NumericLiteral
+import math
 
 class Prime(Node):
     char = "P"
@@ -11,6 +12,7 @@ class Prime(Node):
                1: False}
     factors = {0: [],
                1: []}
+    contents = math.pi
     
     def prime(self, a: Node.number):
         a = int(a)
