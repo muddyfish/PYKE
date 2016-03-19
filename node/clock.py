@@ -8,7 +8,7 @@ class Time(Node):
     char = "C"
     args = 0
     results = 0
-    default_arg = 0
+    default_arg = -1
     datetime_attrs = ["second",
                       "minute",
                       "hour",
@@ -16,7 +16,8 @@ class Time(Node):
                       "month",
                       "year",
                       "2dyear"]
-    date_attrs = ["weekday"]
+    date_attrs = ["weekday",
+                  "isocalendar"]
 
     months = ["PADDING",
               "January",
@@ -41,8 +42,12 @@ class Time(Node):
                 "Sunday"]
     
     def __init__(self, methods: Node.NumericLiteral):
-        self.methods = [int(i)for i in str(methods)]
-        self.results = len(self.methods)
+        if methods == -1:
+            self.func = lambda: time.time()
+            self.results = 1
+        else:
+            self.methods = [int(i)for i in str(methods)]
+            self.results = len(self.methods)
         
     
     def func(self):
@@ -50,11 +55,6 @@ class Time(Node):
         rtn = []
         for meth in self.methods:
             added = False
-            if meth == 0:
-                added = True
-                print(time.time())
-                rtn.append(time.time())
-            meth -= 1
             if not added and meth < len(self.date_attrs):
                 added = True
                 rtn.append(getattr(date_time.date(), self.date_attrs[meth])())
