@@ -7,6 +7,7 @@ class Map(Node):
     char = "m"
     args = 0
     results = None
+    contents = 1000
     
     def __init__(self, node):
         self.node = node
