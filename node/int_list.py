@@ -6,6 +6,7 @@ class IntList(Node):
     char = "u"
     args = 0
     results = None
+    contents = "0123456789"
     
     def __init__(self, value):
         self.value = value
