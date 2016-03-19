@@ -6,6 +6,7 @@ class Join(Node):
     char = "J"
     args = 0
     results = 1
+    contents = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
     
     def __init__(self, string: Node.StringLiteral):
         self.string = string

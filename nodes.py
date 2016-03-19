@@ -108,6 +108,7 @@ class Node(object):
                 accept_args.append(code)
                 if const_arg in (Node.Base36Single,
                                  Node.Base10Single,
+                                 Node.Base96Single,
                                  Node.EvalLiteral,
                                  Node.NumericLiteral):
                     accept_args.append(True)
