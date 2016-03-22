@@ -26,3 +26,4 @@ class GetVar(Node):
             node = all_nodes[node_name]
             if code[1:].startswith(node.char) and node.char != "":
                 return code[1+len(node.char):], cls(node)
+        return None, None
