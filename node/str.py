@@ -2,9 +2,9 @@
 
 from nodes import Node
 
-class Repr(Node):
+class Str(Node):
     char = "`"
     args = 1
     results = 1
     def func(self, a):
-        return [repr(a)]
+        return [str(a)]

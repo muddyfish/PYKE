@@ -7,6 +7,7 @@ class Letters(Node):
     char = "l"
     args = 1
     results = 1
+    default_arg = 0
     contents = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
     
     settings = [lambda x: x.lower(),
