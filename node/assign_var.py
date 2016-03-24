@@ -8,14 +8,13 @@ import copy
 class AssignVar(Node):
     char = "="
     args = 1
-    results = 1
+    results = 0
     
     def __init__(self, node_class):
         self.node_class = node_class
 
     def func(self, x):
         self.node_class.update_contents(x)
-        return x
     
     def __repr__(self):
         return "%s: %s"%(self.__class__.__name__, self.node_class.__name__)
