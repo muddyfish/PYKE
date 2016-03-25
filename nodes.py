@@ -80,6 +80,8 @@ class Node(object):
                 else: length = len(arg[1])
                 priority += 1/length
                 if arg[1] is object: priority -= 1
+                if hasattr(cur_func, "prefer") and cur_func.prefer:
+                    priority += 1000
             if possible:
                 funcs[priority] = cur_func
         func = funcs[max(funcs.keys())]
@@ -151,6 +153,10 @@ class Node(object):
                 raise AssertionError(node_cls.__name__+": %r returned %r"%(input_stack, rtn_stack))
             return node_cls
         return inner
+    
+    def prefer(func):
+        func.prefer = True
+        return func
 
 def load_node(node, file_path):
     path_var = "node.%s"%node
