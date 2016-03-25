@@ -8,7 +8,10 @@ class Base36Single(Node):
     results = 1
 
     def __init__(self, value):
-        self.func = lambda: value
+        self.value = value
+        
+    def func(self):
+        return self.value
 
     def __repr__(self):
         return "%s: %d"%(self.__class__.__name__, self.func())

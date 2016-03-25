@@ -10,7 +10,8 @@ class EvalInput(Node):
     char = "Q"
     args = 0
     results = 1
-    func = lambda self: [copy.deepcopy(self.inp)]
+    def func(self):
+        return [copy.deepcopy(self.inp)]
         
     def __repr__(self):
         return "%s: %r"%(self.__class__.__name__, self.func())

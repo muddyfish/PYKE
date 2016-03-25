@@ -61,33 +61,43 @@ class Node(object):
         return ret
 
     def choose_function(self, args):
-        funcs = {0: self.func}
-        for k, cur_func in self.__class__.__dict__.items():
-            if isinstance(cur_func, types.FunctionType):
-                if k == "__init__": continue
-                cur_func = getattr(self, k)
-                arg_types_dict = cur_func.__annotations__
-                if arg_types_dict == {}:
-                    continue
-                func_arg_names = cur_func.__code__.co_varnames[1:cur_func.__code__.co_argcount]
-                arg_types = []
-                for arg in func_arg_names:
-                    if arg in arg_types_dict:
-                        arg_types.append(arg_types_dict[arg])
-                    else:
-                        arg_types.append(object)
-                possible = True
-                priority = 0
-                for arg in zip(args, arg_types):
-                    if not isinstance(*arg): possible = False
-                    if not isinstance(arg[1], tuple):length = 1
-                    else: length = len(arg[1])
-                    priority += 1/length
-                    if arg[1] is object: priority -= 1
-                if possible:
-                    funcs[priority] = cur_func
+        funcs = {}
+        for cur_func in self.get_functions(self):
+            arg_types_dict = cur_func.__annotations__
+            func_arg_names = cur_func.__code__.co_varnames[1:cur_func.__code__.co_argcount]
+            arg_types = []
+            for arg in func_arg_names:
+                if arg in arg_types_dict:
+                    arg_types.append(arg_types_dict[arg])
+                else:
+                    arg_types.append(object)
+            possible = True
+            priority = 0
+            for arg in zip(args, arg_types):
+                if not isinstance(*arg): possible = False
+                if not isinstance(arg[1], tuple):length = 1
+                else: length = len(arg[1])
+                priority += 1/length
+                if arg[1] is object: priority -= 1
+            if possible:
+                funcs[priority] = cur_func
         func = funcs[max(funcs.keys())]
         return func
+    
+    @classmethod
+    def get_functions(cls, ins = None):
+        items = cls.__dict__.items()
+        if ins is not None:
+            cls = ins
+        funcs = [cls.func]
+        for k, cur_func in items:
+            if isinstance(cur_func, types.FunctionType):
+                if k == "__init__": continue
+                cur_func = getattr(cls, k)
+                if cur_func.__annotations__ != {}:
+                    funcs.append(cur_func)
+        return funcs
+        
 
     def prepare(self, stack):
         pass
