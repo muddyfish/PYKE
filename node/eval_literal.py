@@ -6,6 +6,7 @@ class Eval(Node):
     char = ""
     args = 0
     results = None
+    ignore = True
     
     def __init__(self, ast):
         self.ast = ast

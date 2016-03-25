@@ -1,10 +1,14 @@
 #!/usr/bin/env python
 
 from flask import Flask, request, redirect, render_template
-import nodes
+from flask.ext.cache import Cache
+
 from collections import OrderedDict
 
+import nodes
+
 app = Flask(__name__, template_folder="web_content/template/")
+cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
 @app.route("/")
 def root():
@@ -12,17 +16,29 @@ def root():
     return render_template("index.html")
 
 @app.route("/docs")
+@cache.cached(timeout=3600)
 def docs():
-    return get_docs()
+    docs = get_docs()
+    keys = ["char", "name", "arg_types", "docs"]
+    table = []
+    for func in docs:
+        row = [func[doc_type] for doc_type in keys]
+        row[2] = print_ordered_dict(row[2])
+        table.append(row)
+    table.sort(key = lambda x:x[0])
+    return render_template("docs_table.html", keys = keys, funcs = table)
 
 def get_docs():
     docs = []
     for node in nodes.nodes:
+        if nodes.nodes[node].ignore: continue
         funcs = nodes.nodes[node].get_functions()
         for func in funcs:
             func_doc = {}
             if func.__name__ == "<lambda>":
                 continue
+            elif func.__name__ == "func":
+                func_doc["name"] = node
             else:
                 func_doc["name"] = func.__name__
             arg_types_dict = func.__annotations__
@@ -43,10 +59,16 @@ def get_docs():
             docs.append(func_doc)
     return docs
 
+def print_ordered_dict(ordered):
+    rtn = ""
+    for key, value in ordered.items():
+        rtn += key+": "+str(value).replace("'","")+", "
+    return rtn[:-2]
+
 def main(debug = True, url = "127.0.0.1"):
     app.debug = debug
     app.run(url)
 
 if __name__ == '__main__':
-    print(get_docs())
-    #main()
+    #print(get_docs())
+    main()
