@@ -8,8 +8,11 @@ class StringLiteral(Node):
     char = "\\"
 
     def __init__(self, string):
-        self.func = lambda: string
+        self.string = string
 
+    def func(self):
+        return self.string
+    
     def __repr__(self):
         return "%s: %r"%(self.__class__.__name__, self.func())
         
