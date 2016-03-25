@@ -23,5 +23,11 @@ class Add(Node):
     def prepend_sequence(self, a, b:Node.sequence):
         return[type(b)([a]+list(b))]
     
+    def append_str(self, a:str,b):
+        return a+str(b)
+    
+    def prepend_str(self, a,b:str):
+        return str(a)+b
+    
     def func(self, a,b):
         return a+b

@@ -12,20 +12,18 @@ cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
 @app.route("/")
 def root():
-    print("Hello!")
     return render_template("index.html")
 
 @app.route("/docs")
 @cache.cached(timeout=3600)
 def docs():
     docs = get_docs()
-    keys = ["char", "name", "arg_types", "docs"]
+    keys = ["char", "name", "arg_types", "fixed_params", "docs"]
     table = []
     for func in docs:
         row = [func[doc_type] for doc_type in keys]
-        row[2] = print_ordered_dict(row[2])
         table.append(row)
-    table.sort(key = lambda x:x[0])
+    table.sort(key = lambda x:x[0]+x[1])
     return render_template("docs_table.html", keys = keys, funcs = table)
 
 def get_docs():
@@ -53,7 +51,17 @@ def get_docs():
                         arg_types[arg] = [annotation.__name__]
                 else:
                     arg_types[arg] = ["object"]
-            func_doc["arg_types"] = arg_types
+            func_doc["arg_types"] = print_ordered_dict(arg_types)
+            if func.__code__.co_flags & 4:
+                if func_doc["arg_types"]: func_doc["arg_types"] += "\n"
+                func_doc["arg_types"] += "*args"
+            fixed = nodes.nodes[node].__init__.__annotations__
+            if fixed:
+                func_doc["fixed_params"] = tuple(fixed.values())[0]
+            elif nodes.nodes[node].accepts.__module__ != "nodes":
+                func_doc["fixed_params"] = "custom"
+            else:
+                func_doc["fixed_params"] = ""
             func_doc["docs"] = func.__doc__
             func_doc["char"] = nodes.nodes[node].char
             docs.append(func_doc)
@@ -62,8 +70,8 @@ def get_docs():
 def print_ordered_dict(ordered):
     rtn = ""
     for key, value in ordered.items():
-        rtn += key+": "+str(value).replace("'","")+", "
-    return rtn[:-2]
+        rtn += key+": "+str(value).replace("'","")+"\n"
+    return rtn[:-1]
 
 def main(debug = True, url = "127.0.0.1"):
     app.debug = debug

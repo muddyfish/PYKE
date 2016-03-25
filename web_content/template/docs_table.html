@@ -1,4 +1,4 @@
-<table>
+<table white-space: pre-wrap;>
     <tr>
     {% for key in keys %}
         <td>{{ key }}</td>
@@ -7,7 +7,7 @@
 {% for func in funcs %}
     <tr>
     {% for i in func %}
-        <td>{{ i }}</td>
+        <td><pre>{{ i }}</pre></td>
     {% endfor %}
     </tr>
 {% endfor %}
