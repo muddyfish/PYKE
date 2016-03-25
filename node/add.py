@@ -14,12 +14,15 @@ class Add(Node):
     args = 2
     results = 1
     
+    @Node.prefer
     def join_sequence(self, a:Node.sequence, b:Node.sequence):
         return[type(a)(list(a)+list(b))]
     
+    @Node.prefer
     def append_sequence(self, a:Node.sequence, b):
         return[type(a)(list(a)+[b])]
     
+    @Node.prefer
     def prepend_sequence(self, a, b:Node.sequence):
         return[type(b)([a]+list(b))]
     

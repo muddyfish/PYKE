@@ -20,11 +20,11 @@ class StringLiteral(Node):
     def accepts(cls, code):
         if code == "": return None, None
         string = None
-        if code[0] == '"':
+        if code[0] == StringLiteral.char:
             string = ""
             if len(code) != 1: 
                 code = code[1:]
-                while len(code) != 0 and code[0] != '"':
+                while len(code) != 0 and code[0] != StringLiteral.char:
                     string += code[0]
                     code = code[1:]
             if len(code) != 0: code = code[1:]
