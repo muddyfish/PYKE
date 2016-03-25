@@ -25,6 +25,16 @@ class Letters(Node):
         self.config = config
         
     def func(self, x):
+        """0 - len
+1 - lower
+2 - upper
+3 - swapcase
+4 - title
+5 - capitalize
+6 - capwords
+7 - strip
+8 - lstrip
+9 - rstrip"""
         if self.config == 0:
             return self.len(x)
         return Letters.settings[self.config-1](x)

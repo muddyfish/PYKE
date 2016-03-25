@@ -8,8 +8,10 @@ class HeadEnd(Node):
     results = 2
     
     def double(self, inp: Node.number):
+        """inp*2"""
         self.results = 1
         return inp*2
         
     def head_end(self, inp:Node.indexable):
+        """inp[0], inp[-1]"""
         return [inp[0], inp[-1]]
