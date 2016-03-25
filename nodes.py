@@ -14,6 +14,7 @@ class Node(object):
     func = lambda self: None
     args = 0
     results = 0
+    ignore = False
     reverse_first = False
     default_arg = None
     overwrote_default = False

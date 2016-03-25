@@ -5,6 +5,7 @@ from nodes import Node
 class StringLiteral(Node):
     args = 0
     results = 1
+    char = '"'
 
     def __init__(self, string):
         self.string = string

@@ -9,6 +9,7 @@ class Variable(Node):
     args = 0
     results = 1
     contents = None
+    ignore = True
 
     def func(self):
         return copy.deepcopy(self.__class__.contents)

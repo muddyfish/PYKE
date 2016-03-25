@@ -6,6 +6,7 @@ class Base36Single(Node):
     char = ""
     args = 0
     results = 1
+    ignore = True
 
     def __init__(self, value):
         self.value = value
