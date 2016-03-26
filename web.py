@@ -11,9 +11,13 @@ import nodes
 app = Flask(__name__, template_folder="web_content/template/")
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
+updated_time = time.strftime("Last updated: %d %b %Y @ %H:%M:%S")
+
 @app.route("/")
 def root():
-    return render_template("index.html")
+    return render_template("index.html",
+                           last_updated = updated_time,
+                           docs = docs())
 
 @app.route("/docs")
 @cache.cached(timeout=3600)
@@ -67,10 +71,6 @@ def get_docs():
             func_doc["char"] = nodes.nodes[node].char
             docs.append(func_doc)
     return docs
-
-@cache.cached(timeout=1000000000000)
-def last_updated():
-    return time.strftime("Last updated: %d %b %Y @ %h:%M:%S")
 
 def print_ordered_dict(ordered):
     rtn = ""
