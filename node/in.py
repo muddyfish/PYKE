@@ -24,4 +24,3 @@ class In(Node):
         if a&bit:
             return a^bit
         return a
-    
