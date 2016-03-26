@@ -10,6 +10,9 @@ class NumericLiteral(Node):
         self.digits = digits
         
     def func(self):
+        """Returns a numeric literal, including floats.
+Values can't end with a ".", instead use ".0"
+The "0" digit gets returned immediately if it is at the beginning."""
         return self.digits
 
     def __repr__(self):
@@ -24,6 +27,9 @@ class NumericLiteral(Node):
               (ignore_zeros or digits != "0"):
             digits += code[0]
             code = code[1:]
+        if digits.endswith("."):
+            digits = digits[:-1]
+            code = "."+code
         if digits:
             if digits[0] == "0" and digits != "0":    
                 return code, cls(digits)

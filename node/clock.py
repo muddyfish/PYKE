@@ -51,6 +51,18 @@ class Time(Node):
         
     
     def func(self):
+        """Default - time.time()
+0 - weekday - 0 based. Monday is 0, Sunday is 6.
+1 - isocalendar
+2 - seconds
+3 - minutes
+4 - hours
+5 - days
+6 - months
+7 - year (full)
+8 - year (tens and units)
+9 - Months of the year (1 indexed, 0 is "PADDING")
+Default contents: days of the week"""
         date_time = datetime.datetime.now()
         rtn = []
         for meth in self.methods:

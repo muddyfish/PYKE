@@ -7,4 +7,5 @@ class Str(Node):
     args = 1
     results = 1
     def func(self, a):
+        """str(a)"""
         return [str(a)]

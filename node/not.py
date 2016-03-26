@@ -7,4 +7,5 @@ class Not(Node):
     args = 1
     results = 1
     def func(self, a):
-        return not a
+        """not a. Returns an int"""
+        return (not a)+0

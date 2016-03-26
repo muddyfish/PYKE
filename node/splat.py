@@ -7,4 +7,5 @@ class Str(Node):
     args = 1
     results = None
     def func(self, lst):
+        """return lst (extend mode)"""
         return list(lst)

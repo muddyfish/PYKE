@@ -8,7 +8,9 @@ class Tail(Node):
     results = 1
     
     def sub_one(self, inp: Node.number):
+        """inp-1"""
         return inp-1
     
     def first(self, inp: Node.indexable):
+        """inp[1:]"""
         return [inp[1:]]

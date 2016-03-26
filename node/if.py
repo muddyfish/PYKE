@@ -15,6 +15,9 @@ class If(Node):
         self.args = max(len(stack), 1)
             
     def func(self, *args):
+        """Takes stack.
+if arg1: stack = eval_literal(stack[1:]) (extend mode)
+else: stack = stack[1:]"""
         args = list(args)
         if args[0]:
             args = args[1:]

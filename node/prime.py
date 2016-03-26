@@ -15,6 +15,8 @@ class Prime(Node):
     contents = math.pi
     
     def prime(self, a: Node.number):
+        """If is_neg(a): return is_prime(a)
+Else: return prime_factors(a)"""
         a = int(a)
         if a<0:
             return self.is_prime(-a)
@@ -31,6 +33,7 @@ class Prime(Node):
         return True
     
     def prime_factors(self, a):
+        """Return prime factors of a"""
         if a in Prime.factors:
             return [Prime.factors[a]]
         if self.is_prime(a):

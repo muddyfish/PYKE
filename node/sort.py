@@ -6,7 +6,9 @@ class Sort(Node):
     char = "S"
     args = 1
     results = 1
+    
     def func(self, a: Node.indexable):
+        """sorted(a) - returns the same type as given"""
         if isinstance(a, tuple):
             return [tuple(sorted(a))]
         if isinstance(a, str):

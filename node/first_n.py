@@ -16,6 +16,7 @@ class FirstN(Node):
             self.args = 1
     
     def first_n_start(self, count: int, start: int):
+        """Return first count items where the last element on the returned stack is true"""
         results = []
         i = start
         while len(results) != count:
@@ -26,6 +27,7 @@ class FirstN(Node):
         return [results]
     
     def first_n(self, count: int):
+        """return first_n_start(FirstN.contents)"""
         return self.first_n_start(count, FirstN.contents)
     
     def __repr__(self):

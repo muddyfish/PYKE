@@ -10,7 +10,9 @@ class End(Node):
     contents = math.e
     
     def complement(self, inp: Node.number):
+        """-(inp+1)"""
         return ~inp
     
-    def first(self, inp: Node.indexable):
+    def end(self, inp: Node.indexable):
+        """inp[-1]"""
         return inp[-1]

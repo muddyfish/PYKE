@@ -13,6 +13,7 @@ class Split(Node):
         self.string = string or Split.default_arg
     
     def split(self, inp:str):
+        """inp.split(`arg`)"""
         return [inp.split(self.string)]
     
     def __repr__(self):

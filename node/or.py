@@ -7,4 +7,10 @@ class Or(Node):
     args = 2
     results = 1
     def func(self, a,b):
-        return a or b
+        """a or b. Short circuiting.
+if a: return a
+if b: return b
+return 0"""
+        if a: return a
+        if b: return b
+        return 0

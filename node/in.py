@@ -7,4 +7,5 @@ class In(Node):
     args = 2
     results = 1
     def func(self, a,b:Node.indexable):
+        """a in b"""
         return a in b

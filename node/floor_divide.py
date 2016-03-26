@@ -7,4 +7,5 @@ class FloorDiv(Node):
     args = 2
     results = 1
     def func(self, a,b):
+        """a/b. Rounds down, returns an int."""
         return a//b

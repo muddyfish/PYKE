@@ -95,7 +95,7 @@ class Node(object):
         funcs = [cls.func]
         for k, cur_func in items:
             if isinstance(cur_func, types.FunctionType):
-                if k == "__init__": continue
+                if k in ["__init__", "func"]: continue
                 cur_func = getattr(cls, k)
                 if cur_func.__annotations__ != {}:
                     funcs.append(cur_func)

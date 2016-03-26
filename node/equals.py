@@ -7,4 +7,5 @@ class Equals(Node):
     args = 2
     results = 1
     def func(self, a,b):
-        return a==b
+        """a==b. Returns an int"""
+        return (a==b)+0

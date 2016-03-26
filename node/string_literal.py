@@ -11,6 +11,7 @@ class StringLiteral(Node):
         self.string = string
 
     def func(self):
+        """String literal. Ends with "."""
         return self.string
 
     def __repr__(self):

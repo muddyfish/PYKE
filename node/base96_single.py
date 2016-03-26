@@ -8,6 +8,7 @@ class Base96Single(Node):
     results = 1
     
     def __init__(self, value):
+        """ord(`arg1`)-32"""
         self.value = value
         
     def func(self):

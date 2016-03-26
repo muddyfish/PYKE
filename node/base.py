@@ -30,6 +30,8 @@ class Base(Node):
         cls.contents = new_var
     
     def str_int(self, a: str):
+        """Return a in base `base` as an integer
+Base contents can be changed by changing the contents"""
         num = 0
         a = a.replace(" ","")
         mult = 0
@@ -41,12 +43,15 @@ class Base(Node):
         return num
     
     def seq_int(self, a: Node.sequence):
+        """Return a in base `base`"""
         result = 0
         for i, value in enumerate(a[::-1]):
             result += value*(self.base**i)
         return result
     
     def int_str(self, a: int):
+        """Return a in base `base`
+Base contents can be changed by changing the contents"""
         if a == 0: return self.contents[0]
         sign = "-"*(a<0)
         a = abs(a)
@@ -57,6 +62,7 @@ class Base(Node):
         return sign+''.join(digits[::-1])
     
     def round(self, a: float):
+        """round(a, `base`)"""
         mult = 1
         if isinstance(self.base, str):
             mult = -1

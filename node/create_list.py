@@ -8,7 +8,7 @@ class Join(Node):
     results = 1
     default_arg = 2
     
-    def __init__(self, size: Node.Base10Single):
+    def __init__(self, size: Node.Base36Single):
         self.args = size
         
     def prepare(self, stack):
@@ -16,6 +16,8 @@ class Join(Node):
             self.args = len(stack)
 
     def func(self, *inp):
+        """Take the top `amount` items from the stack and turn them into a list.
+Defaults to the whole stack"""
         return [inp]
     
     def __repr__(self):
