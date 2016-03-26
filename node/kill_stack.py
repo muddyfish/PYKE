@@ -16,6 +16,7 @@ class KillStack(Node):
             self.args = len(stack)
             
     def func(self, *args):
+        """Remove the first `amount` items from the stack"""
         return []
     
     def __repr__(self):

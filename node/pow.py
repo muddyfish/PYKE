@@ -11,4 +11,5 @@ class Pow(Node):
     results = 1
     
     def func(self, a: Node.number, b: Node.number):
+        """a**b"""
         return a**b

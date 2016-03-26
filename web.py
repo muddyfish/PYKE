@@ -4,6 +4,7 @@ from flask import Flask, request, redirect, render_template
 from flask.ext.cache import Cache
 
 from collections import OrderedDict
+import time
 
 import nodes
 
@@ -66,6 +67,10 @@ def get_docs():
             func_doc["char"] = nodes.nodes[node].char
             docs.append(func_doc)
     return docs
+
+@cache.cached(timeout=1000000000000)
+def last_updated():
+    return time.strftime("Last updated: %d %b %Y @ %h:%M:%S")
 
 def print_ordered_dict(ordered):
     rtn = ""

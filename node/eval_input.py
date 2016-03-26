@@ -10,7 +10,9 @@ class EvalInput(Node):
     char = "Q"
     args = 0
     results = 1
+    
     def func(self):
+        """Prompt for content at start. Returns by default."""
         return [copy.deepcopy(self.inp)]
         
     def __repr__(self):

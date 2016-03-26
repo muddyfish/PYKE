@@ -7,4 +7,5 @@ class Multiply(Node):
     args = 2
     results = 1
     def func(self, a,b):
+        """a*b"""
         return a*b

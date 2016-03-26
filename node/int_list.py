@@ -11,6 +11,8 @@ class IntList(Node):
         self.value = value
         
     def func(self):
+        """length = ord(`arg`[0])-32
+return [ord(a)-32 for a in `arg`[1:length+1]]"""
         return self.value
     
     def __repr__(self):

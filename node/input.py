@@ -8,5 +8,6 @@ class Input(Node):
     results = 1
     contents = ""
     def func(self):
-        print("Getting input: ")
+        """input() or Input.contents"""
+        print("z: ")
         return input() or Input.contents

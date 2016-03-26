@@ -14,6 +14,7 @@ class GetVar(Node):
         self.node_class = node_class
 
     def func(self):
+        """return the contents of `node`"""
         return [getattr(self.node_class, "contents")]
     
     def __repr__(self):

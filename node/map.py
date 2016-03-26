@@ -14,6 +14,11 @@ class Map(Node):
         self.args = node.args
         
     def func(self, *args):
+        """for i in args[0]:
+    `node`(i, other_args)
+Where other_args is the remaining arguments for the function.
+These are taken from the stack. The same arguments are used for each map.
+Returns the results of the map (extend mode)"""
         args = list(args)
         is_str = isinstance(args[0], str)
         max_len = len(args[0])

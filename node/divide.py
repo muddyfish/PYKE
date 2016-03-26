@@ -9,4 +9,6 @@ class Divide(Node):
     args = 2
     results = 1
     def func(self, a,b):
+        """a/b. floating point division.
+For integer division, see `f`"""
         return a/b

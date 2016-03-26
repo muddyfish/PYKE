@@ -10,4 +10,5 @@ class And(Node):
     args = 2
     results = 1
     def func(self, a,b):
+        """a and b. Short circuiting. If not b, return a."""
         return a and b

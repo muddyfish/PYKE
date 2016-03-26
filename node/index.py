@@ -8,8 +8,10 @@ class Index(Node):
     results = 1
     
     def index(self, a: str, b: int):
+        """a.index(b)"""
         return a.index(b)
     
     def count(self, a: int, b: str):
+        """a.count(b)"""
         return a.count(b)
     

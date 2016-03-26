@@ -11,6 +11,7 @@ class StringLiteral(Node):
         self.string = string
 
     def func(self):
+        """Add a single char onto the stack"""
         return self.string
     
     def __repr__(self):

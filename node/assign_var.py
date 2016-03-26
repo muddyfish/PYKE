@@ -14,6 +14,9 @@ class AssignVar(Node):
         self.node_class = node_class
 
     def func(self, x):
+        """Takes a node as a fixed arg.
+Sets the contents of the node to x.
+This can also affect how the node behaves"""
         self.node_class.update_contents(x)
     
     def __repr__(self):

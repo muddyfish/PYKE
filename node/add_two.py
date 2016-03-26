@@ -10,7 +10,9 @@ class Pop(Node):
     results = 1
     
     def add_two(self, inp: Node.number):
+        """inp+2"""
         return inp+2
     
     def rm_end(self, inp: Node.indexable):
+        """inp[:-1]"""
         return [inp[:-1]]

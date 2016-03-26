@@ -3,11 +3,6 @@ from nodes import Node
 from node.numeric_literal import NumericLiteral 
 
 class For(Node):
-    """
-    Constant arg - how many items off the stack to take, default 1
-    arg1 - variable to iterate over
-    args - the rest of the args are copied and used as arguments
-    """
     char = "F"
     args = 0
     results = None
@@ -17,6 +12,9 @@ class For(Node):
         self.ast = ast
         
     def func(self, *args):
+        """Constant arg - how many items off the stack to take, default 1
+arg1 - object to iterate over (if int, range(arg1))
+Returns a list of lists to the stack (extend mode)"""
         args = list(args)
         if isinstance(args[0], int):
             args[0] = range(args[0])

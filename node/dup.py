@@ -12,6 +12,7 @@ class Duplicate(Node):
         self.results = amount
         
     def func(self, a):
+        """Duplicate the top of the stack `amount` times"""
         return [a]*self.results
     
     def __repr__(self):

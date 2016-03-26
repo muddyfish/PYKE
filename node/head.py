@@ -8,7 +8,9 @@ class Head(Node):
     results = 1
     
     def add_one(self, inp: Node.number):
+        """inp+1"""
         return inp+1
     
     def first(self, inp: Node.indexable):
+        """inp[0]"""
         return inp[0]
