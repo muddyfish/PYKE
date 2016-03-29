@@ -1,18 +1,20 @@
-<table class="table-striped">
-    <thead>
-        <tr>
-        {% for key in keys %}
-            <th>{{ key }}</th>
+<div class="scrollable table-container">
+    <table class="table-striped">
+        <thead>
+            <tr>
+            {% for key in keys %}
+                <th>{{ key }}</th>
+            {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+        {% for func in funcs %}
+            <tr>
+            {% for i in func %}
+                <td>{{ i }}</td>
+            {% endfor %}
+            </tr>
         {% endfor %}
-        </tr>
-    </thead>
-    <tbody>
-    {% for func in funcs %}
-        <tr>
-        {% for i in func %}
-            <td>{{ i }}</td>
-        {% endfor %}
-        </tr>
-    {% endfor %}
-    </tbody>
- </table>
+        </tbody>
+    </table>
+</div>

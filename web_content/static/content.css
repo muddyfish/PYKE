@@ -1,0 +1,51 @@
+* { 
+    -moz-box-sizing: border-box; 
+    -ms-box-sizing: border-box; 
+    box-sizing: border-box; 
+}
+  
+#code, #input, #output {
+    font-family: monospace;
+}
+
+.table-container {
+    height: 720px;
+}
+
+.scrollable {
+    overflow-y: scroll;
+}
+
+.container {
+    padding-top: 32px;
+    width:95%;
+}
+
+.pad-bottom {
+    margin-bottom: 16px;
+}
+
+.pad-top {
+    margin-top: 16px;
+}
+
+.docs,
+.info {
+    display: inline;
+    float: left;
+    position: relative;
+}
+
+
+.docs {
+    float: right;
+    padding-top: 32px;
+}
+
+.info {
+    width: 640px;
+}
+
+td, th {
+    padding-right: 8px;
+}

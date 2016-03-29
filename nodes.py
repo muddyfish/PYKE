@@ -40,8 +40,7 @@ class Node(object):
             args = args[::-1]
         assert(len(args) <= self.args)
         while len(args) != self.args:
-            if settings.WARNINGS: print("Missing arg to %r, evaling input."%self)
-            args.append(safe_eval.evals[settings.SAFE](input()))
+            self.add_arg()
         if not self.__class__.reverse_first:
             args = args[::-1]
         func = self.choose_function(args)
@@ -113,6 +112,15 @@ class Node(object):
     def prepare(self, stack):
         pass
 
+    def add_arg(self, args):
+        if settings.WARNINGS: print("Missing arg to %r, evaling input."%self)
+        arg = safe_eval.evals[settings.SAFE](input())
+        if self.__class__.reverse_first:
+            args.insert(0, arg)
+        else:
+            args.append(arg)
+    
+
     @classmethod
     def accepts(cls, code):
         if code.startswith(cls.char):
@@ -147,6 +155,7 @@ class Node(object):
     @classmethod
     def update_contents(cls, new_var):
         cls.contents = new_var
+
     
     @staticmethod
     def test_func(input_stack, output_stack, args = ""):
