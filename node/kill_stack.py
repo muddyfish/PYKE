@@ -14,7 +14,9 @@ class KillStack(Node):
     def prepare(self, stack):
         if self.args == KillStack.default_arg:
             self.args = len(stack)
-            
+          
+    @Node.test_func([4,2,4,5,1], [])  
+    @Node.test_func([4,2], [], "2")  
     def func(self, *args):
         """Remove the first `amount` items from the stack"""
         return []

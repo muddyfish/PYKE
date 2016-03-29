@@ -2,7 +2,7 @@
 
 from nodes import Node
 
-class Join(Node):
+class List(Node):
     char = "]"
     args = 0
     results = 1
@@ -15,10 +15,12 @@ class Join(Node):
         if self.args == 0:
             self.args = len(stack)
 
+    @Node.test_func([5,6,1,2], [[5,6,1,2]], "4")
+    @Node.test_func(["Hello", "World"], [["Hello", "World"]])
     def func(self, *inp):
         """Take the top `amount` items from the stack and turn them into a list.
 Defaults to the whole stack"""
-        return [inp]
+        return [list(inp)]
     
     def __repr__(self):
         return "%s: %r"%(self.__class__.__name__, self.args)

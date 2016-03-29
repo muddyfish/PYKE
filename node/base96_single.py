@@ -11,6 +11,9 @@ class Base96Single(Node):
         """ord(`arg1`)-32"""
         self.value = value
         
+    @Node.test_func([], [0], " ")
+    @Node.test_func([], [1], "!")
+    @Node.test_func([], [-32], "\x00")
     def func(self):
         return self.value
     

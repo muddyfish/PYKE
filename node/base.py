@@ -2,14 +2,6 @@
 
 from nodes import Node
 
-@Node.test("b2", [5], ["101"])
-@Node.test("b2", ["101"], [5])
-@Node.test("b", ["  101  "], [101])
-@Node.test("b2", [[2,1,0]], [10])
-@Node.test("b0", [10.1], [10])
-@Node.test("b0", [9.5], [10])
-@Node.test("b2", [913.567], [913.57])
-@Node.test("b02", [913.567], [900])
 class Base(Node):
     char = "b"
     args = 1
@@ -29,6 +21,8 @@ class Base(Node):
         cls.default_arg = len(new_var)
         cls.contents = new_var
     
+    @Node.test_func(["  101  "], [101])
+    @Node.test_func(["101"], [5], "2")
     def str_int(self, a: str):
         """Return a in base `base` as an integer
 Base contents can be changed by changing the contents"""
@@ -42,6 +36,7 @@ Base contents can be changed by changing the contents"""
             num += self.base**(i-mult)*self.contents.index(char)
         return num
     
+    @Node.test_func([[2,1,0]], [10], "2")
     def seq_int(self, a: Node.sequence):
         """Return a in base `base`"""
         result = 0
@@ -49,6 +44,7 @@ Base contents can be changed by changing the contents"""
             result += value*(self.base**i)
         return result
     
+    @Node.test_func([5], ["101"], "2")
     def int_str(self, a: int):
         """Return a in base `base`
 Base contents can be changed by changing the contents"""
@@ -61,6 +57,10 @@ Base contents can be changed by changing the contents"""
             a //= self.base
         return sign+''.join(digits[::-1])
     
+    @Node.test_func([10.1], [10], "0")
+    @Node.test_func([9.5], [10], "0")
+    @Node.test_func([913.567], [913.57], "2")
+    @Node.test_func([913.567], [900], "02")
     def round(self, a: float):
         """round(a, `base`)"""
         mult = 1

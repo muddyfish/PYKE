@@ -14,6 +14,8 @@ class If(Node):
     def prepare(self, stack):
         self.args = max(len(stack), 1)
             
+    @Node.test_func([1,5], [10], "}")
+    @Node.test_func([0,5], [5], "}")
     def func(self, *args):
         """Takes stack.
 if arg1: stack = eval_literal(stack[1:]) (extend mode)

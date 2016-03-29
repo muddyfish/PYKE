@@ -11,6 +11,8 @@ class Duplicate(Node):
     def __init__(self, amount: Node.NumericLiteral):
         self.results = amount
         
+    @Node.test_func(["test"], ["test", "test"])  
+    @Node.test_func([1], [1,1,1], "3")  
     def func(self, a):
         """Duplicate the top of the stack `amount` times"""
         return [a]*self.results

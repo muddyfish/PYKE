@@ -6,9 +6,15 @@ from flask.ext.cache import Cache
 from collections import OrderedDict
 import time
 
-import nodes
+import nodes, settings
+import literal_gen
 
+if settings.DEBUG:
+    for node in nodes.nodes:
+        nodes.nodes[node].run_tests()
+        
 app = Flask(__name__, template_folder="web_content/template/")
+app.jinja_env.autoescape = False
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
 updated_time = time.strftime("Last updated: %d %b %Y @ %H:%M:%S")
@@ -23,12 +29,21 @@ def root():
 @cache.cached(timeout=3600)
 def docs():
     docs = get_docs()
-    keys = ["char", "name", "arg_types", "fixed_params", "docs"]
+    keys = ["char", "name", "arg_types", "fixed_params", "input", "output", "docs"]
+    types = ["<br>","<br>","<br>","<br>","<pre>","<pre>","<br>"]
     table = []
     for func in docs:
         row = [func[doc_type] for doc_type in keys]
+        for i, col in enumerate(row):
+            try:
+                if types[i] == "<br>":
+                    row[i] = col.replace("\n", "<br>")
+                elif types[i] == "<pre>":
+                    row[i] = "<pre>"+str(col)+"</pre>"
+            except AttributeError: pass
         table.append(row)
     table.sort(key = lambda x:x[0]+x[1])
+    keys = [key.title().replace("_", " ") for key in keys]
     return render_template("docs_table.html", keys = keys, funcs = table)
 
 def get_docs():
@@ -69,6 +84,16 @@ def get_docs():
                 func_doc["fixed_params"] = ""
             func_doc["docs"] = func.__doc__
             func_doc["char"] = nodes.nodes[node].char
+            func_doc["input"] = ""
+            func_doc["output"] = ""
+            if hasattr(func, "tests"):
+                for test in func.tests[::-1]:
+                    inp = literal_gen.stack_literal(test[0])
+                    cmd = nodes.nodes[node].char+test[-1]
+                    func_doc["input"] += (inp+cmd+"\n")
+                    func_doc["output"] += (str(test[1])+"\n")
+                func_doc["input"] = func_doc["input"][:-1]
+                func_doc["output"] = func_doc["output"][:-1]
             docs.append(func_doc)
     return docs
 

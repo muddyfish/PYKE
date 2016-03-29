@@ -10,8 +10,11 @@ class StringLiteral(Node):
     def __init__(self, string):
         self.string = string
 
+
+    @Node.test_func([], ["World"], "World\"")
+    @Node.test_func([], ["Hello"], "Hello")
     def func(self):
-        """String literal. Ends with "."""
+        """String literal. Ends with " """
         return self.string
 
     def __repr__(self):

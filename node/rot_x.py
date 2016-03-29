@@ -17,6 +17,8 @@ class RotX(Node):
         if self.args == 1:
             self.args = self.results = len(stack)
             
+    @Node.test_func([1,2,3,4], [2,3,4,1], "4")
+    @Node.test_func([1,0], [0,1])
     def func(self, *args):
         """Rotate the top `amount` items on the stack by 1."""
         args = args[::-1]

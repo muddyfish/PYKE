@@ -17,6 +17,10 @@ class Join(Node):
         else:
             self.args = len(stack)
     
+    @Node.test_func([1,5], ["15"])
+    @Node.test_func([[1,5]], ["15"])
+    @Node.test_func(["Hello", "World!"], ["Hello, World!"], ", ")
+    @Node.test_func([1,2,3,4], ["1.2.3.4"], ".")
     def func(self, *inp):
         """If arg1 is a list or tuple, args = arg1
 Else: args = stack.

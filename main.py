@@ -1,11 +1,9 @@
 #!/usr/bin/env python
 
-import lang_ast
+import lang_ast, settings, nodes
 import sys
 
-
 if sys.argv[1] == "nodes":
-    import nodes
     print("\n".join(sorted(nodes.nodes.keys())))
     print("".join(sorted(node.char for node in nodes.nodes.values())))
     chars = {}
@@ -17,6 +15,11 @@ if sys.argv[1] == "nodes":
             chars[node.char] = node
     print(chars[input()].__name__)
     sys.exit()
+
+if settings.DEBUG:
+    for node in nodes.nodes:
+        nodes.nodes[node].run_tests()
+
 code = " ".join(sys.argv[1:])
 print("RUNNING: %r"%code)
 ast = lang_ast.AST()

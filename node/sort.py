@@ -7,6 +7,8 @@ class Sort(Node):
     args = 1
     results = 1
     
+    @Node.test_func([[2,3,4,1]], [[1,2,3,4]])
+    @Node.test_func(["test"], ["estt"])
     def func(self, a: Node.indexable):
         """sorted(a) - returns the same type as given"""
         if isinstance(a, tuple):
