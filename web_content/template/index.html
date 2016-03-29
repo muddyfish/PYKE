@@ -16,9 +16,10 @@
                 {{ last_updated }}
                 <br>                    
 		<button id="button-run" class="btn btn-primary pad-bottom pad-top">Run Program.</button>
+		<button id="button-permalink" class="btn btn-primary pad-bottom pad-top">Permalink</button>
 		<i class="fa fa-spinner fa-spin" id="loading"></i>
-		<textarea id="code" placeholder="Code" class="form-control pad-top pad-bottom" rows="7"></textarea>
-		<textarea id="input" placeholder="Input" class="form-control pad-top pad-bottom" rows="3"></textarea>
+		<textarea id="code" placeholder="Code" class="form-control pad-top pad-bottom" rows="7">{{ code }}</textarea>
+		<textarea id="input" placeholder="Input" class="form-control pad-top pad-bottom" rows="3">{{ input }}</textarea>
 		<pre class="scrollable" id="output"></pre>
             </div>
             <div class="docs">
@@ -39,9 +40,15 @@
                     }
                 );
 	    }
+            function create_permalink() {
+                params={code: $('#code').val()}
+		if ($('#input').val()) params.input=$('#input').val()
+                history.pushState(null, null, "?" + $.param(params).replace(/[!'()*]/g, function(c) {return '%' + c.charCodeAt(0).toString(16)}))
+            }
             $(function() {
 		$("#loading").hide();
 		$('#button-run').click(submit_code);
+		$('#button-permalink').click(create_permalink);
             });
         </script>
     </body>

@@ -30,9 +30,13 @@ updated_time = output.decode()[:-1]
 
 @app.route("/")
 def root():
+    code = request.args.get("code", "")
+    inp = request.args.get("input", "")
     return render_template("index.html",
                            last_updated = updated_time,
-                           docs = docs())
+                           docs = docs(),
+                           code = code,
+                           input = inp)
 
 
 @app.route("/submit", methods = ['POST'])
