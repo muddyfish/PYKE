@@ -19,7 +19,14 @@ app = Flask(__name__,
             static_folder="web_content/static/")
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
-updated_time = time.strftime("Last updated: %d %b %Y @ %H:%M:%S")
+modified_process = subprocess.Popen(["git",
+                                     "log",
+                                     "-1",
+                                     "--format=%cd",
+                                     "--date=local"],
+    stdout=subprocess.PIPE)
+output, errors = modified_process.communicate()
+updated_time = output.decode()[:-1]
 
 @app.route("/")
 def root():
@@ -134,10 +141,9 @@ def print_ordered_dict(ordered):
 def send_js(path):
     return send_from_directory('web_content/static', path)
 
-def main(debug = True, url = "127.0.0.1"):
+def main(debug = settings.DEBUG, url = "127.0.0.1"):
     app.debug = debug
     app.run(url)
 
 if __name__ == '__main__':
-    #print(get_docs())
     main()
