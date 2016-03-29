@@ -5,15 +5,44 @@
         <title>Pyke Interpreter</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='static/content.css') }}">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     </head>
     <body>
 	<div class="container">
-            <h3><a href="https://github.com/muddyfish/PYKE">Pyke</a> Interpreter</h3>
-        {{ last_updated }}
-        <br>
-        Hello!
-        {{ docs|safe }}
+            <div class="info">
+                <h3><a href="https://github.com/muddyfish/PYKE">Pyke</a> Interpreter</h3>
+                {{ last_updated }}
+                <br>                    
+		<button id="button-run" class="btn btn-primary pad-bottom pad-top">Run Program.</button>
+		<i class="fa fa-spinner fa-spin" id="loading"></i>
+		<textarea id="code" placeholder="Code" class="form-control pad-top pad-bottom" rows="7"></textarea>
+		<textarea id="input" placeholder="Input" class="form-control pad-top pad-bottom" rows="3"></textarea>
+		<pre class="scrollable" id="output"></pre>
+            </div>
+            <div class="docs">
+                {{ docs|safe }}
+            </div>
+        </div>
+        <script>
+	    function submit_code() {
+		$("#loading").show();
+                $.post('/submit', {
+                    code: $('#code').val(),
+                    input: $('#input').val(),
+                    warnings: 1,
+                    },
+                    function(data) {
+			$("#loading").hide()
+                        $('#output').text(data);
+                    }
+                );
+	    }
+            $(function() {
+		$("#loading").hide();
+		$('#button-run').click(submit_code);
+            });
+        </script>
     </body>
 </html>

@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 
-from flask import Flask, request, redirect, render_template
+from flask import Flask, request, redirect, render_template, send_from_directory
 from flask.ext.cache import Cache
 
 from collections import OrderedDict
 import time
+import subprocess
 
 import nodes, settings
 import literal_gen
@@ -13,8 +14,9 @@ if settings.DEBUG:
     for node in nodes.nodes:
         nodes.nodes[node].run_tests()
         
-app = Flask(__name__, template_folder="web_content/template/")
-app.jinja_env.autoescape = False
+app = Flask(__name__,
+            template_folder="web_content/template/",
+            static_folder="web_content/static/")
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
 updated_time = time.strftime("Last updated: %d %b %Y @ %H:%M:%S")
@@ -24,6 +26,27 @@ def root():
     return render_template("index.html",
                            last_updated = updated_time,
                            docs = docs())
+
+
+@app.route("/submit", methods = ['POST'])
+def submit_code():
+    code = request.form.get("code", "")
+    inp = request.form.get("input", "") + "\n"
+    warnings = int(request.form.get("warnings", "0"), 10)
+    args = ['python3',
+            'main.py',
+            '--safe',
+            '--code',
+            code]
+    if warnings: args.insert(2, "--warnings")
+    process = subprocess.Popen(args,
+                               stdin=subprocess.PIPE,
+                               stdout=subprocess.PIPE,
+                               stderr=subprocess.STDOUT)
+    output, errors = process.communicate(input=bytearray(inp, 'utf-8'))
+    response = output.decode()
+    if errors: response += errors
+    return response
 
 @app.route("/docs")
 @cache.cached(timeout=3600)
@@ -44,7 +67,10 @@ def docs():
         table.append(row)
     table.sort(key = lambda x:x[0]+x[1])
     keys = [key.title().replace("_", " ") for key in keys]
-    return render_template("docs_table.html", keys = keys, funcs = table)
+    app.jinja_env.autoescape = False
+    rtn = render_template("docs_table.html", keys = keys, funcs = table)
+    app.jinja_env.autoescape = True
+    return rtn
 
 def get_docs():
     docs = []
@@ -102,6 +128,11 @@ def print_ordered_dict(ordered):
     for key, value in ordered.items():
         rtn += key+": "+str(value).replace("'","")+"\n"
     return rtn[:-1]
+
+
+@app.route('/static/<path:path>')
+def send_js(path):
+    return send_from_directory('web_content/static', path)
 
 def main(debug = True, url = "127.0.0.1"):
     app.debug = debug

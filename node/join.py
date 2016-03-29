@@ -4,7 +4,7 @@ from nodes import Node
 
 class Join(Node):
     char = "J"
-    args = 0
+    args = 1
     results = 1
     contents = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
     
@@ -12,10 +12,13 @@ class Join(Node):
         self.string = string
         
     def prepare(self, stack):
-        if isinstance(stack[0], (list,tuple)):
-            self.args = 1
-        else:
-            self.args = len(stack)
+        try:
+            if isinstance(stack[0], (list,tuple)):
+                self.args = 1
+            else:
+                self.args = len(stack)
+        except IndexError:
+            self.add_arg(stack)
     
     @Node.test_func([1,5], ["15"])
     @Node.test_func([[1,5]], ["15"])
