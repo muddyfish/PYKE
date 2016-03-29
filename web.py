@@ -47,7 +47,7 @@ def submit_code():
     args = ['python3',
             'main.py',
             '--safe',
-            '--code',
+            '--',
             code]
     if warnings: args.insert(2, "--warnings")
     process = subprocess.Popen(args,

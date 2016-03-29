@@ -30,7 +30,7 @@ parser.add_argument('-s', '--safe', dest='safe', action='store_const',
                    help='Force safe-eval')
 parser.add_argument('--print-nodes', dest='print_nodes', action='store_true',
                    help='Print out all nodes and debug conflicts')
-parser.add_argument('-c', '--code', nargs=1, dest='code', required=True,
+parser.add_argument('code', nargs=1,
                    help='The code to run')
 
 args = parser.parse_args()
