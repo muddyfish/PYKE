@@ -2,7 +2,7 @@
 
 from nodes import Node
 
-class StringLiteral(Node):
+class StringSingle(Node):
     args = 0
     results = 1
     char = "\\"
@@ -10,6 +10,7 @@ class StringLiteral(Node):
     def __init__(self, string):
         self.string = string
 
+    @Node.test_func([], ["!"], "!")
     def func(self):
         """Add a single char onto the stack"""
         return self.string

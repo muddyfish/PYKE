@@ -7,9 +7,10 @@ class Delta(Node):
     args = 1
     results = 1
     
+    @Node.test_func([[1,2,3,5]], [[1,1,2]])
     def delta(self, seq:Node.sequence):
         """Return the difference in terms in the input sequence.
-Returns a sequence of the same type of length n-1."""
+Returns a sequence of the same type, one shorter."""
         deltas = []
         for i in range(len(seq)-1):
             deltas.append(seq[i+1]-seq[i])

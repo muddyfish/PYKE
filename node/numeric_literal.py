@@ -9,6 +9,9 @@ class NumericLiteral(Node):
     def __init__(self, digits):
         self.digits = digits
         
+    @Node.test_func([], [1], "1")
+    @Node.test_func([], [1.5], "1.5")
+    @Node.test_func([], [0.1], ".1")
     def func(self):
         """Returns a numeric literal, including floats.
 Values can't end with a ".", instead use ".0"
@@ -36,6 +39,9 @@ The "0" digit gets returned immediately if it is at the beginning."""
             try:
                 return code, cls(int(digits))
             except ValueError:
-                return code, cls(float(digits))
+                try:
+                    return code, cls(float(digits))
+                except ValueError:
+                    return None, None
         return None, None
     

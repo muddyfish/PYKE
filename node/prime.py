@@ -14,6 +14,10 @@ class Prime(Node):
                1: []}
     contents = math.pi
     
+    @Node.test_func([-5], [1])
+    @Node.test_func([-1], [0])
+    @Node.test_func([-8], [0])
+    @Node.test_func([18], [[2,3,3]])
     def prime(self, a: Node.number):
         """If is_neg(a): return is_prime(a)
 Else: return prime_factors(a)"""
@@ -27,10 +31,10 @@ Else: return prime_factors(a)"""
             return Prime.checked[a]
         for i in range(2, int(a**.5)+1):
             if a%i==0:
-                Prime.checked[a] = False
-                return False
-        Prime.checked[a] = True
-        return True
+                Prime.checked[a] = 0
+                return 0
+        Prime.checked[a] = 1
+        return 1
     
     def prime_factors(self, a):
         """Return prime factors of a"""

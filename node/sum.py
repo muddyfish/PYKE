@@ -20,10 +20,13 @@ class Sum(Node):
             else:
                 self.args = len(stack)
     
+    @Node.test_func([1,2], [3])
+    @Node.test_func([[3,4]], [7])
+    @Node.test_func(["t","e","s","t"], ["test"])
     def func(self, *inp):
-        """If arg1 is a list, return sum(arg1)
-Else return sum(stack[:`args`])
-If no `args`: return sum(stack)"""
+        """If no `amount`: return sum(stack)
+Else if arg1 is a list, return sum(arg1)
+Else return sum(stack[:`amount`])"""
         if self.args == 1:
             inp = inp[0]
         if str in map(type, inp):

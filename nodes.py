@@ -38,6 +38,7 @@ class Node(object):
     def __call__(self, args):
         if self.__class__.reverse_first:
             args = args[::-1]
+        assert(len(args) <= self.args)
         while len(args) != self.args:
             if settings.WARNINGS: print("Missing arg to %r, evaling input."%self)
             args.append(safe_eval.evals[settings.SAFE](input()))
@@ -66,6 +67,10 @@ class Node(object):
         for cur_func in self.get_functions(self):
             arg_types_dict = cur_func.__annotations__
             func_arg_names = cur_func.__code__.co_varnames[1:cur_func.__code__.co_argcount]
+            if len(func_arg_names) != self.args:
+                if cur_func.__code__.co_flags & 4:
+                    funcs[1] = cur_func
+                continue
             arg_types = []
             for arg in func_arg_names:
                 if arg in arg_types_dict:
@@ -84,7 +89,10 @@ class Node(object):
                     priority += 1000
             if possible:
                 funcs[priority] = cur_func
-        func = funcs[max(funcs.keys())]
+        try:
+            func = funcs[max(funcs.keys())]
+        except ValueError:
+            raise AssertionError("No valid func for node %r, args: %r"%(self.__class__.__name__, args))
         return func
     
     @classmethod
@@ -139,21 +147,35 @@ class Node(object):
     @classmethod
     def update_contents(cls, new_var):
         cls.contents = new_var
-        
+    
     @staticmethod
-    def test(code, input_stack, output_stack):
-        def inner(node_cls):
-            if not settings.DEBUG: return node_cls
-            rtn_code, node = node_cls.accepts(code)
-            assert(rtn_code == "")
-            assert(node is not None)
-            node.prepare(input_stack)
-            rtn_stack = node(input_stack)
-            if rtn_stack != output_stack:
-                raise AssertionError(node_cls.__name__+": %r returned %r"%(input_stack, rtn_stack))
-            return node_cls
+    def test_func(input_stack, output_stack, args = ""):
+        def inner(func):
+            if not hasattr(func, "tests"):
+                func.tests = []
+            func.tests.append((input_stack, output_stack, args))
+            return func
         return inner
     
+    @classmethod
+    def run_tests(cls):
+        for func in cls.get_functions():
+            if hasattr(func, "tests"):
+                for test in func.tests[:]:
+                    in_stack, out_stack, args = test
+                    in_stack = in_stack[::-1]
+                    args = cls.char + args
+                    code, node = cls.accepts(args)
+                    node.prepare(in_stack)
+                    assert(code == "")
+                    assert(node is not None)
+                    if node.choose_function(in_stack[::-1]).__func__ is not func:
+                        raise AssertionError(cls.__name__+"(%r): %r chose %r instead of %r"%(in_stack[::-1], out_stack, node.choose_function(in_stack[::-1]).__name__, func.__name__))
+                    if cls.reverse_first: in_stack = in_stack[::-1]
+                    rtn_stack = node(in_stack)
+                    if rtn_stack != out_stack:
+                        raise AssertionError(cls.__name__+"(%r): %r returned %r"%(in_stack[::-1], out_stack, rtn_stack))
+                    
     def prefer(func):
         func.prefer = True
         return func

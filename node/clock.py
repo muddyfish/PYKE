@@ -49,7 +49,8 @@ class Time(Node):
             self.methods = [int(i)for i in str(methods)]
             self.results = len(self.methods)
         
-    
+    now = datetime.datetime.now()
+    @Node.test_func([], [now.date().weekday(), now.year, now.day], "075")  
     def func(self):
         """Default - time.time()
 0 - weekday - 0 based. Monday is 0, Sunday is 6.

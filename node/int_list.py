@@ -10,6 +10,7 @@ class IntList(Node):
     def __init__(self, value):
         self.value = value
         
+    @Node.test_func([], [1,42,64], "#!J`")
     def func(self):
         """length = ord(`arg`[0])-32
 return [ord(a)-32 for a in `arg`[1:length+1]]"""

@@ -24,6 +24,16 @@ class Letters(Node):
     def __init__(self, config:Node.Base10Single):
         self.config = config
         
+    @Node.test_func([[3,2]], [2], "0")
+    @Node.test_func(["Hi!"], ["hi!"], "1")
+    @Node.test_func(["Hi!"], ["HI!"], "2")
+    @Node.test_func(["Hi!"], ["hI!"], "3")
+    @Node.test_func(["hello world"], ["Hello World"], "4")
+    @Node.test_func(["hello world"], ["Hello world"], "5")
+    @Node.test_func(["hello world"], ["Hello World"], "6")
+    @Node.test_func(["  world  "], ["world"], "7")
+    @Node.test_func(["  world  "], ["world  "], "8")
+    @Node.test_func(["  world  "], ["  world"], "9")
     def func(self, x):
         """0 - len
 1 - lower

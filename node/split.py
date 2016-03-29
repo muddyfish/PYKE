@@ -12,6 +12,8 @@ class Split(Node):
     def __init__(self, string:Node.StringLiteral):
         self.string = string or Split.default_arg
     
+    @Node.test_func(["1 2 1"], [["1", "2", "1"]])
+    @Node.test_func(["1,3,4"], [["1", "3", "4"]], ",")
     def split(self, inp:str):
         """inp.split(`arg`)"""
         return [inp.split(self.string)]
