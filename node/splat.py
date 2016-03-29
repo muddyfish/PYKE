@@ -2,12 +2,18 @@
 
 from nodes import Node
 
-class Str(Node):
+class Splat(Node):
     char = "X"
     args = 1
     results = None
     
     @Node.test_func([[2,3,4,1]], [2,3,4,1])
-    def func(self, lst):
-        """return lst (extend mode)"""
-        return list(lst)
+    @Node.test_func(["hello"], ["h","e","l","l","o"])
+    def func(self, a: Node.indexable):
+        """return a (extend mode)"""
+        return list(a)
+    
+    @Node.test_func([3], [9])
+    def square(self, a: Node.number):
+        return a**2
+    
