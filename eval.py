@@ -16,4 +16,4 @@ def nonsafe_eval(string):
         if settings.WARNINGS: print("BAD EVAL")
         return string
 
-evals = {True: nonsafe_eval, False: safe_eval}
+evals = {True: safe_eval, False: nonsafe_eval}
