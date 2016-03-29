@@ -17,7 +17,9 @@ class Join(Node):
             elif isinstance(stack[0], str):
                 if not hasattr(self, "sep"):
                     self.sep = stack.pop(0)
-                self.args = max(2,len(stack))
+                self.args = max(1,len(stack))
+                if len(stack) == 0:
+                    self.add_arg(stack)
                 if isinstance(stack[0], (list,tuple)):
                     self.args = 1
             else:
