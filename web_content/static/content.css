@@ -40,10 +40,11 @@
 .docs {
     float: right;
     padding-top: 32px;
+    width: 65%;
 }
 
 .info {
-    width: 640px;
+    width: 30%;
 }
 
 td, th {

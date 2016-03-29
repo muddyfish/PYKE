@@ -40,7 +40,7 @@ class Node(object):
             args = args[::-1]
         assert(len(args) <= self.args)
         while len(args) != self.args:
-            self.add_arg()
+            self.add_arg(args)
         if not self.__class__.reverse_first:
             args = args[::-1]
         func = self.choose_function(args)
