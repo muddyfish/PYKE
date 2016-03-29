@@ -4,34 +4,41 @@ from nodes import Node
 
 class Join(Node):
     char = "J"
-    args = 1
+    args = 2
     results = 1
     contents = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    
-    def __init__(self, string: Node.StringLiteral):
-        self.string = string
         
     def prepare(self, stack):
         try:
             if isinstance(stack[0], (list,tuple)):
+                if not hasattr(self, "sep"):
+                    self.sep = ""
                 self.args = 1
+            elif isinstance(stack[0], str):
+                if not hasattr(self, "sep"):
+                    self.sep = stack.pop(0)
+                self.args = max(2,len(stack))
+                if isinstance(stack[0], (list,tuple)):
+                    self.args = 1
             else:
+                if not hasattr(self, "sep"):
+                    self.sep = ""
                 self.args = len(stack)
         except IndexError:
-            self.add_arg(stack)
+            while len(stack) < self.args:
+                self.add_arg(stack)
+                self.prepare(stack)
     
     @Node.test_func([1,5], ["15"])
     @Node.test_func([[1,5]], ["15"])
-    @Node.test_func(["Hello", "World!"], ["Hello, World!"], ", ")
-    @Node.test_func([1,2,3,4], ["1.2.3.4"], ".")
+    @Node.test_func([[1,5], " "], ["1 5"])
+    @Node.test_func(["Hello", "World!", ", "], ["Hello, World!"])
+    @Node.test_func([1,2,3,4, "."], ["1.2.3.4"])
     def func(self, *inp):
         """If arg1 is a list or tuple, args = arg1
 Else: args = stack.
 return `fixed_arg`.join(args)"""
-        if self.args == 1:
+        if len(inp) == 1:
             inp = inp[0]
-        return self.string.join(map(str, inp))
-    
-    def __repr__(self):
-        return "%s: %r"%(self.__class__.__name__, self.string)
+        return self.sep.join(map(str, inp))
         
