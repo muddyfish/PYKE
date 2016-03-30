@@ -59,14 +59,14 @@ def stack_literal(stack):
         rtn += node_list[i]
         node_type = nodes[type(stack[i])]
         node_type_next = nodes[type(stack[i+1])]
+        is_list = node_type_next is List
         assert(node_type.accepts(node_list[i]))
         code, node = node_type.accepts(node_list[i]+node_list[i+1])
         if code == "" or code is None or code == "_":
             rtn += " "
         elif node_type is List and node_type_next is NumericLiteral:
             rtn += " "
-        is_list = node_type_next is List
-        if is_list:
+        elif is_list:
             next_test_parsed = node_list[i+1]
             next_test_str = stack[i+1]
             while node_type_next is List:

@@ -8,7 +8,6 @@ class For(Node):
     args = None
     results = None
     contents = 1
-    reverse_first = True
     
     def __init__(self, args, ast):
         self.args = args
