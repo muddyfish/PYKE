@@ -61,7 +61,7 @@ def stack_literal(stack):
         node_type_next = nodes[type(stack[i+1])]
         assert(node_type.accepts(node_list[i]))
         code, node = node_type.accepts(node_list[i]+node_list[i+1])
-        if code == "":
+        if code == "" or code is None or code == "_":
             rtn += " "
         elif node_type is List and node_type_next is NumericLiteral:
             rtn += " "

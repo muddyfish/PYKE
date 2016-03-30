@@ -36,3 +36,9 @@ class AST(object):
                 assert(new_node is not None)
                 return new_code, new_node
         raise SyntaxError("No nodes will accept code: %r"%(code))
+    
+def test_code(code, out_stack):
+    ast = AST()
+    ast.setup(code)
+    rtn_stack = ast.run()
+    assert(rtn_stack == out_stack)

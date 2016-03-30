@@ -8,6 +8,7 @@ class For(Node):
     args = None
     results = None
     contents = 1
+    reverse_first = True
     
     def __init__(self, args, ast):
         self.args = args
@@ -24,7 +25,7 @@ Returns a list of lists to the stack"""
         args = copy.deepcopy(args)
         is_int = isinstance(args[0], int)
         if is_int:
-            args[0] = range(args[0])
+            args[0] = list(range(args[0]))
         max_len = len(args[0])
         for i, arg in enumerate(args):
             if i == 0: continue
