@@ -5,8 +5,15 @@ import sys
 import argparse
 
 def print_nodes():
+    import string
     print("\n".join(sorted(nodes.nodes.keys())))
-    print("".join(sorted(node.char for node in nodes.nodes.values())))
+    used_chars = sorted(node.char for node in nodes.nodes.values())
+    used_chars += list("0123456789.)")
+    printable = string.printable[:-5]
+    print("".join(char*(char in used_chars)or" " for char in printable))
+    print(printable)
+    print("".join(char*(char not in used_chars)or" " for char in printable))    
+    print(" ".join(char for char in used_chars if char not in printable and char != "\n"))
     chars = {}
     for node in nodes.nodes.values():
         if node.char in chars:
