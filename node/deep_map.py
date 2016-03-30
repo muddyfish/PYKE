@@ -10,8 +10,12 @@ class DeepMap(Node):
     def __init__(self, node):
         self.node = node
         self.args = node.args
-       
+    
+    @Node.test_func([[[0,1,2,3],[4,5,6,7]]], [[[0, 2, 4, 6], [8, 10, 12, 14]]], "}")
     def func(self, *args):
+        """Deeply map an operation across a nD tree.
+Takes a list or tuple with a varying depth.
+Returns a list with the same depth all round with the function applied."""
         seq, *args = copy.deepcopy(args)
         assert(isinstance(seq,Node.sequence))
         return [self.recurse(seq, args)]
