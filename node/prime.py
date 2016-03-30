@@ -50,3 +50,22 @@ Else: return prime_factors(a)"""
                 break
         Prime.factors[a] = factors
         return [factors]
+    
+    def print_grid(self, seq: Node.sequence):
+        """Print a 2D grid with padding equal to the maximum length
+Or print a 1D list with padding equal to the maximum length"""
+        self.results = 0
+        if not isinstance(seq[0], Node.sequence):
+            return self.print_aligned(seq)
+        max_len = max(max(len(str(i))for i in row)for row in seq)+1
+        for row in seq:
+            self.print_aligned(row, max_len)
+    
+    def print_aligned(self, seq, max_len = None):
+        if max_len is None:
+            max_len = max(len(str(i))for i in seq)+1
+        first = True
+        for i in seq:
+            print(str(i).rjust(max_len)[first:],end="")
+            first = False
+        print()
