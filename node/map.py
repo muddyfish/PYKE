@@ -13,9 +13,9 @@ class Map(Node):
         self.node = node
         self.args = node.args
        
-    @Node.test_func([[-4,2,3,4], 5], [[1,7,8,9]], "+")
-    @Node.test_func([2, [1,2,3,4]], [[1,4,9,16]], "^")
-    @Node.test_func([[1,2,3,4], 2], [[2,4,8,16]], "^")
+    @Node.test_func([5, [-4,2,3,4]], [[1,7,8,9]], "+")
+    @Node.test_func([[1,2,3,4], 2.0], [[1,4,9,16]], "^")
+    @Node.test_func([2, [1,2,3,4]], [[2,4,8,16]], "^")
     @Node.test_func([[1,0,"","hi"]], [[0,1,1,0]], "!")
     def func(self, *args):
         """for i in args[0]:
@@ -23,9 +23,11 @@ class Map(Node):
 Where other_args is the remaining arguments for the function.
 These are taken from the stack. The same arguments are used for each map.
 Returns the results of the map (extend mode)"""
-        args = list(args)
+        args = list(args)[::-1]
         args = copy.deepcopy(args)
         reverse = False
+        if isinstance(args[0], int):
+            args[0] = list(range(args[0]))
         try:
             max_len = len(args[0])
         except TypeError:

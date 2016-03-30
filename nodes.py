@@ -36,9 +36,10 @@ class Node(object):
         return self.__class__.__name__
         
     def __call__(self, args):
+        if len(args) > self.args:
+            raise AssertionError("%s (%d args) got called with %r"%(self.__class__.__name__, self.args, args))
         if self.__class__.reverse_first:
             args = args[::-1]
-        assert(len(args) <= self.args)
         while len(args) != self.args:
             self.add_arg(args)
         if not self.__class__.reverse_first:
@@ -172,18 +173,18 @@ class Node(object):
             if hasattr(func, "tests"):
                 for test in func.tests[:]:
                     in_stack, out_stack, args = test
-                    in_stack = in_stack[::-1]
                     args = cls.char + args
                     code, node = cls.accepts(args)
+                    in_stack = in_stack[::-1]
                     node.prepare(in_stack)
+                    in_stack = in_stack[::-1]
                     assert(code == "")
                     assert(node is not None)
-                    if node.choose_function(in_stack[::-1]).__func__ is not func:
-                        raise AssertionError(cls.__name__+"(%r): %r chose %r instead of %r"%(in_stack[::-1], out_stack, node.choose_function(in_stack[::-1]).__name__, func.__name__))
-                    if cls.reverse_first: in_stack = in_stack[::-1]
-                    rtn_stack = node(in_stack)
+                    if node.choose_function(in_stack).__func__ is not func:
+                        raise AssertionError(cls.__name__+"(%r): %r chose %r instead of %r"%(in_stack, out_stack, node.choose_function(in_stack).__name__, func.__name__))
+                    rtn_stack = node(in_stack[::-1])
                     if rtn_stack != out_stack:
-                        raise AssertionError(cls.__name__+"(%r): %r returned %r"%(in_stack[::-1], out_stack, rtn_stack))
+                        raise AssertionError(cls.__name__+"(%r): %r returned %r"%(in_stack, out_stack, rtn_stack))
                     
     def prefer(func):
         func.prefer = True

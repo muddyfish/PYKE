@@ -7,7 +7,7 @@ from collections import OrderedDict
 import time
 import subprocess
 
-import nodes, settings
+import nodes, lang_ast, settings
 import literal_gen
 
 if settings.DEBUG:
@@ -127,6 +127,7 @@ def get_docs():
                 for test in func.tests[::-1]:
                     inp = literal_gen.stack_literal(test[0])
                     cmd = nodes.nodes[node].char+test[-1]
+                    lang_ast.test_code(inp+cmd, test[1])
                     func_doc["input"] += (inp+cmd+"\n")
                     func_doc["output"] += (str(test[1])+"\n")
                 func_doc["input"] = func_doc["input"][:-1]
