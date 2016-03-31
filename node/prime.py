@@ -8,8 +8,8 @@ class Prime(Node):
     char = "P"
     args = 1
     results = 1
-    checked = {0: False,
-               1: False}
+    checked = {0: 0,
+               1: 0}
     factors = {0: [],
                1: []}
     contents = math.pi
