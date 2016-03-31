@@ -183,6 +183,9 @@ class Node(object):
                     if node.choose_function(in_stack).__func__ is not func:
                         raise AssertionError(cls.__name__+"(%r): %r chose %r instead of %r"%(in_stack, out_stack, node.choose_function(in_stack).__name__, func.__name__))
                     rtn_stack = node(in_stack[::-1])
+                    for val in rtn_stack:
+                        if val is True or val is False:
+                            raise(AssertionError(cls.__name__+"(%r): returned %r. Has True/False"%(in_stack, rtn_stack)))
                     if rtn_stack != out_stack:
                         raise AssertionError(cls.__name__+"(%r): %r returned %r"%(in_stack, out_stack, rtn_stack))
                     

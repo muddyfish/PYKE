@@ -12,7 +12,7 @@ class Greater(Node):
     @Node.test_func([4,5], [0])  
     def func(self, a,b):
         """a>b"""
-        return a>b
+        return (a>b)+0
     
     @Node.test_func(["test",2], ["st"])  
     def indexable_1(self, a:Node.indexable, b:int):
