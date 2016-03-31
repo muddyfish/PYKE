@@ -133,7 +133,7 @@ class Node(object):
                 const_arg = list(annotations.values())[0]
                 node = nodes[const_arg]
                 accept_args = []
-                if const_arg == "string_literal":
+                if const_arg == Node.StringLiteral:
                     code = '"'+ code
                 accept_args.append(code)
                 if const_arg in (Node.Base36Single,
@@ -145,6 +145,11 @@ class Node(object):
                 new_code, results = node.accepts(*accept_args)
                 if new_code is None:
                     results = cls.default_arg
+                    eval_node = nodes["eval_input"]
+                    if code.startswith(eval_node.char):
+                        code, node = eval_node.accepts(code)
+                        results = node([])[0]
+                        cls.overwrote_default = True
                 else:
                     cls.overwrote_default = True
                     code = new_code

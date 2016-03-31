@@ -1,6 +1,8 @@
 #!/usr/bin/env python
     
 from nodes import Node
+from node.autoassign_var import AutoAssignVar
+from node.assign_var import AssignVar
 
 class NumericLiteral(Node):
     args = 0
