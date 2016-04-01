@@ -16,10 +16,18 @@ class DeepApply(Node):
         return [self.recurse(seq)]
 
     def recurse(self, seq):
-        if isinstance(seq[0], Node.sequence):
+        if isinstance(seq[0][0], Node.sequence):
             return [self.recurse(i) for i in seq]
         else:
-            return self.node(seq)[0]
+            rtn = []
+            for i in seq:
+                try:
+                    val = self.node(i)
+                except AssertionError:
+                    val = self.node([i])
+                if len(val) > 1: rtn.append(val)
+                else: rtn.extend(val)
+            return rtn
     
     def __repr__(self):
         return "%s: %r"%(self.__class__.__name__, self.args)
