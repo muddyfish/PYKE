@@ -73,7 +73,7 @@ def docs():
                 if types[i] == "<br>":
                     row[i] = col.replace("\n", "<br>")
                 elif types[i] == "<pre>":
-                    row[i] = "<pre>"+str(col)+"</pre>"
+                    row[i] = '<pre class="doc_pre">'+str(col)+"</pre>"
             except AttributeError: pass
         table.append(row)
     table.sort(key = lambda x:x[0]+x[1])

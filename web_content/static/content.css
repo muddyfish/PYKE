@@ -16,6 +16,11 @@
     overflow-y: scroll;
 }
 
+.doc_pre {
+    overflow-x:scroll;
+    width:300px;
+}
+
 .container {
     padding-top: 32px;
     width:95%;
