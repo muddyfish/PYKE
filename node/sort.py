@@ -16,3 +16,9 @@ class Sort(Node):
         if isinstance(a, str):
             return "".join(sorted(a))
         return [sorted(a)]
+    
+    @Node.test_func([3], [[1,2]])
+    def one_range(self, a:int):
+        """range(1,a)"""
+        return [list(range(1,a))]
+    
