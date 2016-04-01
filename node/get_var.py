@@ -17,6 +17,15 @@ class GetVar(Node):
         """return the contents of `node`"""
         return [getattr(self.node_class, "contents")]
     
+    @classmethod
+    def run_tests(cls):
+        cls.func.tests = []
+        for node_name in all_nodes:
+            node_cls = all_nodes[node_name]
+            if hasattr(node_cls, "contents"):
+                cls.func.tests.append(([], [node_cls.contents], node_cls.char))
+        super(GetVar, cls).run_tests()
+    
     def __repr__(self):
         return "%s: %s"%(self.__class__.__name__, self.node_class.__name__)
         
