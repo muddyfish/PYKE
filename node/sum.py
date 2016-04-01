@@ -8,7 +8,7 @@ class Sum(Node):
     results = 1
     default_arg = None
     
-    def __init__(self, args: Node.Base36Single):
+    def __init__(self, args: Node.Base10Single):
         if args == 0:
             args = 36
         self.args = args
