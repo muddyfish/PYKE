@@ -34,7 +34,7 @@ Else return sum(stack[:`amount`])"""
         current = inp[0]
         for val in inp[1:]:
             current += val
-        return current
+        return [current]
     
     def __repr__(self):
         return "%s: %r"%(self.__class__.__name__, self.args)
