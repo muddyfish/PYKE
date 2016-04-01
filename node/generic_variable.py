@@ -8,7 +8,6 @@ class Variable(Node):
     char = ""
     args = 0
     results = 1
-    contents = None
     ignore = True
 
     def func(self):
