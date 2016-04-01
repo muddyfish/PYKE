@@ -2,7 +2,7 @@
 
 from nodes import Node
 
-class HeadEnd(Node):
+class Deduplicate(Node):
     char = "}"
     args = 1
     results = 2
@@ -14,8 +14,8 @@ class HeadEnd(Node):
         self.results = 1
         return inp*2
         
-    @Node.test_func(["hello!"], ["h","!"])
-    @Node.test_func([[1,2,3]], [1,3])
-    def head_end(self, inp:Node.indexable):
-        """inp[0], inp[-1]"""
-        return [inp[0], inp[-1]]
+    def func(self, seq:Node.indexable):
+        """remove duplicates from seq"""
+        if isinstance(seq, str):
+            return "".join(set(seq))
+        return [type(seq)(set(seq))]
