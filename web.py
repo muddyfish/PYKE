@@ -10,9 +10,8 @@ import subprocess
 import nodes, lang_ast, settings
 import literal_gen
 
-if settings.DEBUG:
-    for node in nodes.nodes:
-        nodes.nodes[node].run_tests()
+for node in nodes.nodes:
+    nodes.nodes[node].run_tests()
         
 app = Flask(__name__,
             template_folder="web_content/template/",
