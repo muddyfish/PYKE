@@ -11,7 +11,7 @@ class Index(Node):
     @Node.test_func([[1,2,3],-1], [3])
     def at(self, a: Node.indexable, b: int):
         """a[b]"""
-        return a[b]
+        return[a[b]]
     
     @Node.test_func([1,[1,2,3]], [0])
     @Node.test_func([3,[1,2,3]], [2])

@@ -18,4 +18,4 @@ class End(Node):
     @Node.test_func([[1,2,3]], [3])
     def end(self, inp: Node.indexable):
         """inp[-1]"""
-        return inp[-1]
+        return [inp[-1]]
