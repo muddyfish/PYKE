@@ -162,7 +162,6 @@ class Node(object):
     def update_contents(cls, new_var):
         cls.contents = new_var
 
-    
     @staticmethod
     def test_func(input_stack, output_stack, args = ""):
         def inner(func):
