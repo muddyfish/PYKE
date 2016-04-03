@@ -8,7 +8,7 @@ def print_nodes():
     import string
     print("\n".join(sorted(nodes.nodes.keys())))
     used_chars = sorted(node.char for node in nodes.nodes.values())
-    used_chars += list("0123456789.)")
+    used_chars += list("0123456789.()")
     printable = string.printable[:-5]
     print("".join(char*(char in used_chars)or" " for char in printable))
     print(printable)
