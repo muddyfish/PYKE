@@ -49,7 +49,7 @@ settings.SAFE = args.safe
 code = args.code[0]
 print("RUNNING: %r"%code)
 ast = lang_ast.AST()
-ast.setup(code)
+ast.setup(code, first = True)
 stack = ast.run()
 print("STACK")
 for obj in stack[::-1]:
