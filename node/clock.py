@@ -82,3 +82,8 @@ Default contents: days of the week"""
             if not added:
                 rtn.append(self.months)
         return rtn
+    
+    @classmethod
+    def reset_tests(cls):
+        now = datetime.datetime.now()
+        cls.func.tests = [[[], [now.date().weekday(), now.year, now.day], "075"]]

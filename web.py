@@ -123,6 +123,10 @@ def get_docs():
             func_doc["input"] = ""
             func_doc["output"] = ""
             if hasattr(func, "tests"):
+                try:
+                    nodes.nodes[node].reset_tests()
+                except AttributeError:
+                    pass
                 for test in func.tests[::-1]:
                     inp = literal_gen.stack_literal(test[0])
                     cmd = nodes.nodes[node].char+test[-1]
