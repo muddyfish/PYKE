@@ -57,7 +57,13 @@ Or print a 1D list with padding equal to the maximum length"""
         self.results = 0
         if not isinstance(seq[0], Node.sequence):
             return self.print_aligned(seq)
-        max_len = max(max(len(str(i))for i in row)for row in seq)+1
+        max_len = 0
+        pad = 0
+        for row in seq:
+            for i in row:
+                max_len = max(max_len, len(str(i)))
+                pad |= (not isinstance(i,str)) or len(i)!=1
+        max_len = max(max(len(str(i))for i in row)for row in seq)+pad
         for row in seq:
             self.print_aligned(row, max_len)
     
