@@ -10,4 +10,4 @@ class Multiply(Node):
     @Node.test_func([4,5], [20])
     def func(self, a,b):
         """a*b"""
-        return a*b
+        return[a*b]
