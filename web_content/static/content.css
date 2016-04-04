@@ -8,10 +8,6 @@
     font-family: monospace;
 }
 
-.table-container {
-    height: 720px;
-}
-
 .scrollable {
     overflow-y: scroll;
 }
@@ -54,4 +50,8 @@
 
 td, th {
     padding-right: 8px;
+}
+
+.ui-dialog {
+    padding: .3em;
 }
