@@ -38,6 +38,10 @@ def root():
                            input = inp)
 
 
+@app.route("/code")
+def rick():
+    return redirect("http://www.youtube.com/watch?v=dQw4w9WgXcQ")
+
 @app.route("/submit", methods = ['POST'])
 def submit_code():
     code = request.form.get("code", "")
