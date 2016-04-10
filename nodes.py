@@ -3,6 +3,7 @@
 import glob, os, imp
 import node as _
 import eval as safe_eval
+import lang_ast
 import settings
 import collections
 import types
@@ -50,6 +51,8 @@ class Node(object):
         else:
             try:
                 ret = func(*args)
+            except lang_ast.GotoStart:
+                raise
             except:
                 print("%r failed func %r with args %r"%(self, func.__name__, args))
                 raise

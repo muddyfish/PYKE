@@ -32,6 +32,9 @@ parser = argparse.ArgumentParser(description='PYKE Interpreter')
 parser.add_argument('-w', '--warnings', dest='warnings', action='store_const',
                    const=True, default=settings.WARNINGS,
                    help='Force warnings')
+parser.add_argument('-r', '--max-recurse', dest='recurse',
+                   default=-1,
+                   help='Recursion limit')
 parser.add_argument('-s', '--safe', dest='safe', action='store_const',
                    const=True, default=settings.SAFE,
                    help='Force safe-eval')
@@ -39,12 +42,12 @@ parser.add_argument('--print-nodes', dest='print_nodes', action='store_true',
                    help='Print out all nodes and debug conflicts')
 parser.add_argument('code', nargs=1,
                    help='The code to run')
-
 args = parser.parse_args()
 
 if args.print_nodes: print_nodes()
 settings.WARNINGS = args.warnings
 settings.SAFE = args.safe
+lang_ast.AST.MAX_RECURSE = int(args.recurse, 10)
 
 code = args.code[0]
 print("RUNNING: %r"%code)

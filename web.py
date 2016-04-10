@@ -47,19 +47,26 @@ def submit_code():
     code = request.form.get("code", "")
     inp = request.form.get("input", "") + "\n"
     warnings = int(request.form.get("warnings", "0"), 10)
+    max_recurse = max(1, min(10000, int(request.form.get("max_recurse", "1000"), 10)))
     args = ['python3',
             'main.py',
+            '--max-recurse',
+            str(max_recurse),
             '--safe',
             '--',
             code]
     if warnings: args.insert(2, "--warnings")
-    process = subprocess.Popen(args,
-                               stdin=subprocess.PIPE,
-                               stdout=subprocess.PIPE,
-                               stderr=subprocess.STDOUT)
-    output, errors = process.communicate(input=bytearray(inp, 'utf-8'))
-    response = output.decode()
-    if errors: response += errors
+    try:
+        process = subprocess.check_output(args,
+                                           input=bytearray(inp, 'utf-8'),
+                                           stderr=subprocess.STDOUT,
+                                           timeout = 5)
+        response = process.decode()
+    except subprocess.CalledProcessError as e:
+        response = e.output.decode()
+    except subprocess.TimeoutExpired as e:
+        response = "Timeout running code.\n"
+        response += e.output.decode()
     return response
 
 @app.route("/docs")
