@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 from nodes import Node
-from node.numeric_literal import NumericLiteral
 import math
 
 class Prime(Node):
@@ -18,7 +17,7 @@ class Prime(Node):
     @Node.test_func([-1], [0])
     @Node.test_func([-8], [0])
     @Node.test_func([18], [[2,3,3]])
-    def prime(self, a: Node.number):
+    def prime(self, a: int):
         """If is_neg(a): return is_prime(a)
 Else: return prime_factors(a)"""
         a = int(a)
