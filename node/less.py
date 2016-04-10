@@ -2,7 +2,7 @@
 
 from nodes import Node
 
-class Equals(Node):
+class Less(Node):
     char = "<"
     args = 2
     results = 1

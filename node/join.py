@@ -9,6 +9,11 @@ class Join(Node):
     contents = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
         
     def prepare(self, stack):
+        self.args = 2
+        if hasattr(self, "sep"): delattr(self, "sep")
+        self._prepare(stack)
+        
+    def _prepare(self, stack):
         try:
             if isinstance(stack[0], (list,tuple)):
                 if not hasattr(self, "sep"): self.sep = ""
@@ -27,7 +32,7 @@ class Join(Node):
         except IndexError:
             while len(stack) < self.args:
                 self.add_arg(stack)
-                self.prepare(stack)
+                self._prepare(stack)
     
     @Node.test_func([1,5], ["15"])
     @Node.test_func([[1,5]], ["15"])
