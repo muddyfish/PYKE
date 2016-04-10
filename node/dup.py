@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from nodes import Node
+import copy
 
 class Duplicate(Node):
     char = "D"
@@ -15,7 +16,10 @@ class Duplicate(Node):
     @Node.test_func([1], [1,1,1], "3")  
     def func(self, a):
         """Duplicate the top of the stack `amount` times"""
-        return [a]*self.results
+        rtn = []
+        for _ in range(self.results):
+            rtn.append(copy.deepcopy(a))
+        return rtn
     
     def __repr__(self):
         return "%s: %d"%(self.__class__.__name__, self.results)
