@@ -27,7 +27,7 @@ class Join(Node):
                     self.args = 1
             else:
                 if not hasattr(self, "sep"):
-                    self.sep = ""
+                    self.sep = " "
                 self.args = len(stack)
         except IndexError:
             while len(stack) < self.args:
