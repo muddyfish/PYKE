@@ -34,8 +34,8 @@ class Join(Node):
                 self.add_arg(stack)
                 self._prepare(stack)
     
-    @Node.test_func([1,5], ["15"])
-    @Node.test_func([[1,5]], ["15"])
+    @Node.test_func([1,5], ["1 5"])
+    @Node.test_func([[1,5]], ["1 5"])
     @Node.test_func([[1,5], " "], ["1 5"])
     @Node.test_func(["Hello", "World!", ", "], ["Hello, World!"])
     @Node.test_func([1,2,3,4, "."], ["1.2.3.4"])
