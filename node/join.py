@@ -16,7 +16,7 @@ class Join(Node):
     def _prepare(self, stack):
         try:
             if isinstance(stack[0], (list,tuple)):
-                if not hasattr(self, "sep"): self.sep = ""
+                if not hasattr(self, "sep"): self.sep = " "
                 self.args = 1
             elif isinstance(stack[0], str):
                 if not hasattr(self, "sep"): self.sep = stack.pop(0)
