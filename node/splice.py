@@ -12,7 +12,7 @@ class Splice(Node):
     @Node.test_func(["test", 3, 0], ["tse"])
     def splice(self, a:Node.indexable, b:int, c:int):
         """a[b:c] or a[b:c:-1]"""
-        return a[b:c] or a[b:c:-1]
+        return [a[b:c] or a[b:c:-1]]
     
     @Node.test_func([1, 6, 2], [[1,3,5]])
     @Node.test_func([1.5, 3.5, .5], [[1.5,2.0,2.5,3.0]])
@@ -28,7 +28,7 @@ class Splice(Node):
     @Node.test_func(["test", "t", "."], [".es."])
     def replace(self, a:str, b:str, c:str):
         """a.replace(b,c)"""
-        return a.replace(b,c)
+        return [a.replace(b,c)]
     
     @Node.test_func(["test", [1,2], "pies"], ["tiet"])
     @Node.test_func([[1,2,3], [0,2], "pies"], [["p",2,"e"]])

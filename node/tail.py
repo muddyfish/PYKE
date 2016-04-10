@@ -6,6 +6,7 @@ class Tail(Node):
     char = "t"
     args = 1
     results = 1
+    contents = ["seconds", "minutes", "hours", "days", "weeks", "months", "years", "decades", "centuries", "millenia"]
     
     @Node.test_func([2], [1])
     def sub_one(self, inp: Node.number):

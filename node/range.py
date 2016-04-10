@@ -7,6 +7,7 @@ class Range(Node):
     char = "U"
     args = 1
     results = 1
+    contents = ["second", "minute", "hour", "day", "week", "month", "year", "decade", "century", "millennium"]
     
     @Node.test_func([4], [[0,1,2,3]])
     def func(self, num:int):
