@@ -37,12 +37,13 @@ class Node(object):
         return self.__class__.__name__
         
     def __call__(self, args):
-        if len(args) > self.args:
-            raise AssertionError("%s (%d args) got called with %r"%(self.__class__.__name__, self.args, args))
         if self.__class__.reverse_first:
             args = args[::-1]
-        while len(args) != self.args:
-            self.add_arg(args)
+        if self.args is not None:
+            if len(args) > self.args:
+                raise AssertionError("%s (%d args) got called with %r"%(self.__class__.__name__, self.args, args))
+            while len(args) != self.args:
+                self.add_arg(args)
         if not self.__class__.reverse_first:
             args = args[::-1]
         func = self.choose_function(args)

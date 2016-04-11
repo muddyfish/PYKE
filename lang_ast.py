@@ -29,6 +29,7 @@ class AST(object):
         while counter != len(self.nodes):
             cur_node = self.nodes[counter]
             counter += 1
+            #print(cur_node)
             #print(stack)
             try:
                 cur_node.prepare(stack)
