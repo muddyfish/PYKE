@@ -12,10 +12,8 @@ class KillStack(Node):
         self.args = amount
         
     def prepare(self, stack):
-        if self.args == KillStack.default_arg:
-            self.args = len(stack)
         if self.args == 0:
-            self.args = 1
+            self.args = len(stack)
           
     @Node.test_func([4,2,4,5,1], [])  
     @Node.test_func([4,2], [], "2")  
