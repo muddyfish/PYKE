@@ -21,7 +21,7 @@ The "0" digit gets returned immediately if it is at the beginning."""
         return self.digits
 
     def __repr__(self):
-        return "%s: %d"%(self.__class__.__name__, self.digits)
+        return "%s: %s"%(self.__class__.__name__, self.digits)
         
     @classmethod
     def accepts(cls, code, ignore_zeros = False):

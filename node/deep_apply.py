@@ -11,6 +11,7 @@ class DeepApply(Node):
         self.node = node
     
     @Node.test_func([[[(0, 0), (0, 1)], [(1, 0), (1, 1)]]], [[[0, 1], [1, 2]]], "+")
+    @Node.prefer
     def func(self, seq: Node.sequence):
         """Deeply apply a node to a nD tree"""
         return [self.recurse(seq)]
@@ -28,6 +29,18 @@ class DeepApply(Node):
                 if len(val) > 1: rtn.append(val)
                 else: rtn.extend(val)
             return rtn
+        
+    @Node.is_func
+    def splat_args(self, *args):
+        arg = str(args[0])
+        code, node = self.node.accepts(self.node.char+arg)
+        #Warn if code empty?
+        stack = list(args[1:])
+        node.prepare(stack)
+        no_args = node.args
+        stack, args = stack[no_args:], stack[:no_args]
+        stack = node(args) + stack
+        return stack
     
     def __repr__(self):
         return "%s: %r"%(self.__class__.__name__, self.args)
