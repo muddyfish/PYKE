@@ -70,9 +70,10 @@ class Node(object):
         for cur_func in self.get_functions(self):
             arg_types_dict = cur_func.__annotations__
             func_arg_names = cur_func.__code__.co_varnames[1:cur_func.__code__.co_argcount]
+            if cur_func.__code__.co_flags & 4:
+                funcs[1] = cur_func
+                continue
             if len(func_arg_names) != self.args:
-                if cur_func.__code__.co_flags & 4:
-                    funcs[1] = cur_func
                 continue
             arg_types = []
             for arg in func_arg_names:
@@ -109,6 +110,8 @@ class Node(object):
                 if k in ["__init__", "func"]: continue
                 cur_func = getattr(cls, k)
                 if cur_func.__annotations__ != {}:
+                    funcs.append(cur_func)
+                elif hasattr(cur_func, "is_func") and cur_func.is_func:
                     funcs.append(cur_func)
         return funcs
         
@@ -198,6 +201,10 @@ class Node(object):
                     
     def prefer(func):
         func.prefer = True
+        return func
+    
+    def is_func(func):
+        func.is_func = True
         return func
 
 def load_node(node, file_path):
