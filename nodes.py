@@ -152,11 +152,6 @@ class Node(object):
                 new_code, results = node.accepts(*accept_args)
                 if new_code is None:
                     results = cls.default_arg
-                    eval_node = nodes["eval_input"]
-                    if code.startswith(eval_node.char):
-                        code, node = eval_node.accepts(code)
-                        results = node([])[0]
-                        cls.overwrote_default = True
                 else:
                     cls.overwrote_default = True
                     code = new_code
