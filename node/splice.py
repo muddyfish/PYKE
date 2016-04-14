@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from nodes import Node
+import copy
 
 class Splice(Node):
     char = ":"
@@ -20,6 +21,8 @@ class Splice(Node):
         """range(start,stop,step)"""
         rtn = []
         r=start
+        if isinstance(step, float):
+            r = float(r)
         while r < stop:
             rtn.append(r)
             r += step
@@ -32,25 +35,44 @@ class Splice(Node):
     
     @Node.test_func(["test", [1,2], "pies"], ["tiet"])
     @Node.test_func([[1,2,3], [0,2], "pies"], [["p",2,"e"]])
-    def multi_assign(self, a:Node.indexable, b: Node.sequence, c: Node.indexable):
-        """for i in b:
-    a[i] = c[i]
-return a"""
-        if len(c) == 1:
-            return self.multi_assign_generic(a,b,c)
-        rtn = list(a)
-        for i in b:
-            rtn[i] = c[i]
-        if isinstance(a, str):
+    def multi_assign(self, seq:Node.indexable, indecies: Node.sequence, values: Node.indexable):
+        """for i in indecies:
+    seq[i] = values[i]
+return seq"""
+        if len(values) == 1:
+            return self.multi_assign_generic(seq,indecies,values)
+        rtn = list(seq)
+        for i in indecies:
+            rtn[i] = values[i]
+        if isinstance(seq, str):
             return "".join(rtn)
-        return [type(a)(rtn)]
+        return [type(seq)(rtn)]
     
     @Node.test_func([[0,0,0,0], [0,3], 1], [[1,0,0,1]])
-    def multi_assign_generic(self, a:Node.indexable, b: Node.sequence, c):
-        """for i in b:
-    a[i] = c
-return a"""
-        a = a[:]
-        for i in b:
-            a[i] = c
-        return [a]
+    def multi_assign_generic(self, seq:Node.indexable, indecies: Node.sequence, obj):
+        """for index in indecies:
+    seq[index] = obj
+return seq"""
+        seq = copy.deepcopy(seq)
+        for index in indecies:
+            seq[index] = copy.deepcopy(obj)
+        return [seq]
+    
+    @Node.test_func(["test", -3, "a"], ["teast"])
+    @Node.test_func(["test", -1, "y"], ["testy"])
+    @Node.test_func(["test", 0, "un"], ["untest"])
+    def insert(self, seq:Node.indexable, index:int, obj):
+        """Insert obj into seq at index.
+If obj is an int convert it to a float first"""
+        if isinstance(obj, float) and obj%1 == 0:
+            obj = int(obj)
+        rtn = list(seq)
+        if index == -1:
+            rtn.append(obj)
+        elif index < -1:
+            rtn.insert(index+1, obj)
+        else:
+            rtn.insert(index, obj)
+        if isinstance(seq, str):
+            return "".join(rtn)
+        return [type(seq)(rtn)]
