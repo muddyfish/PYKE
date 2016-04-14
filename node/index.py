@@ -15,7 +15,9 @@ class Index(Node):
     
     @Node.test_func([[1,2,3],1], [0])
     @Node.test_func([[1,2,3],3], [2])
-    def index(self, a: Node.indexable, b: int):
+    @Node.test_func(["hello","e"], [1])
+    @Node.prefer
+    def index(self, a: Node.indexable, b):
         """a.index(b)"""
         return a.index(b)
     
