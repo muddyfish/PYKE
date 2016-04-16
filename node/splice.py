@@ -74,5 +74,5 @@ If obj is an int convert it to a float first"""
         else:
             rtn.insert(index, obj)
         if isinstance(seq, str):
-            return "".join(rtn)
+            return "".join(map(str,rtn))
         return [type(seq)(rtn)]

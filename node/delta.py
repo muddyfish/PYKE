@@ -17,5 +17,6 @@ Returns a sequence of the same type, one shorter."""
         return[type(seq)(deltas)]
     
     def float(self, inp:int):
+        """float(inp)"""
         return float(inp)
     
