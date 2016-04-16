@@ -14,3 +14,19 @@ class Split(Node):
         """inp.split(`arg`)"""
         return [inp.split(split)]
     
+    def chunk(self, inp:Node.indexable, size:Node.number):
+        """Return inp seperated into groups sized size"""
+        size = float(size)
+        rtn = []
+        last = 0
+        for i, val in enumerate(inp):
+            cur = i%size
+            if cur <= last: rtn.append([])
+            rtn[-1].append(val)
+            last = cur
+        return [rtn]
+    
+    def floor_remainder(self, a:Node.number, multiple:Node.number):
+        """a-(a%multiple)"""
+        return a-(a%multiple)
+    

@@ -17,10 +17,10 @@ class Greater(Node):
     @Node.test_func(["test",2], ["st"])  
     def indexable_1(self, a:Node.indexable, b:int):
         """a[b:]"""
-        return a[b:]
+        return [a[b:]]
     
     @Node.test_func([3,"test"], ["est"])  
     def indexable_2(self, a:int, b:Node.indexable):
         """b[-a:]"""
-        return b[-a:]
+        return [b[-a:]]
     

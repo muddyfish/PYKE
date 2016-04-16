@@ -15,3 +15,7 @@ Returns a sequence of the same type, one shorter."""
         for i in range(len(seq)-1):
             deltas.append(seq[i+1]-seq[i])
         return[type(seq)(deltas)]
+    
+    def float(self, inp:int):
+        return float(inp)
+    

@@ -17,10 +17,10 @@ class Less(Node):
     @Node.test_func(["test",2], ["te"])  
     def indexable_1(self, a:Node.indexable, b:int):
         """a[:b]"""
-        return a[:b]
+        return [a[:b]]
     
     @Node.test_func([1,"test"], ["tes"])  
     def indexable_2(self, a:int, b:Node.indexable):
         """b[:-a]"""
-        return b[:-a]
+        return [b[:-a]]
     
