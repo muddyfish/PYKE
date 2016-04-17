@@ -15,6 +15,7 @@ class Mod(Node):
     @Node.test_func([6,5], [1])
     def modulo(self, a:Node.number,b:Node.number):
         """a%b"""
+        if b == 0: return 0
         return a%b
     
     @Node.test_func(["testy",2], ["tsy"])
