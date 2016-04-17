@@ -33,7 +33,7 @@ parser.add_argument('-w', '--warnings', dest='warnings', action='store_const',
                    const=True, default=settings.WARNINGS,
                    help='Force warnings')
 parser.add_argument('-r', '--max-recurse', dest='recurse',
-                   default=-1,
+                   default="-1",
                    help='Recursion limit')
 parser.add_argument('-s', '--safe', dest='safe', action='store_const',
                    const=True, default=settings.SAFE,

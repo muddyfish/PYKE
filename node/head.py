@@ -16,4 +16,4 @@ class Head(Node):
     @Node.test_func(["test"], ["t"])
     def first(self, inp: Node.indexable):
         """inp[0]"""
-        return inp[0]
+        return [inp[0]]
