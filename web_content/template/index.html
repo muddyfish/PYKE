@@ -37,6 +37,7 @@
         <script>
 	    function submit_code() {
 		$("#loading").show();
+		ga('send', 'event', 'button', 'submit');
                 $.post('/submit', {
                     code: $('#code').val(),
                     input: $('#input').val(),
@@ -64,11 +65,11 @@
 	    
 	    function copy_code() {
 		var length = $('#code').val().length;
-		var header = `##Pyke, ${length} bytes\n`;
+		var header = "##Pyke, "+(length.toString())+" bytes\n";
 		var code = ("\n"+$('#code').val()).replace("\n", "\n    ")+"\n";
 		create_permalink();
 		var link = window.location.href;
-		var try_it = `[Try it here!](${link})\n`;
+		var try_it = "[Try it here!]("+link+")\n";
 		$("#answer").text(header+code+try_it);
 		dialog.dialog("open");
             }
