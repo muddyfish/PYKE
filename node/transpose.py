@@ -16,7 +16,7 @@ class Transpose(Node):
     
     @Node.test_func([4], [2])
     @Node.test_func([9], [3])
-    def sqrt(self, inp):
+    def sqrt(self, inp: Node.number):
         sqrt = inp ** 0.5
         if sqrt%1:
             return sqrt
