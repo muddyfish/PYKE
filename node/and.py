@@ -12,4 +12,4 @@ class And(Node):
     @Node.test_func([4, "Hello!"], ["Hello!"])
     def func(self, a,b):
         """a and b. Short circuiting. If not b, return a."""
-        return a and b
+        return [a and b]

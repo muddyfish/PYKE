@@ -16,6 +16,6 @@ class Or(Node):
 if a: return a
 if b: return b
 return 0"""
-        if a: return a
-        if b: return b
+        if a: return [a]
+        if b: return [b]
         return 0
