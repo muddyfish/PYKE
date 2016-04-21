@@ -13,3 +13,11 @@ class Transpose(Node):
         if all(isinstance(i,str)for i in inp):
             return[["".join(s)for s in zip(*inp)]]
         return[list(map(list,zip(*inp)))]
+    
+    @Node.test_func([4], [2])
+    @Node.test_func([9], [3])
+    def sqrt(self, inp):
+        sqrt = inp ** 0.5
+        if sqrt%1:
+            return sqrt
+        return int(sqrt)
