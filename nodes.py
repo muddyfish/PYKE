@@ -30,6 +30,8 @@ class Node(object):
     NumericLiteral = "numeric_literal"
     StringLiteral = "string_literal"
     EvalLiteral = "eval_literal"
+    NodeSingle = "node_single"
+    NodeClass = "node_class"
     
     def __init__(self):pass
     
@@ -147,7 +149,9 @@ class Node(object):
                                  Node.Base10Single,
                                  Node.Base96Single,
                                  Node.EvalLiteral,
-                                 Node.NumericLiteral):
+                                 Node.NumericLiteral,
+                                 Node.NodeSingle,
+                                 Node.NodeClass):
                     accept_args.append(True)
                 new_code, results = node.accepts(*accept_args)
                 if new_code is None:
@@ -221,7 +225,8 @@ def get_nodes():
                   Node.Base96Single,
                   Node.NumericLiteral,
                   Node.StringLiteral,
-                  Node.EvalLiteral), reverse = True)
+                  Node.EvalLiteral,
+                  Node.NodeSingle), reverse = True)
       
 for node in get_nodes():
     load_node(node[5:-3], node)
