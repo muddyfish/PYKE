@@ -8,8 +8,9 @@ class Iterator(Node):
     results = 1
     contents = 0
     
-    def iterate(self):
+    def func(self):
         """contents += 1
 return contents-1"""
+        print(Iterator.contents)
         Iterator.contents += 1
         return Iterator.contents-1
