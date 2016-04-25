@@ -9,7 +9,7 @@ class Map(Node):
     results = None
     contents = 1000
     
-    def __init__(self, node):
+    def __init__(self, node:Node.NodeSingle):
         self.node = node
         self.args = node.args
        
@@ -53,11 +53,3 @@ Returns the results of the map (extend mode)"""
     
     def __repr__(self):
         return "%s: %r"%(self.__class__.__name__, self.args)
-        
-    @classmethod
-    def accepts(cls, code):
-        if code[0] == cls.char:
-            code, node = lang_ast.AST.add_node(code[1:])
-            assert(node is not None)
-            return code, cls(node)
-        return None, None
