@@ -12,6 +12,8 @@ class DeepFor(Node):
     def __init__(self, args, ast):
         self.args = args
         self.ast = ast
+        if self.ast.nodes == []:
+            self.ast.add_node("\n")
     
     @Node.test_func([[[[0],1,2,3],[4,5,6,7]]], [[[[2], 4, 6, 8], [10, 12, 14, 16]]], "h}")
     @Node.test_func([[1,[[2,3,[4],5],6],7]], [[2, [[2, 4, [4], 6], 6], 8]], "D 2%+")

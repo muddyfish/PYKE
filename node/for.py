@@ -12,6 +12,8 @@ class For(Node):
     def __init__(self, args, ast):
         self.args = args
         self.ast = ast
+        if self.ast.nodes == []:
+            self.ast.add_node("\n")
         
     @Node.test_func([[1,5]], [[2,10]], "}")
     @Node.test_func([[1,5], 2], [[4,12]], "2}+")
