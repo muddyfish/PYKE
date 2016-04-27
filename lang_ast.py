@@ -2,14 +2,10 @@
 
 import nodes
 
-asts = []
-
 class AST(object):
     END_CHARS = ")("
     MAX_RECURSE = 0
     def setup(self, code, first = False):
-        if first: asts[:] = []
-        asts.append(self)
         self.first = first
         self.nodes = []
         while code != "" and (self.first or code[0] not in AST.END_CHARS):

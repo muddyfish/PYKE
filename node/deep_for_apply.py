@@ -9,6 +9,8 @@ class DeepForApply(Node):
     
     def __init__(self, ast: Node.EvalLiteral):
         self.ast = ast
+        if self.ast.nodes == []:
+            self.ast.add_node("\n")
     
     @Node.test_func([[[(0, 0), (0, 1)], [(1, 0), (1, 1)]]], [[[1, 2], [2, 3]]], "+h")
     def func(self, seq: Node.sequence):

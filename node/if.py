@@ -10,23 +10,25 @@ class If(Node):
     
     def __init__(self, ast: Node.EvalLiteral):
         self.ast = ast
+        if self.ast.nodes == []:
+            self.ast.add_node("\n")
         
     def prepare(self, stack):
         self.args = max(len(stack), 1)
             
-    @Node.test_func([1,5], [10], "}")
-    @Node.test_func([0,5], [5], "}")
+    @Node.test_func([5,1], [10], "}")
+    @Node.test_func([5,0], [5], "}")
     def func(self, *args):
         """Takes stack.
-if arg1: stack = eval_literal(stack[1:]) (extend mode)
-else: stack = stack[1:]"""
+if arg1: stack = eval_literal(stack[:-1]) (extend mode)
+else: stack = stack[:-1]"""
         args = list(args)
-        if args[0]:
-            args = args[1:]
+        if args[-1]:
+            args = args[:-1]
             stack = self.ast.run(args)
             return stack
-        return args[1:]
+        return args[:-1]
     
     def __repr__(self):
-        return "%s: %r"%(self.__class__.__name__, self.args)
+        return "%s: %r"%(self.__class__.__name__, self.ast)
         
