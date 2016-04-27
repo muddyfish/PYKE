@@ -53,10 +53,12 @@ return seq"""
         """for index in indecies:
     seq[index] = obj
 return seq"""
-        seq = copy.deepcopy(seq)
+        rtn = list(copy.deepcopy(seq))
         for index in indecies:
-            seq[index] = copy.deepcopy(obj)
-        return [seq]
+            rtn[index] = copy.deepcopy(obj)
+        if isinstance(seq, str):
+            return "".join(rtn)
+        return [type(seq)(rtn)]
     
     @Node.test_func(["test", -3, "a"], ["teast"])
     @Node.test_func(["test", -1, "y"], ["testy"])
