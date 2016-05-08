@@ -16,6 +16,8 @@ class PuncSplit(Node):
         inp = inp.split()
         rtn = []
         for i in inp:
+            if i.endswith("..."):
+                i = i[:-3]
             if i[-1] in ".,;'\"!?\\/])}":
                 i = i[:-1]
             if i[0] in "[({":
