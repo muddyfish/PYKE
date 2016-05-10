@@ -45,7 +45,8 @@ class AST(object):
                 if self.restore_point is not None:
                     stack, counter = self.restore_point
                     self.restore_point = None
-                raise
+                else:
+                    raise
         return stack
         
     @staticmethod
