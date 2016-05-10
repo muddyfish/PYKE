@@ -8,6 +8,7 @@ class AST(object):
     def setup(self, code, first = False):
         self.first = first
         self.nodes = []
+        self.restore_point = None
         while code != "" and (self.first or code[0] not in AST.END_CHARS):
             code, node = AST.add_node(code)
             self.nodes.append(node)
@@ -35,10 +36,16 @@ class AST(object):
             except GotoStart as goto:
                 if not self.first: raise
                 stack = goto.stack
+                self.restore_point = [stack, counter]
                 counter = 0
                 retries += 1
                 if retries == AST.MAX_RECURSE:
                     counter = len(self.nodes)
+            except:
+                if self.restore_point is not None:
+                    stack, counter = self.restore_point
+                    self.restore_point = None
+                raise
         return stack
         
     @staticmethod
