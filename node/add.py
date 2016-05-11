@@ -39,8 +39,8 @@ The returned type is the same as the first arg"""
         """Prepends a non-sequence to a string"""
         return str(a)+b
     
-    
     @Node.test_func([1,2], [3])
     def func(self, a,b):
         """Adds two objects together - vanilla addition"""
         return a+b
+    

@@ -17,3 +17,10 @@ class Tail(Node):
     def first(self, inp: Node.indexable):
         """inp[1:]"""
         return [inp[1:]]
+    
+    @Node.test_func([Node.clock.default_time], [Node.clock.default_time])
+    def time(self, time:Node.clock):
+        time.year = 1990
+        time.month = 1
+        time.day = 1
+        return time

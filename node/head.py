@@ -17,3 +17,10 @@ class Head(Node):
     def first(self, inp: Node.indexable):
         """inp[0]"""
         return [inp[0]]
+    
+    @Node.test_func([Node.clock.default_time], [Node.clock.default_time])
+    def time(self, time:Node.clock):
+        time.hour = 0
+        time.min = 0
+        time.sec = 0
+        return time
