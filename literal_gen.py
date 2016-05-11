@@ -2,6 +2,7 @@ from node.create_list import List
 from node.numeric_literal import NumericLiteral
 from node.string_literal import StringLiteral
 from node.string_single import StringSingle
+from type.type_time import TypeTime
 
 nodes = {int: NumericLiteral,
          float: NumericLiteral,
@@ -38,8 +39,10 @@ def list_literal(seq):
 def tuple_literal(seq):
     return list_literal(seq)
 
-def set_literal(seq): return NotImplementedError()
-def dict_literal(dic): return NotImplementedError()
+def time_literal(time): raise NotImplementedError()
+
+def set_literal(seq): raise NotImplementedError()
+def dict_literal(dic): raise NotImplementedError()
 
 parsers = {int: int_literal,
            float: float_literal,
@@ -47,7 +50,8 @@ parsers = {int: int_literal,
            list: list_literal,
            tuple: tuple_literal,
            set: set_literal,
-           dict: dict_literal}
+           dict: dict_literal,
+           TypeTime:time_literal}
 
 def parse_item(item):
     return parsers[type(item)](item)

@@ -139,11 +139,16 @@ def get_docs():
                 except AttributeError:
                     pass
                 for test in func.tests[::-1]:
-                    inp = literal_gen.stack_literal(test[0])
-                    cmd = nodes.nodes[node].char+test[-1]
-                    lang_ast.test_code(inp+cmd, test[1])
-                    func_doc["input"] += (inp+cmd+"\n")
-                    func_doc["output"] += (str(test[1])+"\n")
+                    try:
+                        inp = literal_gen.stack_literal(test[0])
+                        cmd = nodes.nodes[node].char+test[-1]
+                        lang_ast.test_code(inp+cmd, test[1])
+                    except NotImplementedError:
+                        func_doc["input"] = "Literal Undefined\n"
+                        func_doc["output"] = str(test[1])+"\n"
+                    else:
+                        func_doc["input"] += (inp+cmd+"\n")
+                        func_doc["output"] += (str(test[1])+"\n")
                 func_doc["input"] = func_doc["input"][:-1]
                 func_doc["output"] = func_doc["output"][:-1]
             docs.append(func_doc)
