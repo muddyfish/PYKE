@@ -16,7 +16,7 @@ Returns a sequence of the same type, one shorter."""
             deltas.append(seq[i+1]-seq[i])
         return[type(seq)(deltas)]
     
-    def float(self, inp:int):
+    def float(self, inp:Node.number):
         """float(inp)"""
         return float(inp)
     
