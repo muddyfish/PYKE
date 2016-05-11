@@ -3,6 +3,7 @@
 import glob, os, imp
 import node as _
 import eval as safe_eval
+from type.type_time import TypeTime
 import lang_ast
 import settings
 import collections
@@ -23,6 +24,7 @@ class Node(object):
     sequence = (list, tuple)
     number = (int, float)
     indexable = (list, tuple, str)
+    clock = TypeTime
     
     Base10Single = "base10_single"
     Base36Single = "base36_single"
@@ -73,10 +75,8 @@ class Node(object):
         for cur_func in self.get_functions(self):
             arg_types_dict = cur_func.__annotations__
             func_arg_names = cur_func.__code__.co_varnames[1:cur_func.__code__.co_argcount]
-            if cur_func.__code__.co_flags & 4:
-                funcs[1] = cur_func
-                continue
-            if len(func_arg_names) != self.args:
+            has_star_args = cur_func.__code__.co_flags & 4
+            if len(func_arg_names) != self.args and not has_star_args:
                 continue
             arg_types = []
             for arg in func_arg_names:
