@@ -16,3 +16,6 @@ class Product(Node):
         for val in inp:
             current *= val
         return [current]
+    
+    def to_int(self, inp:Node.number):
+        return int(inp)
