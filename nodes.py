@@ -41,6 +41,7 @@ class Node(object):
         return self.__class__.__name__
         
     def __call__(self, args):
+        self.added_args = 0
         if self.__class__.reverse_first:
             args = args[::-1]
         if self.args is not None:
@@ -48,6 +49,7 @@ class Node(object):
                 raise AssertionError("%s (%d args) got called with %r"%(self.__class__.__name__, self.args, args))
             while len(args) != self.args:
                 self.add_arg(args)
+                self.added_args += 1
         if not self.__class__.reverse_first:
             args = args[::-1]
         func = self.choose_function(args)
