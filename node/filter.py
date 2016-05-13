@@ -35,7 +35,7 @@ class Filter(Node):
         val = up_to-1
         i = 0
         while val < up_to:
-            val = self.ast.run([i, *args])[-1]
+            val = self.ast.run([i, *args])[0]
             rtn.append(val)
             i+=1
             if not isinstance(val, (int, float)):
