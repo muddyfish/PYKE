@@ -40,7 +40,11 @@ class AST(object):
                 counter = 0
                 retries += 1
                 if retries == AST.MAX_RECURSE:
-                    counter = len(self.nodes)
+                    if self.restore_point is not None:
+                        stack, counter = self.restore_point
+                        self.restore_point = None
+                    else:
+                        counter = len(self.nodes)
             except:
                 if self.restore_point is not None:
                     stack, counter = self.restore_point
