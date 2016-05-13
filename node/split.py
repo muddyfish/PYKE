@@ -9,7 +9,7 @@ class Split(Node):
     results = 1
     
     def prepare(self, stack):
-        if len(stack) < 2:
+        if len(stack) == 0:
             self.args = 1
     
     @Node.test_func(["1 2 1", " "], [["1", "2", "1"]])
