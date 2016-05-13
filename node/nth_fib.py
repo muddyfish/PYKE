@@ -17,4 +17,4 @@ class Fib(Node):
     @Node.test_func([4], [3])
     def func(self, n_th: int):
         """Returns the nth fibonacci number"""
-        return int(((1+Fib.root_5)**n_th-(1-Fib.root_5)**n_th)/(2**n_th*Fib.root_5))
+        return int(((1+Fib.root_5)**n_th-(1-Fib.root_5)**n_th)/(decimal.Decimal(2**n_th)*Fib.root_5))
