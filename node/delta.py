@@ -19,4 +19,10 @@ Returns a sequence of the same type, one shorter."""
     def float(self, inp:Node.number):
         """float(inp)"""
         return float(inp)
-    
+
+    @Node.test_func(["HELLO"], [0])
+    @Node.test_func(["world"], [1])
+    @Node.test_func(["@"], [0])
+    def is_lower(self, string:str):
+        """Is a string lower case?"""
+        return int(string.islower())

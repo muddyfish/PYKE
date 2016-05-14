@@ -9,6 +9,6 @@ class DivMod(Node):
     
     @Node.test_func([5,4], [1,1])
     @Node.test_func([20,7], [2,6])
-    def func(self, a,b):
+    def func(self, a:int,b:int):
         """Returns a//b and a%b."""
         return list(divmod(a,b))

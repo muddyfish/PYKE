@@ -8,6 +8,6 @@ class BitOr(Node):
     results = 1
     
     @Node.test_func([4,1], [5])
-    def func(self, a,b):
+    def func(self, a:int,b:int):
         """a|b"""
         return a|b
