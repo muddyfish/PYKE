@@ -12,7 +12,7 @@ class DeepApply(Node):
     
     def prepare(self, stack):
         #print("IN_STACK", stack)
-        if self.choose_function(stack) == self.splat_args:
+        if stack != [] and self.choose_function(stack) == self.splat_args:
             self.args = len(stack)
             self.results = None
         else:            
