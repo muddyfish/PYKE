@@ -80,3 +80,10 @@ Or print a 1D list with padding equal to the maximum length"""
             print(str(i).rjust(max_len)[first:],end="")
             first = False
         print()
+        
+    @Node.test_func(["HELLO"], [1])
+    @Node.test_func(["World7"], [1])
+    @Node.test_func(["@"], [0])
+    def is_alpha_num(self, string:str):
+        """Is a string alphanumeric?"""
+        return int(string.isalnum())

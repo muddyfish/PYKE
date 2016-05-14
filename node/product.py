@@ -19,3 +19,10 @@ class Product(Node):
     
     def to_int(self, inp:Node.number):
         return int(inp)
+    
+    @Node.test_func(["HELLO"], [1])
+    @Node.test_func(["World7"], [0])
+    @Node.test_func(["@"], [0])
+    def is_alpha(self, string:str):
+        """Is a string alphabetic?"""
+        return int(string.isalpha())

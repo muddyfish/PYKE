@@ -30,7 +30,7 @@ class Filter(Node):
     
     @Node.test_func([10], [[0,2,4,6,8,10]], "}")
     def up_to(self, up_to: Node.number, *args):
-        """Repeat until return is bigger than up_to"""
+        """Repeat until return is bigger or equal to up_to"""
         rtn = []
         val = up_to-1
         i = 0

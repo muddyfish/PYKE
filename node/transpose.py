@@ -17,7 +17,15 @@ class Transpose(Node):
     @Node.test_func([4], [2])
     @Node.test_func([9], [3])
     def sqrt(self, inp: Node.number):
+        """Square root inp. Return an int if square number, float otherwise"""
         sqrt = inp ** 0.5
         if sqrt%1:
             return sqrt
         return int(sqrt)
+    
+    @Node.test_func(["HELLO"], [0])
+    @Node.test_func(["312"], [1])
+    @Node.test_func(["@"], [0])
+    def is_numeric(self, string:str):
+        """Is a string numeric?"""
+        return int(string.isnumeric())

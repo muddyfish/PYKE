@@ -16,3 +16,11 @@ class Pow(Node):
     def func(self, a: Node.number, b: Node.number):
         """a**b"""
         return a**b
+    
+    @Node.test_func(["Test.", "."], [1])
+    @Node.test_func(["Test.", "?"], [0])
+    @Node.test_func(["Test.", "t."], [1])
+    def endswith(self, string:str, suffix:str):
+        """Does string end with suffix?"""
+        return int(string.endswith(suffix))
+    

@@ -8,6 +8,6 @@ class BitAnd(Node):
     results = 1
     
     @Node.test_func([4,5], [4])
-    def func(self, a,b):
+    def func(self, a:int,b:int):
         """a&b"""
         return a&b

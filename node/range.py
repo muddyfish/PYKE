@@ -14,7 +14,7 @@ class Range(Node):
         """range(num)"""
         return [list(range(num))]
 
-    #@Node.test_func([[2,2]], [[[0, 1], [0, 1], [1, 0], [1, 1]]])
+    @Node.test_func([[2,2]], [[[[0, 0], [0, 1]], [[1, 0], [1, 1]]]])
     def nd_range(self, seq:Node.sequence):
         """Return a n dimensional range where n = len(seq).
 Each dimension's length is equal to the current item in the seq.
@@ -33,3 +33,9 @@ Each item in the returned list is a list with it's coords."""
         for i in range(0, len_values, chunk_size):
             array.append(self.split(values[i:i+chunk_size], seq[1:]))
         return array
+    
+    @Node.test_func(["HELLO"], [1])
+    @Node.test_func(["World"], [0])
+    def is_upper(self, string:str):
+        """Is a string all upper case?"""
+        return int(string.isupper())

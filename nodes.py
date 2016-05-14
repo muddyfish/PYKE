@@ -86,6 +86,7 @@ class Node(object):
                     arg_types.append(arg_types_dict[arg])
                 else:
                     arg_types.append(object)
+            
             possible = True
             priority = 0
             for arg in zip(args, arg_types):
