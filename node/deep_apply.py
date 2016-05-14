@@ -40,9 +40,11 @@ class DeepApply(Node):
                 if len(val) > 1: rtn.append(val)
                 else: rtn.extend(val)
             return rtn
-        
+    
+    @Node.test_func([30], ["30"], '"')
     @Node.is_func
     def splat_args(self, *args):
+        """Splat a node with a static suffix and run it"""
         arg = str(args[-1])
         code, node = self.node.accepts(self.node.char+arg)
         #Warn if code empty?

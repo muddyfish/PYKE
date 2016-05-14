@@ -18,6 +18,7 @@ class Product(Node):
         return [current]
     
     def to_int(self, inp:Node.number):
+        """Return int(inp)"""
         return int(inp)
     
     @Node.test_func(["HELLO"], [1])

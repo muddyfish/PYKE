@@ -14,6 +14,7 @@ class Splat(Node):
         return list(a)
     
     @Node.test_func([3], [9])
-    def square(self, a: Node.number):
-        return a**2
+    def square(self, x: Node.number):
+        """Return X squared"""
+        return x**2
     
