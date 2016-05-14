@@ -8,4 +8,5 @@ class KillOne(Node):
     contents = string.printable
 
     def func(self, _):
+        """Kill the first item on the stack"""
         return []
