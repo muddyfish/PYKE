@@ -18,7 +18,7 @@ class AssignVar(Node):
 Sets the contents of the node to x.
 This can also affect how the node behaves"""
         self.node.update_contents(x)
-        return x
+        return [x]
     
     def __repr__(self):
         return "%s: %s"%(self.__class__.__name__, self.node.__name__)
