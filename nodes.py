@@ -29,6 +29,7 @@ class Node(object):
     Base10Single = "base10_single"
     Base36Single = "base36_single"
     Base96Single = "base96_single"
+    IntList = "int_list"
     NumericLiteral = "numeric_literal"
     StringLiteral = "string_literal"
     EvalLiteral = "eval_literal"
@@ -153,6 +154,7 @@ class Node(object):
                                      Node.Base36Single,
                                      Node.Base10Single,
                                      Node.Base96Single,
+                                     Node.IntList,
                                      Node.EvalLiteral,
                                      Node.NumericLiteral,
                                      Node.NodeSingle,
@@ -229,6 +231,7 @@ def get_nodes():
                  (Node.Base10Single,
                   Node.Base36Single,
                   Node.Base96Single,
+                  Node.IntList,
                   Node.NumericLiteral,
                   Node.StringLiteral,
                   Node.EvalLiteral,

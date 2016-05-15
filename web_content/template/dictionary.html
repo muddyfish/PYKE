@@ -1,0 +1,39 @@
+<!doctype html>
+
+<html lang="en">
+    <head>
+        <title>Pyke Dictionary</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='static/content.css') }}">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>	
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	{% include 'analytics.html' %}
+    </head>
+    <body>
+	<div class="container">
+            <div class="info">
+		<button id="button-compress" class="btn btn-primary">Compress</button>
+		<textarea id="compress" placeholder="To compress" class="form-control pad-top pad-bottom" rows="7"></textarea>
+		<pre class="scrollable" id="output"></pre>
+            </div>
+        </div>
+        <script>
+	    function compress() {
+		ga('send', 'event', 'button', 'get_dictionary');
+                $.post('/dict_compress', {
+                    compress: $('#compress').val(),
+                    },
+                    function(data) {
+                        $('#output').text('"'+data+'"');
+                    }
+                );
+	    }
+            $(function() {
+		$('#button-compress').click(compress);
+            });
+        </script>
+    </body>
+</html>
