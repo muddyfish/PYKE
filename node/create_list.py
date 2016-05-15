@@ -7,6 +7,7 @@ class List(Node):
     args = 0
     results = 1
     default_arg = 2
+    contents = []
     
     def __init__(self, size: Node.Base10Single):
         self.args = size

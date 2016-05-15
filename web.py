@@ -124,7 +124,7 @@ def get_docs():
                 func_doc["arg_types"] += "*args"
             fixed = nodes.nodes[node].__init__.__annotations__
             if fixed:
-                func_doc["fixed_params"] = tuple(fixed.values())[0]
+                func_doc["fixed_params"] = "\n".join(fixed[i]for i in fixed)
             elif nodes.nodes[node].accepts.__module__ != "nodes":
                 func_doc["fixed_params"] = "custom"
             else:

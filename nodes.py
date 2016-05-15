@@ -138,32 +138,35 @@ class Node(object):
     def accepts(cls, code):
         if code.startswith(cls.char):
             code = code[len(cls.char):]
-            annotations = cls.__init__.__annotations__
+            func = cls.__init__
+            annotations = func.__annotations__
+            arg_names = func.__code__.co_varnames[1:func.__code__.co_argcount]
             args = []
-            if annotations:
-                assert(len(annotations) == 1)
-                const_arg = list(annotations.values())[0]
-                node = nodes[const_arg]
-                accept_args = []
-                if const_arg == Node.StringLiteral:
-                    code = '"'+ code
-                accept_args.append(code)
-                if const_arg in (Node.Base36Single,
-                                 Node.Base10Single,
-                                 Node.Base96Single,
-                                 Node.EvalLiteral,
-                                 Node.NumericLiteral,
-                                 Node.NodeSingle,
-                                 Node.NodeClass):
-                    accept_args.append(True)
-                new_code, results = node.accepts(*accept_args)
-                if new_code is None:
-                    results = cls.default_arg
-                else:
-                    cls.overwrote_default = True
-                    code = new_code
-                    results = results([])[0]
-                args.append(results)
+            for arg in arg_names:
+                if arg in annotations:
+                    #print(arg, annotations[arg])
+                    const_arg = annotations[arg]
+                    node = nodes[const_arg]
+                    accept_args = []
+                    accept_args.append(code)
+                    if const_arg in (Node.StringLiteral,
+                                     Node.Base36Single,
+                                     Node.Base10Single,
+                                     Node.Base96Single,
+                                     Node.EvalLiteral,
+                                     Node.NumericLiteral,
+                                     Node.NodeSingle,
+                                     Node.NodeClass):
+                        accept_args.append(True)
+                    new_code, results = node.accepts(*accept_args)
+                    if new_code is None:
+                        results = cls.default_arg
+                    else:
+                        cls.overwrote_default = True
+                        code = new_code
+                        results = results([])[0]
+                    args.append(results)
+                #print(code, cls, args)
             return code, cls(*args)
         return None, None
 
