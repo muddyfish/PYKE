@@ -122,13 +122,16 @@ def get_docs():
             if func.__code__.co_flags & 4:
                 if func_doc["arg_types"]: func_doc["arg_types"] += "\n"
                 func_doc["arg_types"] += "*args"
-            fixed = nodes.nodes[node].__init__.__annotations__
+            cls_init = nodes.nodes[node].__init__
+            fixed = cls_init.__annotations__
+            func_doc["fixed_params"] = ""
             if fixed:
-                func_doc["fixed_params"] = "\n".join(fixed[i]for i in fixed)
+                arg_names = cls_init.__code__.co_varnames[1:cls_init.__code__.co_argcount]
+                for arg in arg_names:
+                    if arg in fixed:
+                        func_doc["fixed_params"] += fixed[arg]+"\n"
             elif nodes.nodes[node].accepts.__module__ != "nodes":
                 func_doc["fixed_params"] = "custom"
-            else:
-                func_doc["fixed_params"] = ""
             func_doc["docs"] = func.__doc__
             func_doc["char"] = nodes.nodes[node].char
             func_doc["input"] = ""
