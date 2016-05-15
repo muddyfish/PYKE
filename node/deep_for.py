@@ -7,9 +7,9 @@ class DeepFor(Node):
     char = ".F"
     args = None
     results = None
-    contents = 1
+    default_arg = 1
     
-    def __init__(self, args, ast):
+    def __init__(self, args: Node.NumericLiteral, ast:Node.EvalLiteral):
         self.args = args
         self.ast = ast
         if self.ast.nodes == []:
@@ -41,18 +41,3 @@ Returns a list with the same depth all round with the function applied."""
     
     def __repr__(self):
         return "%s: %r"%(self.__class__.__name__, self.args)
-        
-    @classmethod
-    def accepts(cls, code):
-        if code.startswith(cls.char):
-            new_code, digits = NumericLiteral.accepts(code[2:])
-            if new_code is None:
-                digits = cls.contents
-                code = code[2:]
-            else:
-                digits = digits([])[0]
-                code = new_code
-            ast = lang_ast.AST()
-            code = ast.setup(code)
-            return code, cls(digits, ast)
-        return None, None
