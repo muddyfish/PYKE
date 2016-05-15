@@ -50,7 +50,10 @@ settings.SAFE = args.safe
 lang_ast.AST.MAX_RECURSE = int(args.recurse, 10)
 
 code = args.code[0]
-print("RUNNING: %r"%code)
+try:
+    print("RUNNING: %r"%code)
+except UnicodeEncodeError:
+    print("RUNNING BADUNICODE")
 ast = lang_ast.AST()
 ast.setup(code, first = True)
 stack = ast.run()

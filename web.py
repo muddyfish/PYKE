@@ -69,6 +69,15 @@ def submit_code():
         response += e.output.decode()
     return response
 
+@app.route("/dictionary")
+def dictionary():
+    return render_template("dictionary.html")
+
+@app.route("/dict_compress", methods = ['POST'])
+def dict_compress():
+    inp = request.form.get("compress")
+    return nodes.nodes["dictionary"].compress(inp)
+
 @app.route("/docs")
 @cache.cached(timeout=3600)
 def docs():
