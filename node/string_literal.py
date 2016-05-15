@@ -10,7 +10,7 @@ class StringLiteral(Node):
     def __init__(self, string):
         self.string = string
 
-
+    @Node.test_func([], [""], "")
     @Node.test_func([], ["World"], "World\"")
     @Node.test_func([], ["Hello"], "Hello")
     def func(self):
@@ -21,17 +21,10 @@ class StringLiteral(Node):
         return "%s: %r"%(self.__class__.__name__, self.string)
         
     @classmethod
-    def accepts(cls, code):
+    def accepts(cls, code, accept = False):
+        if accept: code = '"'+code
         if code == "": return None, None
-        string = None
-        if code[0] == StringLiteral.char:
-            string = ""
-            if len(code) != 1: 
-                code = code[1:]
-                while len(code) != 0 and code[0] != StringLiteral.char:
-                    string += code[0]
-                    code = code[1:]
-            if len(code) != 0: code = code[1:]
-        if string is not None:
-            return code, cls(string)
-        return None, None
+        if code[0] != StringLiteral.char:return None, None
+        code = code[1:]
+        string, _, code = code.partition(StringLiteral.char)
+        return code, cls(string)
