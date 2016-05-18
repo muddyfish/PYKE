@@ -28,7 +28,3 @@ else: stack = stack[:-1]"""
             stack = self.ast.run(args)
             return stack
         return args[:-1]
-    
-    def __repr__(self):
-        return "%s: %r"%(self.__class__.__name__, self.ast)
-        

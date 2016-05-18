@@ -19,8 +19,6 @@ class DeepApply(Node):
             args = 1
             results = 1
     
-        
-        
     @Node.test_func([[[(0, 0), (0, 1)], [(1, 0), (1, 1)]]], [[[0, 1], [1, 2]]], "+")
     @Node.prefer
     def func(self, seq: Node.sequence):
@@ -28,7 +26,12 @@ class DeepApply(Node):
         return [self.recurse(seq)]
 
     def recurse(self, seq):
-        if isinstance(seq[0][0], Node.sequence):
+        if not isinstance(seq[0], Node.sequence):
+            try:
+                return self.node(seq)
+            except AssertionError:
+                return self.node([seq])
+        elif isinstance(seq[0][0], Node.sequence):
             return [self.recurse(i) for i in seq]
         else:
             rtn = []
@@ -54,7 +57,3 @@ class DeepApply(Node):
         stack, args = stack[no_args:], stack[:no_args]
         stack = node(args[::-1]) + stack
         return stack
-    
-    def __repr__(self):
-        return "%s: %r"%(self.__class__.__name__, self.args)
-        

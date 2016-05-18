@@ -27,5 +27,3 @@ return stack"""
             max_num -= 1
         return stack
     
-    def __repr__(self):
-        return "%s: %r"%(self.__class__.__name__, self.args)

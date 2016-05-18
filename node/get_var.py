@@ -26,6 +26,3 @@ class GetVar(Node):
                 cls.func.tests.append(([], [node_cls.contents], node_cls.char))
         super(GetVar, cls).run_tests()
     
-    def __repr__(self):
-        return "%s: %s"%(self.__class__.__name__, self.node.__name__)
-        

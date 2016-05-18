@@ -21,5 +21,3 @@ class KillStack(Node):
         """Remove the first `amount` items from the stack"""
         return []
     
-    def __repr__(self):
-        return "%s: %d"%(self.__class__.__name__, self.args)

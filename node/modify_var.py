@@ -8,7 +8,7 @@ import copy
 class ModifyVar(Node):
     char = "?"
     args = None
-    results = 1
+    results = None
     
     def __init__(self, op_node:Node.NodeSingle, mod_node:Node.NodeClass):
         self.op_node = op_node
@@ -21,10 +21,11 @@ class ModifyVar(Node):
 Modifies the contents of node_B to node_A(inp, node_B.contents).
 This can also affect how the node behaves"""
         old = getattr(self.mod_node, "contents")
-        args = [*args, old]
+        args = list(args)+[old]
         new = self.op_node(args)
-        self.mod_node.update_contents(new)
+        if len(new) == 1:
+            self.mod_node.update_contents(new[0])
+        else:
+            self.mod_node.update_contents(new)
         return new
     
-    def __repr__(self):
-        return "%s: (%s) %s"%(self.__class__.__name__, self.op_node, self.mod_node.__name__)
