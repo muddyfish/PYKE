@@ -23,6 +23,3 @@ class List(Node):
 Defaults to the whole stack"""
         return [list(inp)]
     
-    def __repr__(self):
-        return "%s: %r"%(self.__class__.__name__, self.args)
-        

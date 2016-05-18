@@ -39,5 +39,3 @@ Returns a list with the same depth all round with the function applied."""
         if len(rtn) == 1: rtn = rtn[0]
         return rtn
     
-    def __repr__(self):
-        return "%s: %r"%(self.__class__.__name__, self.args)

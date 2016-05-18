@@ -72,6 +72,3 @@ Base contents can be changed by changing the contents"""
             rtn = int(rtn)
         return rtn
         
-    def __repr__(self):
-        return "%s: %s"%(self.__class__.__name__, self.base)
-        

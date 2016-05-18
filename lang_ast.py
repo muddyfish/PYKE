@@ -52,7 +52,10 @@ class AST(object):
                 else:
                     raise
         return stack
-        
+      
+    def __repr__(self):
+        print(self.nodes)
+    
     @staticmethod
     def add_node(code):
         accepting = []
@@ -65,6 +68,7 @@ class AST(object):
         if accepting == []:
             raise SyntaxError("No nodes will accept code: %r"%(code))
         return sorted(accepting, key = lambda i:len(i[0]))[0][1:]
+   
 
 class GotoStart(RuntimeError):
     def __init__(self, stack):

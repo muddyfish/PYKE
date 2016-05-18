@@ -37,6 +37,3 @@ Returns a list of lists to the stack"""
             if len(rtn) == 1: rtn = rtn[0]
             results.append(rtn)
         return [results]
-    
-    def __repr__(self):
-        return "%s: %r"%(self.__class__.__name__, self.args)

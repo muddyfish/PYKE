@@ -20,6 +20,3 @@ class Duplicate(Node):
         for _ in range(self.results):
             rtn.append(copy.deepcopy(a))
         return rtn
-    
-    def __repr__(self):
-        return "%s: %d"%(self.__class__.__name__, self.results)

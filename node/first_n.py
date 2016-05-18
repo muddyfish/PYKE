@@ -36,7 +36,3 @@ class FirstN(Node):
     
     #def sort_by(self, to_sort: Node.sequence, by:Node.sequence):
     #    pass
-    
-    
-    def __repr__(self):
-        return "%s: %r"%(self.__class__.__name__, self.args)

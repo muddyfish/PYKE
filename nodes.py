@@ -40,6 +40,14 @@ class Node(object):
     
     def __repr__(self):
         return self.__class__.__name__
+
+    #def __str__(self):
+    #    cls = self.__class__
+    #    string = cls.__name__
+    #    assert(hasattr(self, "init_args"))
+    #    if self.init_args:
+    #        return [type(i)for i in self.init_args]
+    #    return string
         
     def __call__(self, args):
         self.added_args = 0
@@ -169,7 +177,9 @@ class Node(object):
                         results = results([])[0]
                     args.append(results)
                 #print(code, cls, args)
-            return code, cls(*args)
+            obj = cls(*args)
+            obj.setup_repr(args)
+            return code, obj
         return None, None
 
     @classmethod
@@ -206,7 +216,10 @@ class Node(object):
                             raise(AssertionError(cls.__name__+"(%r): returned %r. Has True/False"%(in_stack, rtn_stack)))
                     if rtn_stack != out_stack:
                         raise AssertionError(cls.__name__+"(%r): %r returned %r"%(in_stack, out_stack, rtn_stack))
-                    
+    
+    def setup_repr(self, args):
+        self.init_args = args
+       
     def prefer(func):
         func.prefer = True
         return func

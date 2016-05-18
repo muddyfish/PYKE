@@ -23,5 +23,3 @@ class RotX(Node):
         """Rotate the top `amount` items on the stack by 1."""
         return list(args[:1]+args[1:])
     
-    def __repr__(self):
-        return "%s: %d"%(self.__class__.__name__, self.args)

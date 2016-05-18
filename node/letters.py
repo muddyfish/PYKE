@@ -35,7 +35,7 @@ class Letters(Node):
     @Node.test_func(["  world  "], ["world  "], "8")
     @Node.test_func(["  world  "], ["  world"], "9")
     def func(self, x):
-        """0 - len
+        """0 - len (floor(log(x)) with numbers)
 1 - lower
 2 - upper
 3 - swapcase
@@ -54,5 +54,3 @@ class Letters(Node):
             return len(str(x)) - isinstance(x, float)
         return len(x)
     
-    def __repr__(self):
-        return "%s: %d"%(self.__class__.__name__, self.results)

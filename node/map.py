@@ -51,5 +51,3 @@ Returns the results of the map (extend mode)"""
                 return results
         return [argtype(results)]
     
-    def __repr__(self):
-        return "%s: %r"%(self.__class__.__name__, self.args)
