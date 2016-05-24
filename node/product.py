@@ -6,6 +6,7 @@ class Product(Node):
     char = "B"
     args = 1
     results = 1
+    contents = "><+-.,[]" #Possible bytes in a BF program
     
     @Node.test_func([[1,2]], [2])
     @Node.test_func([[3,4]], [12])
