@@ -12,10 +12,15 @@ class Sort(Node):
     def func(self, a: Node.indexable):
         """sorted(a) - returns the same type as given"""
         if isinstance(a, tuple):
-            return [tuple(sorted(a))]
+            return [tuple(Sort.sort_list(list(a)))]
         if isinstance(a, str):
             return "".join(sorted(a))
-        return [sorted(a)]
+        return [Sort.sort_list(a)]
+    
+    @staticmethod
+    def sort_list(a):
+        if isinstance(a, (str, float, int, complex)):return a
+        return sorted(a, key = lambda x:(str(type(x)),Sort.sort_list(x)))
     
     @Node.test_func([3], [[1,2,3]])
     def one_range(self, a:int):

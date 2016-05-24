@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from nodes import Node
+from node.sort import Sort
 
 class Head(Node):
     char = "h"
@@ -24,3 +25,8 @@ class Head(Node):
         time.min = 0
         time.sec = 0
         return time
+    
+    @Node.test_func([{1:1, "2":2}], [[1,"2"]])
+    def keys(self, inp: dict):
+        """sorted(inp.keys)"""
+        return [Sort.sort_list(inp.keys())]

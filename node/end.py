@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from nodes import Node
+from node.sort import Sort
 import math
 
 class End(Node):
@@ -19,3 +20,8 @@ class End(Node):
     def end(self, inp: Node.indexable):
         """inp[-1]"""
         return [inp[-1]]
+    
+    @Node.test_func([{1:1, "2":2}], [[1,2]])
+    def values(self, inp: dict):
+        """sorted(inp.values)"""
+        return [Sort.sort_list(inp.values())]
