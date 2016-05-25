@@ -128,6 +128,8 @@ class Node(object):
                     funcs.append(cur_func)
                 elif hasattr(cur_func, "is_func") and cur_func.is_func:
                     funcs.append(cur_func)
+        if funcs == [cls.func] and cls.func is Node.func:
+            print(cls, "No funcs?")
         return funcs
         
 
