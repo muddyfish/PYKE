@@ -48,6 +48,6 @@ Returns the results of the map (extend mode)"""
             try:
                 return "".join(results)
             except TypeError:
-                return results
+                return [results]
         return [argtype(results)]
     
