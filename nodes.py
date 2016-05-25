@@ -144,13 +144,13 @@ class Node(object):
     
 
     @classmethod
-    def accepts(cls, code):
+    def accepts(cls, code, args = None):
         if code.startswith(cls.char):
             code = code[len(cls.char):]
             func = cls.__init__
             annotations = func.__annotations__
-            arg_names = func.__code__.co_varnames[1:func.__code__.co_argcount]
-            args = []
+            arg_names = func.__code__.co_varnames[1:func.__code__.co_argcount]            
+            if args == None: args = []
             for arg in arg_names:
                 if arg in annotations:
                     #print(arg, annotations[arg])
