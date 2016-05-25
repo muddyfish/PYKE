@@ -1,4 +1,5 @@
 from nodes import Node
+import lang_ast
 from node.eval_literal import Eval
 import copy
 
@@ -15,7 +16,10 @@ class Function(Node):
  - First time takes an AST
  - After that takes nothing
  - Calls the AST with the contents of the stack"""
-        stack = Function.ast.run(list(stack))
+        try:
+            stack = Function.ast.run(list(stack))
+        except lang_ast.GotoStart as rtn:
+            stack = rtn.stack
         self.results = len(stack)
         return stack
     
