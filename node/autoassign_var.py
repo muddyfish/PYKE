@@ -11,6 +11,11 @@ class AutoAssignVar(Node):
     results = 1
     ignore = True
     
+    def func(self):
+        """If has contents, return contents.
+Otherwise set contents to stack[0] and return"""
+        pass
+    
     def prepare(self, stack):
         if hasattr(self.__class__, "contents"):
             self.func = self.retrieve
