@@ -11,17 +11,13 @@ class EvalInput(Node):
     args = 0
     results = 1
     
+    def __init__(self):
+        if not hasattr(EvalInput, "contents"):
+            msg = "Q:"
+            if settings.IS_WEB: msg = ""
+            new = safe_eval.evals[settings.SAFE](input(msg))
+            EvalInput.contents = new
+            
     def func(self):
         """Prompt for content at start. Returns by default."""
         return [copy.deepcopy(EvalInput.contents)]
-        
-    def __repr__(self):
-        return "%s: %r"%(self.__class__.__name__, self.func())
-        
-    @classmethod
-    def accepts(cls, code):
-        if code[0] != cls.char: return None, None
-        if hasattr(cls, "contents"): return code[1:], cls()
-        if settings.WARNINGS: print("Q: ", end = "")
-        cls.contents = safe_eval.evals[settings.SAFE](input())
-        return code[1:], cls()
