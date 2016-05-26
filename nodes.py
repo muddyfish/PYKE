@@ -19,7 +19,6 @@ class Node(object):
     ignore = False
     reverse_first = False
     default_arg = None
-    overwrote_default = False
     
     sequence = (list, tuple)
     number = (int, float)
@@ -151,7 +150,8 @@ class Node(object):
             code = code[len(cls.char):]
             func = cls.__init__
             annotations = func.__annotations__
-            arg_names = func.__code__.co_varnames[1:func.__code__.co_argcount]            
+            arg_names = func.__code__.co_varnames[1:func.__code__.co_argcount]
+            overwrote_default = False
             if args == None: args = []
             for arg in arg_names:
                 if arg in annotations:
@@ -174,12 +174,13 @@ class Node(object):
                     if new_code is None:
                         results = cls.default_arg
                     else:
-                        cls.overwrote_default = True
+                        overwrote_default = True
                         code = new_code
                         results = results([])[0]
                     args.append(results)
                 #print(code, cls, args)
             obj = cls(*args)
+            obj.overwrote_default = overwrote_default
             obj.setup_repr(args)
             return code, obj
         return None, None
