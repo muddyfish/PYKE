@@ -6,6 +6,7 @@ class DeepForApply(Node):
     char = "a"
     args = 1
     results = 1
+    contents = "".join(chr(i)for i in range(256))
     
     def __init__(self, ast: Node.EvalLiteral):
         self.ast = ast
@@ -30,3 +31,10 @@ class DeepForApply(Node):
                 if len(val) > 1: rtn.append(val)
                 else: rtn.extend(val)
             return rtn
+
+    def apply_values(self, dic:dict, *args):
+        rtn = {}
+        for key in dic:
+            val = self.ast.run([dic[key], key, *args])
+            rtn[key] = val
+        return [rtn, *args]
