@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from nodes import Node
+from node.sort import Sort
 import math
 
 class Prime(Node):
@@ -87,3 +88,11 @@ Or print a 1D list with padding equal to the maximum length"""
     def is_alpha_num(self, string:str):
         """Is a string alphanumeric?"""
         return int(string.isalnum())
+    
+    
+    @Node.test_func([{1:1, "2":2}], [[1, '2']])
+    def sort_values(self, dic:dict):
+        value_sort = Sort.sort_list(dic.values())
+        sort = sorted(dic, key = lambda x:value_sort.index(dic[x]))
+        return [sort]
+    

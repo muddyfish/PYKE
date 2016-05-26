@@ -11,6 +11,8 @@ class Split(Node):
     def prepare(self, stack):
         if len(stack) == 0:
             self.args = 1
+        elif isinstance(stack[0], Node.sequence):
+            self.args = 1
     
     @Node.test_func(["1 2 1", " "], [["1", "2", "1"]])
     @Node.test_func(["1,3,4", ","], [["1", "3", "4"]])
@@ -47,7 +49,21 @@ class Split(Node):
         """return inp.split(" ")"""
         return self.split(inp, " ")
     
+    @Node.test_func([3, 1], [3])
+    @Node.test_func([3, 2], [2])
+    @Node.test_func([7, 3], [6])
     def floor_remainder(self, a:Node.number, multiple:Node.number):
         """a-(a%multiple)"""
         return a-(a%multiple)
+    
+    @Node.test_func([[1,2,2,3,3,3]], [{1:1,2:2,3:3}])
+    def count(self, seq:Node.sequence):
+        rtn = {}
+        for i in seq:
+            if i in rtn:
+                rtn[i]+=1
+            else:
+                rtn[i]=1
+        return rtn
+        
     

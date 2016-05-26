@@ -20,7 +20,7 @@ class Sort(Node):
     @staticmethod
     def sort_list(a):
         if isinstance(a, (str, float, int, complex)):return a
-        return sorted(a, key = lambda x:(str(type(x)),Sort.sort_list(x)))
+        return sorted(a, key = lambda x:(str(type(x)), Sort.sort_list(x)))
     
     @Node.test_func([3], [[1,2,3]])
     def one_range(self, a:int):
