@@ -54,7 +54,7 @@ class AST(object):
         return stack
       
     def __repr__(self):
-        print(self.nodes)
+        return str(self.nodes)
     
     @staticmethod
     def add_node(code):
