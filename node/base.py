@@ -63,6 +63,8 @@ Base contents can be changed by changing the contents"""
     @Node.test_func([913.567], [900], "02")
     def round(self, a: float):
         """round(a, `base`)"""
+        if not self.overwrote_default:
+            self.base = 0
         mult = 1
         if isinstance(self.base, str):
             mult = -1
