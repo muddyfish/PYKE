@@ -15,7 +15,10 @@ class Product(Node):
         """return product of integer sequence"""
         current = 1
         for val in inp:
-            current *= val
+            if isinstance(val, Node.sequence):
+                current *= self.func(val)[0]
+            else:
+                current *= val
         return [current]
     
     def to_int(self, inp:Node.number):

@@ -115,7 +115,11 @@ class Node(object):
     
     @classmethod
     def get_functions(cls, ins = None):
-        items = cls.__dict__.items()
+        items = list(cls.__dict__.items())
+        base = cls.__bases__[0]
+        if base is not Node:
+            #print(cls, base)
+            items.extend(base.__dict__.items())
         if ins is not None:
             cls = ins
         funcs = [cls.func]
