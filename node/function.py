@@ -17,7 +17,7 @@ class Function(Node):
  - After that takes nothing
  - Calls the AST with the contents of the stack"""
         try:
-            stack = Function.ast.run(list(stack))
+            stack = Function.ast.run(stack=list(copy.deepcopy(stack)[::-1]))
         except lang_ast.GotoStart as rtn:
             stack = rtn.stack
         self.results = len(stack)
