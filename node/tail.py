@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from nodes import Node
+from node.sort import Sort
 
 class Tail(Node):
     char = "t"
@@ -24,3 +25,8 @@ class Tail(Node):
         time.month = 1
         time.day = 1
         return time
+    
+    @Node.test_func([{1:1, "2":2}], [[[1, 1], ['2', 2]]])
+    def items(self, inp: dict):
+        """sorted(inp.items)"""
+        return [[list(i)for i in Sort.sort_list(inp.items())]]

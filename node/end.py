@@ -24,4 +24,4 @@ class End(Node):
     @Node.test_func([{1:1, "2":2}], [[1,2]])
     def values(self, inp: dict):
         """sorted(inp.values)"""
-        return [Sort.sort_list(inp.values())]
+        return [[i[1]for i in Sort.sort_list(inp.items())]]
