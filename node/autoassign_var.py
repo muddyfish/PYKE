@@ -17,17 +17,14 @@ Otherwise set contents to stack[0] and return"""
         pass
     
     def prepare(self, stack):
-        if hasattr(self.__class__, "contents"):
-            self.func = self.retrieve
-        else:
-            self.args = 1
-            self.func = self.store
+        self.args |= not hasattr(self.__class__, "contents")
+        self.func = (self.retrieve, self.store)[self.args]
             
     def retrieve(self):
-        return [copy.deepcopy(self.__class__.contents)]
+        return copy.deepcopy(self.__class__.contents)
     
     def store(self, arg):
-        self.__class__.contents = arg
+        self.__class__.contents = [arg]
         if settings.WARNINGS: print("Stored %r in %s"%(arg, self.char))
         return [arg]
 

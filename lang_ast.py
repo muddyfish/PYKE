@@ -9,8 +9,12 @@ class AST(object):
         self.first = first
         self.nodes = []
         self.restore_point = None
+        self.uses_i = False
         while code != "" and (self.first or code[0] not in AST.END_CHARS):
             code, node = AST.add_node(code)
+            if node.char == "i":
+                self.uses_i = True
+                self.i_node = node.__class__
             self.nodes.append(node)
         #print self.nodes
         if code != "" and code[0] != "(":
@@ -22,6 +26,10 @@ class AST(object):
             stack = []
         if self.first:
             retries = 0
+        elif self.uses_i:
+            if hasattr(self.i_node, "contents"):
+                old_i = self.i_node.contents
+            self.i_node.contents = stack
         counter = 0
         while counter != len(self.nodes):
             cur_node = self.nodes[counter]
@@ -51,6 +59,10 @@ class AST(object):
                     self.restore_point = None
                 else:
                     raise
+        try:
+            self.i_node.contents = old_i
+        except NameError:
+            pass
         return stack
       
     def __repr__(self):
@@ -68,7 +80,6 @@ class AST(object):
         if accepting == []:
             raise SyntaxError("No nodes will accept code: %r"%(code))
         return sorted(accepting, key = lambda i:len(i[0]))[0][1:]
-   
 
 class GotoStart(RuntimeError):
     def __init__(self, stack):
