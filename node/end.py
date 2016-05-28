@@ -10,10 +10,11 @@ class End(Node):
     results = 1
     contents = math.e
     
-    @Node.test_func([12], [-13])
-    def complement(self, inp: Node.number):
-        """-(inp+1)"""
-        return ~inp
+    @Node.test_func([12], [6])
+    @Node.test_func([11], [5])
+    def floor_half(self, inp: Node.number):
+        """inp//2"""
+        return inp//2
     
     @Node.test_func(["Hello"], ["o"])
     @Node.test_func([[1,2,3]], [3])
