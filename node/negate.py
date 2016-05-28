@@ -13,6 +13,6 @@ class Negate(Node):
         return [sequence[::-1]]
     
     @Node.test_func([7], [-7])
-    def func(self, a):
+    def func(self, a: Node.number):
         """-a"""
         return -a
