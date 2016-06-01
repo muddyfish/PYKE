@@ -140,8 +140,14 @@ class Node(object):
         pass
 
     def add_arg(self, args):
+        q = nodes["eval_input"]
         if settings.WARNINGS: print("Missing arg to %r, evaling input."%self)
-        arg = safe_eval.evals[settings.SAFE](input())
+        try:
+            arg = safe_eval.evals[settings.SAFE](input())
+            if not hasattr(q, "contents"):
+                q.contents = arg
+        except EOFError:
+            arg = q.contents
         if self.__class__.reverse_first:
             args.insert(0, arg)
         else:
