@@ -14,11 +14,15 @@ class Sum(Node):
         self.args = args
         
     def prepare(self, stack):
+        if len(stack) == 0:
+            self.add_arg(stack)
         if self.args == Sum.default_arg:
             if isinstance(stack[0], (list,tuple)):
                 self.args = 1
             else:
                 self.args = len(stack)
+        if self.args == 1 and isinstance(stack[0], (str,int)):
+            self.func = self.digital_root
     
     @Node.test_func([1,2], [3])
     @Node.test_func([[3,4]], [7])
@@ -35,4 +39,11 @@ Else return sum(stack[:`amount`])"""
         for val in inp[1:]:
             current += val
         return [current]
+    
+    def digital_root(self, inp:(str, int)):
+        inp = str(inp)
+        rtn = 0
+        for i in inp:
+            rtn += int(i, 36)
+        return rtn
     
