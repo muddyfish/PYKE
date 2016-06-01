@@ -19,6 +19,7 @@ class Node(object):
     ignore = False
     reverse_first = False
     default_arg = None
+    uses_i = False
     
     sequence = (list, tuple)
     number = (int, float)

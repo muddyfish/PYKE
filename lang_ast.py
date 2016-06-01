@@ -12,9 +12,12 @@ class AST(object):
         self.uses_i = False
         while code != "" and (self.first or code[0] not in AST.END_CHARS):
             code, node = AST.add_node(code)
-            if node.char == "i":
+            if node.uses_i:
                 self.uses_i = True
-                self.i_node = node.__class__
+                if node.char == "i":
+                    self.i_node = node.__class__
+                else:
+                    self.i_node = node.ast.i_node
             self.nodes.append(node)
         #print self.nodes
         if code != "" and code[0] != "(":

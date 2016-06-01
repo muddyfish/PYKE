@@ -10,6 +10,8 @@ class IfKill(Node):
     
     def __init__(self, ast: Node.EvalLiteral):
         self.ast = ast
+        self.uses_i = self.ast.uses_i
+        self.ast.uses_i = False
         if self.ast.nodes == []:
             self.ast.add_node("\n")
         
