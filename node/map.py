@@ -18,13 +18,13 @@ class Map(Node):
             self.add_arg(stack)
         if isinstance(stack[0], dict):
             self.args = max(1, self.args-2)
-        else:
-            stack.reverse()
+        #else:
+        #    stack.reverse()
         
     #@Node.test_func([[1,2,3,4], 2.0], [[1,4,9,16]], "^")
     
-    @Node.test_func([5, [-4,2,3,4]], [[1,7,8,9]], "+")
-    @Node.test_func([2, [1,2,3,4]], [[2,4,8,16]], "^")
+    @Node.test_func([[-4,2,3,4], 5], [[1,7,8,9]], "+")
+    @Node.test_func([[1,2,3,4], 2], [[2,4,8,16]], "^")
     @Node.test_func([[1,0,"","hi"]], [[0,1,1,0]], "!")
     def seq_map(self, seq:Node.sequence, *args):
         end = []
@@ -34,12 +34,12 @@ class Map(Node):
             end.append(rtn)
         return [type(seq)(end)]
     
-    @Node.test_func([2, 5], [[2,3,4,5,6]], "+")
+    @Node.test_func([5, 2], [[2,3,4,5,6]], "+")
     def int_map(self, num:int, *args):
         seq = list(range(num))
         return self.seq_map(seq, *args)
 
-    @Node.test_func([" ", "seed"], [" s e e d"], "+")
+    @Node.test_func(["seed", " "], [" s e e d"], "+")
     def str_map(self, s:str, *args):
         rtn = self.seq_map(list(s), *args)[0]
         try:
