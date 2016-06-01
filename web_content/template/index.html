@@ -6,7 +6,8 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="{{ url_for('static', filename='static/content.css') }}">
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">	    
+        <link rel="stylesheet" href="{{ url_for('static', filename='static/awesome-bootstrap-checkbox.css') }}">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>	
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -19,10 +20,16 @@
                 <h5>{{ last_updated }}</h5>
 		<p>Length: <span id="length">0</span></p>
 		<button id="button-run" class="btn btn-primary">Run Program.</button>
+		<!-- 
 		<button id="button-permalink" class="btn btn-primary">Permalink</button>
-		<i class="fa fa-spinner fa-spin" id="loading"></i>
 		<br/>
-		<button id="button-copy" class="btn btn-primary pad-top">Copy Answer</button>
+		-->
+		<button id="button-copy" class="btn btn-primary">Copy Answer</button>
+		<i class="fa fa-spinner fa-spin" id="loading"></i>
+		<div class="checkbox">
+		    <input type="checkbox" id="checkbox-warn"  checked={{ warnings }}>
+		    <label for="checkbox-warn">Warnings?</label>
+		</div>
 		<textarea id="code" placeholder="Code" class="form-control pad-top pad-bottom" rows="7">{{ code }}</textarea>
 		<textarea id="input" placeholder="Input" class="form-control pad-top pad-bottom" rows="3">{{ input }}</textarea>
 		<pre class="scrollable" id="output"></pre>
@@ -41,7 +48,7 @@
                 $.post('/submit', {
                     code: $('#code').val(),
                     input: $('#input').val(),
-                    warnings: 1,
+                    warnings: document.getElementById("checkbox-warn").checked? 1 : 0,
                     },
                     function(data) {
 			$("#loading").hide()
@@ -51,8 +58,9 @@
 	    }
 	    
             function create_permalink() {
-                params={code: $('#code').val()}
-		if ($('#input').val()) params.input=$('#input').val()
+                params={code: $('#code').val()};
+		if ($('#input').val()) params.input=$('#input').val();
+		if (!document.getElementById("checkbox-warn").checked) params.warnings=0;
                 history.pushState(null, null, "?" + $.param(params).replace(/[!'()*]/g, function(c) {return '%' + c.charCodeAt(0).toString(16)}))
             }
 	    

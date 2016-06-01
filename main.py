@@ -30,7 +30,7 @@ if settings.DEBUG:
 
 parser = argparse.ArgumentParser(description='PYKE Interpreter')
 parser.add_argument('-w', '--warnings', dest='warnings', action='store_const',
-                   const=True, default=settings.WARNINGS,
+                   const=True, default=False,
                    help='Force warnings')
 parser.add_argument('-r', '--max-recurse', dest='recurse',
                    default="-1",
