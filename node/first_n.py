@@ -12,7 +12,9 @@ class FirstN(Node):
         self.ast = ast
         
     def prepare(self, stack):
-        if len(stack) < 2:
+        if len(stack) == 0:
+            self.args = 0
+        elif len(stack) < 2:
             self.args = 1
     
     @Node.test_func([4,2], [[2,3,4,5]])
@@ -26,6 +28,8 @@ class FirstN(Node):
             if len(rtn) != 0 and rtn[-1]:
                 results.append(i)
             i+=1
+        if count == 1:
+            return results
         return [results]
     
     @Node.test_func([4], [[1,2,3,4]])
@@ -33,6 +37,13 @@ class FirstN(Node):
     def first_n(self, count: int):
         """return first_n_start(FirstN.contents)"""
         return self.first_n_start(count, FirstN.contents)
+    
+    @Node.test_func([], [1])
+    @Node.test_func([], [5], "4>")
+    @Node.is_func
+    def first(self):
+        """return first_n(1)"""
+        return self.first_n(1)
     
     #def sort_by(self, to_sort: Node.sequence, by:Node.sequence):
     #    pass
