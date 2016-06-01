@@ -31,11 +31,14 @@ updated_time = output.decode()[:-1]
 def root():
     code = request.args.get("code", "")
     inp = request.args.get("input", "")
+    warnings = int(request.args.get("warnings", "1"))
+    print(warnings)
     return render_template("index.html",
                            last_updated = updated_time,
                            docs = docs(),
                            code = code,
-                           input = inp)
+                           input = inp,
+                           warnings = warnings)
 
 
 @app.route("/code")
