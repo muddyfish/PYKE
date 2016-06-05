@@ -12,7 +12,7 @@ class Repeat(Node):
             self.ast.add_node("\n")
 
     def prepare(self, stack):
-        self.args = len(stack)
+        self.args = max(1, len(stack))
 
     def func(self, *stack):
         """For i in range(repeats):

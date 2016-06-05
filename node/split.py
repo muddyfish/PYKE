@@ -7,6 +7,7 @@ class Split(Node):
     char = "c"
     args = 2
     results = 1
+    contents = "bcdfghjklmnpqrstvwxz"
     
     def prepare(self, stack):
         if len(stack) == 0:
