@@ -1,6 +1,7 @@
 from nodes import Node
 import copy
 from node.sort import Sort
+from node.transpose_pad import PadTranspose
 
 class SortEval(Node):
     char = ".#"
@@ -22,14 +23,11 @@ class SortEval(Node):
         is_int = isinstance(args[0], int)
         if is_int:
             args[0] = list(range(args[0]))
-        max_len = len(args[0])
-        for i, arg in enumerate(args):
-            if i == 0: continue
-            args[i] = [arg]*max_len
         results = []
-        for i in zip(*args):
+        packed_args = PadTranspose._transpose(args)[0]
+        for i in packed_args:
             rtn = self.ast.run(list(i))
             results.append(rtn)
-        sorted_results = Sort.sort_list(results)
+        sorted_results = Sort.sort_list(results, deep_sort = False)
         return [list(list(zip(*sorted(enumerate(args[0]), key = lambda x:sorted_results.index(results[x[0]]))))[1])]
     

@@ -12,6 +12,10 @@ class PadTranspose(Node):
     @Node.test_func([[[1,2,3],[4,5],[6]]], [[[1,4,6],[2,5,0],[3,0,0]]])
     def transpose(self, inp: Node.sequence):
         """Transpose with padding - contents is fill"""
+        return PadTranspose._transpose(inp)        
+    
+    @staticmethod
+    def _transpose(inp):
         max_len = max(map(len, inp))
         rtn = []
         for i in range(max_len):
