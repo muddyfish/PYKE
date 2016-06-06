@@ -21,6 +21,6 @@ class NodeSingle(Node):
     def accepts(cls, code, accept = False):
         if not accept: return None, None
         if code == "": return None, None
-        code, node = lang_ast.AST.add_node(code)
+        code, node = lang_ast.AST._add_node(code)
         assert(node is not None)
         return code, cls(node)

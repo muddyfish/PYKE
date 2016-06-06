@@ -11,14 +11,13 @@ class AST(object):
         self.restore_point = None
         self.uses_i = False
         while code != "" and (self.first or code[0] not in AST.END_CHARS):
-            code, node = AST.add_node(code)
+            code, node = self.add_node(code)
             if node.uses_i:
                 self.uses_i = True
                 if node.char == "i":
                     self.i_node = node.__class__
                 else:
                     self.i_node = node.ast.i_node
-            self.nodes.append(node)
         #print self.nodes
         if code != "" and code[0] != "(":
             code = code[1:]
@@ -71,8 +70,13 @@ class AST(object):
     def __repr__(self):
         return str(self.nodes)
     
+    def add_node(self, code):
+        code, node = AST._add_node(code)
+        self.nodes.append(node)
+        return code, node
+    
     @staticmethod
-    def add_node(code):
+    def _add_node(code):
         accepting = []
         for name in nodes.nodes:
             node = nodes.nodes[name]
