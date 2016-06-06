@@ -16,6 +16,7 @@ class SortEval(Node):
             self.ast.add_node("_")
         
     @Node.test_func([[1,5,2]], [[5,2,1]], "")
+    @Node.test_func([[1,2,3,4,5], [10,2,8,4,6]], [[2,4,5,3,1]], "2R")
     def func(self, *args):
         """Sort input values by final outcome of loop"""
         args = list(args)
