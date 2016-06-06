@@ -22,7 +22,7 @@ class Filter(Node):
         rtn = []
         for i in seq:
             val = self.ast.run([i, *args])
-            if val[0]:
+            if val and val[0]:
                 rtn.append(i)
         if isinstance(seq, str):
             return ["".join(rtn), *args]
@@ -35,7 +35,8 @@ class Filter(Node):
         val = up_to-1
         i = 0
         while val < up_to:
-            val = self.ast.run([i, *args])[0]
+            val = self.ast.run([i, *args])
+            if val != []: val = val[0]
             rtn.append(val)
             i+=1
             if not isinstance(val, (int, float)):
@@ -46,6 +47,6 @@ class Filter(Node):
         rtn = {}
         for key in dic:
             val = self.ast.run([dic[key], key, *args])
-            if val[0]:
+            if val and val[0]:
                 rtn[key] = val[0]
         return [rtn, *args]
