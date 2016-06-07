@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from nodes import Node
+import math
 
 class FloorDiv(Node):
     char = "f"
@@ -30,18 +31,11 @@ followed by two empty strings."""
     def chunk(self, inp:Node.indexable, num:int):
         """Return inp seperated into num groups"""
         rtn = []
-        last = 0
         size = len(inp)//num
-        for i in range(size, len(inp), size):
-            rtn.append(inp[last:i])
-            last = i
+        for i in range(0, num*size, size):
+            rtn.append(inp[i:i+size])
         if len(rtn) != num:
-            rtn.append(inp[last:])
+            rtn.append(inp[i+size:])
         else:
-            rtn[-1] += inp[last:]
-        if len(rtn):
-            if isinstance(inp, str):
-                rtn[-1] = "".join(rtn[-1])
-            else:
-                rtn[-1] = type(inp)(rtn[-1])
+            rtn[-1] += inp[i+size:]
         return [rtn]
