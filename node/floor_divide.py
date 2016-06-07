@@ -27,7 +27,7 @@ followed by two empty strings."""
     @Node.test_func(["1234", 2], [["12", "34"]])
     @Node.test_func(["1234", 3], [["1", "2", "34"]])
     @Node.test_func([[4,8,15,16,23,42], 5], [[[4],[8],[15],[16],[23,42]]])
-    def chunk(self, inp:Node.indexable, num:Node.number):
+    def chunk(self, inp:Node.indexable, num:int):
         """Return inp seperated into num groups"""
         rtn = []
         last = 0
