@@ -29,12 +29,17 @@ followed by two empty strings."""
     @Node.test_func(["1234", 3], [["1", "2", "34"]])
     @Node.test_func([[4,8,15,16,23,42], 5], [[[4],[8],[15],[16],[23,42]]])
     @Node.test_func(["123456789", 5], [['1', '2', '3', '4', '56789']])
+    @Node.test_func([[4,8,15,16,23,42], 7], [[[],[],[],[],[],[],[4,8,15,16,23,42]]])
     def chunk(self, inp:Node.indexable, num:int):
         """Return inp seperated into num groups"""
         rtn = []
         size = len(inp)//num
-        for i in range(0, num*size, size):
-            rtn.append(inp[i:i+size])
+        try:
+            for i in range(0, num*size, size):
+                rtn.append(inp[i:i+size])
+        except ValueError:
+            for i in range(num): rtn.append([])
+            i = 0
         if len(rtn) != num:
             rtn.append(inp[i+size:])
         else:
