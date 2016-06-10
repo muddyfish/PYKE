@@ -6,6 +6,7 @@ class DeepMap(Node):
     char = "M"
     args = 0
     results = None
+    contents = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     
     def __init__(self, node:Node.NodeSingle):
         self.node = node
