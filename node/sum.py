@@ -6,7 +6,7 @@ class Sum(Node):
     char = "s"
     args = 0
     results = 1
-    default_arg = None
+    default_arg = 1
     
     def __init__(self, args: Node.Base10Single):
         if args == 0:
@@ -16,7 +16,7 @@ class Sum(Node):
     def prepare(self, stack):
         if len(stack) == 0:
             self.add_arg(stack)
-        if self.args == Sum.default_arg:
+        if not self.overwrote_default:
             if isinstance(stack[0], (list,tuple)):
                 self.args = 1
             else:
