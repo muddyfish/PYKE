@@ -15,7 +15,7 @@ class NodeSingle(Node):
         return self.value
 
     def __repr__(self):
-        return "%s: %d"%(self.__class__.__name__, self.func())
+        return "%s: %s"%(self.__class__.__name__, self.func())
         
     @classmethod
     def accepts(cls, code, accept = False):

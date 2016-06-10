@@ -27,7 +27,9 @@ class Map(Node):
     def seq_map(self, seq:Node.sequence, *args):
         end = []
         for i in seq:
-            rtn = self.node([i, *args])
+            stack = [i, *args]
+            self.node.prepare(stack)
+            rtn = self.node(stack)
             if len(rtn) == 1: rtn = rtn[0]
             end.append(rtn)
         return [type(seq)(end)]
