@@ -1,7 +1,5 @@
 
-import lang_ast
 from nodes import Node
-import copy
 
 class Map(Node):
     char = "m"

@@ -31,7 +31,8 @@ class AST(object):
         elif self.uses_i:
             if hasattr(self.i_node, "contents"):
                 old_i = self.i_node.contents
-            self.i_node.contents = stack
+            if stack:
+                self.i_node.contents = stack[0]
         counter = 0
         while counter != len(self.nodes):
             cur_node = self.nodes[counter]

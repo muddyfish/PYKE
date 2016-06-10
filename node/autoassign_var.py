@@ -8,7 +8,7 @@ import settings
 class AutoAssignVar(Node):
     char = ""
     args = 0
-    results = 1
+    results = None
     ignore = True
     
     def func(self):
