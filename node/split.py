@@ -12,7 +12,8 @@ class Split(Node):
     def prepare(self, stack):
         if len(stack) == 0:
             self.args = 1
-        elif isinstance(stack[0], Node.sequence):
+            self.add_arg(stack)
+        if isinstance(stack[0], Node.sequence):
             self.args = 1
     
     @Node.test_func(["1 2 1", " "], [["1", "2", "1"]])
