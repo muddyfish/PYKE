@@ -10,6 +10,7 @@ class Mod(Node):
     char = "%"
     args = 2
     results = 1
+    contents = ["Padding", 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     
     @Node.test_func([2,3], [2])
     @Node.test_func([6,5], [1])
