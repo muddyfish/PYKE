@@ -24,6 +24,8 @@ class Node(object):
     sequence = (list, tuple)
     number = (int, float)
     indexable = (list, tuple, str)
+    dict_indexable = (list, tuple, str, dict)
+    dict_seq = (list, tuple, dict)
     clock = TypeTime
     
     Base10Single = "base10_single"

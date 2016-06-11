@@ -13,6 +13,13 @@ class Index(Node):
         """b[a]"""
         return[b[a]]
     
+    
+    @Node.test_func([2, {1:2,2:3}], [3])
+    @Node.test_func(["hello", {"hello":"world"}], ["world"])
+    @Node.prefer
+    def dict_at(self, a, b:dict):
+        return[b[a]]
+    
     @Node.test_func([[1,2,3],1], [0])
     @Node.test_func([[1,2,3],3], [2])
     @Node.test_func(["hello","e"], [1])
