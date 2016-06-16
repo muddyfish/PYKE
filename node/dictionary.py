@@ -3,18 +3,15 @@
 from nodes import Node
 import json
 
-words_f = open("dictionary.json")
-words = json.load(words_f)
-words_f.close()
-
 class Dictionary(Node):
     char = ".d"
     args = 0
     results = 1
-    contents = len(words)
     
     def __init__(self, word_ids:Node.IntList):
-        self.words = " ".join(words[i] for i in word_ids)
+        if not hasattr(Dictionary, "word_list"):
+            Dictionary.word_list = init_words()
+        self.words = " ".join(Dictionary.word_list[i] for i in word_ids)
         
     def func(self):
         return self.words
@@ -26,3 +23,9 @@ class Dictionary(Node):
             assert(word in words)
             rtn += chr(words.index(word))
         return rtn
+    
+def init_words(dict_file = "dictionary.json"):
+    words_f = open(dict_file)
+    words = json.load(words_f)
+    words_f.close()
+    return words

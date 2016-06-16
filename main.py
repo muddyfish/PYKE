@@ -24,6 +24,16 @@ def print_nodes():
     print(chars[input("Char? ")].__name__)
     sys.exit()
 
+def run(code):  
+    try:
+        print("RUNNING: %r"%code)
+    except UnicodeEncodeError:
+        print("RUNNING BADUNICODE")
+    ast = lang_ast.AST()
+    ast.setup(code, first = True)
+    stack = ast.run()
+    return stack
+
 if settings.DEBUG:
     for node in nodes.nodes:
         nodes.nodes[node].run_tests()
@@ -38,6 +48,9 @@ parser.add_argument('-r', '--max-recurse', dest='recurse',
 parser.add_argument('-s', '--safe', dest='safe', action='store_const',
                    const=True, default=settings.SAFE,
                    help='Force safe-eval')
+parser.add_argument('-P', '--profile', dest='profile', action='store_const',
+                   const=True, default=False,
+                   help='Profile Pyke')
 parser.add_argument('--print-nodes', dest='print_nodes', action='store_true',
                    help='Print out all nodes and debug conflicts')
 parser.add_argument('code', nargs=1,
@@ -49,14 +62,11 @@ settings.WARNINGS = args.warnings
 settings.SAFE = args.safe
 lang_ast.AST.MAX_RECURSE = int(args.recurse, 10)
 
-code = args.code[0]
-try:
-    print("RUNNING: %r"%code)
-except UnicodeEncodeError:
-    print("RUNNING BADUNICODE")
-ast = lang_ast.AST()
-ast.setup(code, first = True)
-stack = ast.run()
+if args.profile:
+    import cProfile
+    cProfile.run('stack = run(args.code[0])')
+else:
+    stack = run(args.code[0])
 print("STACK")
 for obj in stack[::-1]:
     print(obj)
