@@ -17,6 +17,7 @@ class For(Node):
     @Node.test_func([[1,5]], [[2,10]], "}")
     @Node.test_func([[1,5], 2], [[4,12]], "2}+")
     @Node.test_func([3, 2], [[0,2,4]], "2*")
+    @Node.test_func(["tesT"], ["1110"], "$`")
     def func(self, *args):
         """Constant arg - how many items off the stack to take, default 1
 arg1 - object to iterate over (if int, range(arg1))
@@ -35,4 +36,6 @@ Returns a list of lists to the stack"""
             rtn = self.ast.run(list(i))
             if len(rtn) == 1: rtn = rtn[0]
             results.append(rtn)
+        if isinstance(args[0], str) and all(isinstance(i, str) for i in results):
+            return "".join(results)
         return [results]
