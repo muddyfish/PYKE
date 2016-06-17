@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import glob, os, imp
+import glob, os, imp, sys
 import node as _
 import eval as safe_eval
 from type.type_time import TypeTime
@@ -72,14 +72,14 @@ class Node(object):
             except lang_ast.GotoStart:
                 raise
             except:
-                print("%r failed func %r with args %r"%(self, func.__name__, args))
+                sys.stderr.write("%r failed func %r with args %r"%(self, func.__name__, args))
                 raise
         if self.results == 0: return []
         if not (isinstance(ret, list) or
                 isinstance(ret, tuple)): ret = [ret]
         if self.results != None:
             if len(ret) != self.results:
-                print("%r failed with args %r, returned %r"%(self, args, ret))
+                sys.stderr.write("%r failed with args %r, returned %r"%(self, args, ret))
                 raise AssertionError("Function didn't return correct number of things")
         return ret
 
@@ -144,7 +144,7 @@ class Node(object):
 
     def add_arg(self, args):
         q = nodes["eval_input"]
-        if settings.WARNINGS: print("Missing arg to %r, evaling input."%self)
+        sys.stderr.write("Missing arg to %r, evaling input."%self)
         try:
             arg = safe_eval.evals[settings.SAFE](input())
             if not hasattr(q, "contents"):
