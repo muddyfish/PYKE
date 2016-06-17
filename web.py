@@ -57,11 +57,14 @@ def submit_code():
             '--safe',
             '--',
             code]
-    if warnings: args.insert(2, "--warnings")
+    stderr = subprocess.PIPE
+    if warnings:
+        args.insert(2, "--warnings")
+        stderr = subprocess.STDOUT
     try:
         process = subprocess.check_output(args,
                                            input=bytearray(inp, 'utf-8'),
-                                           stderr=subprocess.STDOUT,
+                                           stderr=stderr,
                                            timeout = 5)
         response = process.decode()
     except subprocess.CalledProcessError as e:
