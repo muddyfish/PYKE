@@ -6,6 +6,7 @@ class Dict(Node):
     char = "Y"
     args = 1
     results = 1
+    contents = 256
         
     @Node.test_func([[["test", 2], [2,3]]], [{"test":2,2:3}])
     def func(self, a:Node.sequence):
