@@ -45,3 +45,12 @@ followed by two empty strings."""
         else:
             rtn[-1] += inp[i+size:]
         return [rtn]
+    
+    @Node.test_func([[4, 4, 2, 2, 9, 9], [0, -2, 0, 7, 0]], [[[4,4],[2,2],[9,9]]])
+    def split_at(self, inp:Node.sequence, splits:Node.sequence):
+        """Split inp at truthy values in splits"""
+        rtn = [[]]
+        for i, do_split in zip(inp, splits+[0]):
+            rtn[-1].append(i)
+            if do_split: rtn.append([])
+        return [rtn]
