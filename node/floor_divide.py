@@ -51,6 +51,6 @@ followed by two empty strings."""
         """Split inp at truthy values in splits"""
         rtn = [[]]
         for i, do_split in zip(inp, splits+[0]):
-            rtn[-1].append(i)
             if do_split: rtn.append([])
+            rtn[-1].append(i)
         return [rtn]
