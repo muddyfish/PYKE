@@ -17,6 +17,7 @@ class Dictionary(Node):
         return self.words
     
     def compress(inp):
+        words = init_words()
         inp_words = [word.lower()for word in inp.split(" ")]
         rtn = chr(len(inp_words))
         for word in inp_words:
