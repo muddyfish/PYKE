@@ -18,7 +18,6 @@ class AST(object):
                     self.i_node = node.__class__
                 else:
                     self.i_node = node.ast.i_node
-        #print self.nodes
         if code != "" and code[0] != "(":
             code = code[1:]
         return code
@@ -32,7 +31,8 @@ class AST(object):
             if hasattr(self.i_node, "contents"):
                 old_i = self.i_node.contents
             if stack:
-                self.i_node.contents = stack[0]
+                self.i_node.contents = [stack[0]]
+                #print("RUN",stack)
         counter = 0
         while counter != len(self.nodes):
             cur_node = self.nodes[counter]
