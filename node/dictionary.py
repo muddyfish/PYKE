@@ -21,8 +21,10 @@ class Dictionary(Node):
         inp_words = [word.lower()for word in inp.split(" ")]
         rtn = chr(len(inp_words))
         for word in inp_words:
-            assert(word in words)
-            rtn += chr(words.index(word))
+            if word not in words:
+                rtn += "Word %s not in wordlist" % word
+            else:
+                rtn += chr(words.index(word))
         return rtn
     
 def init_words(dict_file = "dictionary.json"):
