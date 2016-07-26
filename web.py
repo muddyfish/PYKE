@@ -41,6 +41,7 @@ def root():
 
 
 @app.route("/code")
+@app.route("/blog")
 def rick():
     return redirect("http://www.youtube.com/watch?v=dQw4w9WgXcQ")
 
