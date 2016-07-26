@@ -270,6 +270,6 @@ def get_nodes():
                   Node.StringLiteral,
                   Node.EvalLiteral,
                   Node.NodeSingle), reverse = True)
-      
+
 for node in get_nodes():
     load_node(node[5:-3], node)

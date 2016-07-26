@@ -88,7 +88,7 @@ class AST(object):
                 accepting.append((node.char, new_code, new_node))
         if accepting == []:
             raise SyntaxError("No nodes will accept code: %r"%(code))
-        return sorted(accepting, key = lambda i:len(i[0]))[0][1:]
+        return sorted(accepting, key = lambda node:-len(node[0]))[0][1:]
 
 class GotoStart(RuntimeError):
     def __init__(self, stack):
