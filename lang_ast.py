@@ -5,6 +5,7 @@ import nodes
 class AST(object):
     END_CHARS = ")("
     MAX_RECURSE = 0
+    
     def setup(self, code, first = False):
         self.first = first
         self.nodes = []

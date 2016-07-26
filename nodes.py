@@ -171,19 +171,7 @@ class Node(object):
                     #print(arg, annotations[arg])
                     const_arg = annotations[arg]
                     node = nodes[const_arg]
-                    accept_args = []
-                    accept_args.append(code)
-                    if const_arg in (Node.StringLiteral,
-                                     Node.Base36Single,
-                                     Node.Base10Single,
-                                     Node.Base96Single,
-                                     Node.IntList,
-                                     Node.EvalLiteral,
-                                     Node.NumericLiteral,
-                                     Node.NodeSingle,
-                                     Node.NodeClass):
-                        accept_args.append(True)
-                    new_code, results = node.accepts(*accept_args)
+                    new_code, results = Node.add_const_arg(code, node, const_arg)
                     if new_code is None:
                         results = cls.default_arg
                     else:
@@ -197,6 +185,23 @@ class Node(object):
             obj.setup_repr(args)
             return code, obj
         return None, None
+
+    @classmethod
+    def add_const_arg(cls, code, node, const_arg):
+        accept_args = []
+        accept_args.append(code)
+        if const_arg in (Node.StringLiteral,
+                         Node.Base36Single,
+                         Node.Base10Single,
+                         Node.Base96Single,
+                         Node.IntList,
+                         Node.EvalLiteral,
+                         Node.NumericLiteral,
+                         Node.NodeSingle,
+                         Node.NodeClass):
+            accept_args.append(True)
+        new_code, results = node.accepts(*accept_args)
+        return new_code, results
 
     @classmethod
     def update_contents(cls, new_var):
