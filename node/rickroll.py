@@ -3,7 +3,7 @@
 from nodes import Node
 
 class RickRoll(Node):
-    char = "never gonna give you up"
+    char = "Never gonna give you up"
     args = 0
     results = 1
     
