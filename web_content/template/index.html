@@ -53,7 +53,7 @@
                     function(data) {
 			$("#loading").hide()
                         $('#output').text(data);
-			if (data == "Never gonna let you down") {
+			if (data.includes("Never gonna let you down")) {
 			    window.location = "http://youtube.com/watch?v=dQw4w9WgXcQ";
 			}
                     }

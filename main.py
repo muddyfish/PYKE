@@ -66,11 +66,7 @@ if args.profile:
     import cProfile
     cProfile.run('stack = run(args.code[0])')
 else:
-    if args.code[0] == "Never gonna give you up":
-        print("Never gonna let you down")
-        sys.exit()
-    else:
-        stack = run(args.code[0])
+    stack = run(args.code[0])
 print("STACK")
 for obj in stack[::-1]:
     print(obj)
