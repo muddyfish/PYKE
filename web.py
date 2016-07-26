@@ -48,6 +48,8 @@ def rick():
 @app.route("/submit", methods = ['POST'])
 def submit_code():
     code = request.form.get("code", "")
+    if code == "Never gonna give you up":
+        return "Never gonna let you down"
     inp = request.form.get("input", "") + "\n"
     warnings = int(request.form.get("warnings", "0"), 10)
     max_recurse = max(1, min(10000, int(request.form.get("max_recurse", "1000"), 10)))
