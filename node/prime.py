@@ -62,25 +62,44 @@ Or print a 1D list with padding equal to the maximum length"""
             return self.print_aligned(seq)
         max_len = 0
         pad = 0
+        has_newline = False
         for j, row in enumerate(seq):
             try:
                 for i in row:
-                    max_len = max(max_len, len(str(i)))
+                    if isinstance(i, str) and "\n" in i:
+                        has_newline = True
+                        max_len = max(max_len, max(map(len, i.split("\n"))))
+                    else:
+                        max_len = max(max_len, len(str(i)))
                     pad |= (not isinstance(i,str)) or len(i)!=1
             except TypeError:
                 seq[j] = [row]
         max_len += pad
         for row in seq:
-            self.print_aligned(row, max_len)
+            self.print_aligned(row, max_len, has_newline)
     
-    def print_aligned(self, seq, max_len = None):
+    def print_aligned(self, seq, max_len = None, has_newline = False):
         if max_len is None:
-            max_len = max(len(str(i))for i in seq)+1
-        first = True
-        for i in seq:
-            print(str(i).rjust(max_len)[first:],end="")
-            first = False
-        print()
+            max_len = 0
+            for i in seq:
+                if isinstance(i, str) and "\n" in i:
+                    max_len = max(max_len, max(map(len, i.split("\n"))))
+                    has_newline = True
+                else:
+                    max_len = max(max_len, len(str(i)))
+            max_len += 1
+        if has_newline:
+            seq = zip(*[str(i).split("\n") for i in seq])
+        else:
+            seq = [seq]
+        for j in seq:
+            first = True
+            for i in j:
+                adjusted = str(i)
+                if not first: adjusted = adjusted.rjust(max_len)
+                print(adjusted,end="")
+                first = False
+            print()
         
     @Node.test_func(["HELLO"], [1])
     @Node.test_func(["World7"], [1])
