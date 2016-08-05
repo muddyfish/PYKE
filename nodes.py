@@ -227,8 +227,8 @@ class Node(object):
                     in_stack = in_stack[::-1]
                     node.prepare(in_stack)
                     in_stack = in_stack[::-1]
-                    assert(code == "")
-                    assert(node is not None)
+                    #assert(code == ""), (func, test, code)
+                    assert(node is not None), node
                     if node.choose_function(in_stack).__func__ is not func:
                         raise AssertionError(cls.__name__+"(%r): %r chose %r instead of %r"%(in_stack, out_stack, node.choose_function(in_stack).__name__, func.__name__))
                     rtn_stack = node(in_stack[::-1])
