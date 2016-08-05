@@ -26,5 +26,7 @@ class StringLiteral(Node):
         if code == "": return None, None
         if code[0] != StringLiteral.char:return None, None
         code = code[1:]
-        string, _, code = code.partition(StringLiteral.char)
+        string, sep, code = code.partition(StringLiteral.char)
+        if sep == "":
+            code = "+"
         return code, cls(string)
