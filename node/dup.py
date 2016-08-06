@@ -15,7 +15,7 @@ class Duplicate(Node):
     @Node.test_func(["test"], ["test", "test"])  
     @Node.test_func([1], [1,1,1], "3")  
     def func(self, a):
-        """Duplicate the top of the stack `amount` times"""
+        """Duplicate the top of the stack `amount` times (default 2)"""
         rtn = []
         for _ in range(self.results):
             rtn.append(copy.deepcopy(a))
