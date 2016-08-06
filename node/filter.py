@@ -44,6 +44,12 @@ class Filter(Node):
         return [rtn, *args]
     
     def filter_values(self, dic:dict, *args):
+        """for value, key in dic:
+    rtn = literal_eval(value, key, args)
+    if rtn:
+        dic[key] = rtn
+    else:
+        del dic[key]"""
         rtn = {}
         for key in dic:
             val = self.ast.run([dic[key], key, *args])
