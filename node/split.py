@@ -60,6 +60,7 @@ class Split(Node):
     
     @Node.test_func([[1,2,2,3,3,3]], [{1:1,2:2,3:3}])
     def count(self, seq:Node.sequence):
+        """Return a dict with values equal to the number of times values appear in a list"""
         rtn = {}
         for i in seq:
             if i in rtn:

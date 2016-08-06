@@ -9,6 +9,7 @@ class Dictionary(Node):
     results = 1
     
     def __init__(self, word_ids:Node.IntList):
+        """Lookup a list of english words in the built in dictionary. Use `/dictionary` for a compressor"""
         if not hasattr(Dictionary, "word_list"):
             Dictionary.word_list = init_words()
         self.words = " ".join(Dictionary.word_list[i] for i in word_ids)

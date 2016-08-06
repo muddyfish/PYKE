@@ -33,6 +33,8 @@ class DeepForApply(Node):
             return rtn
 
     def apply_values(self, dic:dict, *args):
+        """for value, key in dic:
+    dic[key] = eval_literal(value)"""
         rtn = {}
         for key in dic:
             val = self.ast.run([dic[key], key, *args])

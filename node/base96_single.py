@@ -15,6 +15,7 @@ class Base96Single(Node):
     @Node.test_func([], [1], "!")
     @Node.test_func([], [-32], "\x00")
     def func(self):
+        """Return ord(const_arg)-32"""
         return self.value
     
     def __repr__(self):
