@@ -18,6 +18,7 @@ class Index(Node):
     @Node.test_func(["hello", {"hello":"world"}], ["world"])
     @Node.prefer
     def dict_at(self, a, b:dict):
+        """return b[a]"""
         return[b[a]]
     
     @Node.test_func([1, [1,2,3]], [0])

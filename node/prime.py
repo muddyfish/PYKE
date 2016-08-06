@@ -111,6 +111,7 @@ Or print a 1D list with padding equal to the maximum length"""
     
     @Node.test_func([{1:1, "2":2}], [[1, '2']])
     def sort_values(self, dic:dict):
+        """Return the keys of the dictionary in a list sorted by their values"""
         value_sort = Sort.sort_list(dic.values())
         sort = sorted(dic, key = lambda x:value_sort.index(dic[x]))
         return [sort]
