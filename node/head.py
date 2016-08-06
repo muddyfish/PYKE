@@ -9,7 +9,7 @@ class Head(Node):
     results = 1
     
     @Node.test_func([3], [4])
-    def add_one(self, inp: Node.number):
+    def increment(self, inp: Node.number):
         """inp+1"""
         return inp+1
     
