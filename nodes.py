@@ -159,6 +159,7 @@ class Node(object):
 
     @classmethod
     def accepts(cls, code, args = None):
+        if cls.char == "": return None, None
         if code.startswith(cls.char):
             code = code[len(cls.char):]
             func = cls.__init__

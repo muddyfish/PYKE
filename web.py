@@ -148,6 +148,8 @@ def get_docs():
             elif nodes.nodes[node].accepts.__module__ != "nodes":
                 func_doc["fixed_params"] = "custom"
             func_doc["docs"] = func.__doc__
+            if hasattr(nodes.nodes[node], "documentation"):
+                func_doc["docs"] = nodes.nodes[node].documentation
             func_doc["char"] = nodes.nodes[node].char
             func_doc["input"] = ""
             func_doc["output"] = ""
