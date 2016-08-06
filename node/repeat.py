@@ -14,6 +14,8 @@ class Repeat(Node):
     def prepare(self, stack):
         self.args = max(1, len(stack))
 
+    @Node.test_func([2, 3], [256], "X")
+    @Node.test_func([5], [1,1,1,1,1], "1")
     def func(self, *stack):
         """For i in range(repeats):
     stack = eval_literal(stack)
