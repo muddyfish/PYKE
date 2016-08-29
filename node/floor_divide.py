@@ -14,15 +14,6 @@ class FloorDiv(Node):
         """a/b. Rounds down, returns an int."""
         return a//b
     
-    @Node.test_func(["test", "e"], [["t", "e", "st"]])
-    def partition(self, string:str, sep:str):
-        """Split the string at the first occurrence of sep,
-return a 3-list containing the part before the separator,
-the separator itself, and the part after the separator.
-If the separator is not found,
-return a 3-list containing the string itself,
-followed by two empty strings."""
-        return [list(string.partition(sep))]
     
     @Node.test_func(["134", 1], [["134"]])
     @Node.test_func(["1234", 2], [["12", "34"]])
@@ -47,7 +38,7 @@ followed by two empty strings."""
         return [rtn]
     
     @Node.test_func([[4, 4, 2, 2, 9, 9], [0, -2, 0, 7, 0]], [[[4],[4,2],[2,9,9]]])
-    def split_at(self, inp:Node.sequence, splits:Node.sequence):
+    def split_at(self, inp:Node.indexable, splits:Node.indexable):
         """Split inp at truthy values in splits"""
         rtn = [[]]
         for i, do_split in zip(inp, splits+[0]):

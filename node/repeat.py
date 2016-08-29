@@ -22,6 +22,12 @@ class Repeat(Node):
 return stack"""
         stack = copy.deepcopy(list(stack))
         repeats = stack.pop()
+        try:
+            old = repeats
+            repeats = len(repeats)
+        except TypeError: pass
+        else:
+            stack.append(old)
         for i in range(repeats):
             stack = self.ast.run(list(stack))
         self.results = len(stack)
