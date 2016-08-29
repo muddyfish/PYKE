@@ -7,6 +7,7 @@ class Splice(Node):
     char = ":"
     args = 3
     results = 1
+    contents = "+-*/"
     
     @Node.test_func(["test", 1, 3], ["es"])
     @Node.test_func(["test", 0, -2], ["te"])

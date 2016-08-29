@@ -23,6 +23,6 @@ class BitAnd(Node):
         if len(seq)==0: return seq
         rtn = []
         for i in seq[0]:
-            if False not in [i in sub for sub in seq]:
+            if False not in [(i in sub) for sub in seq]:
                 rtn.append(i)
         return [rtn]
