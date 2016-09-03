@@ -5,7 +5,7 @@ import copy
 class DeepApply(Node):
     char = "A"
     args = 1
-    results = 1
+    results = None
     
     def __init__(self, node:Node.NodeSingle):
         self.node = node
@@ -45,6 +45,7 @@ class DeepApply(Node):
             return rtn
     
     @Node.test_func([30], ["30"], '"')
+    @Node.test_func([3,4], [3,3,3,3], 'D')
     @Node.is_func
     def splat_args(self, *args):
         """Splat a node with a static suffix and run it"""

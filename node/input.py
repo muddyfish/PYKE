@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import settings
 from nodes import Node
 
 class Input(Node):
@@ -9,5 +10,6 @@ class Input(Node):
     contents = ""
     def func(self):
         """input() or Input.contents"""
-        print("z: ")
-        return input() or Input.contents
+        msg = "z: "
+        if settings.IS_WEB: msg = ""
+        return input(msg) or Input.contents
