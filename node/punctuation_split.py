@@ -25,3 +25,5 @@ class PuncSplit(Node):
             rtn.append(i)
         return [rtn]
         
+    def digit_sum(self, a:int):
+        return sum(str(a))
