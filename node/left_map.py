@@ -1,5 +1,6 @@
 
 from nodes import Node
+from node.map import Map
 
 class LeftMap(Node):
     char = "L"
@@ -10,6 +11,7 @@ class LeftMap(Node):
     def __init__(self, node:Node.NodeSingle):
         self.node = node
         self.args = node.args
+        self.normal_map = Map(node)
         
     def prepare(self, stack):
         if len(stack) == 0:
@@ -25,7 +27,17 @@ class LeftMap(Node):
             rtn = self.node(list(args[::-1])+[i])
             if len(rtn) == 1: rtn = rtn[0]
             end.append(rtn)
-        return [type(seq)(end)]
+        rtn = [type(seq)(end)]
+        if rtn == self.normal_map.seq_map(seq, *args):
+            end = []
+            for i in seq:
+                stack = [*args, i]
+                self.node.prepare(stack)
+                rtn = self.node(stack)
+                if len(rtn) == 1: rtn = rtn[0]
+                end.append(rtn)
+            return [type(seq)(end)]
+        return rtn
     
     @Node.test_func([5, 2], [[2,3,4,5,6]], "+")
     def int_map(self, num:int, *args):
