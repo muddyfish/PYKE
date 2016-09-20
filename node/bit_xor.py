@@ -37,7 +37,7 @@ class BitXOR(Node):
                     else:
                         rtn.remove(i)
             else:
-                if seq in rtn:
+                if seq not in rtn:
                     rtn.append(seq)
                 else:
                     rtn.remove(seq)
