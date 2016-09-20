@@ -5,6 +5,7 @@ import copy
 class Repeat(Node):
     char = "V"
     args = None
+    contents = "aeiou"
 
     def __init__(self, ast:Node.EvalLiteral):
         self.ast = ast

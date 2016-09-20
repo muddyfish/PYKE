@@ -6,6 +6,7 @@ class Subtract(Node):
     char = "-"
     args = 2
     results = 1
+    contents = "bcdfghjklmnpqrstvwxyz"
     
     
     @Node.test_func([4,5], [-1])
