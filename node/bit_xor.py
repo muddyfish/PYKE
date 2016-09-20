@@ -30,9 +30,15 @@ class BitXOR(Node):
         if len(seqs)==0: return seqs
         rtn = []
         for seq in seqs:
-            for i in seq:
-                if i not in rtn:
-                    rtn.append(i)
+            if isinstance(seq, Node.sequence):
+                for i in seq:
+                    if i not in rtn:
+                        rtn.append(i)
+                    else:
+                        rtn.remove(i)
+            else:
+                if seq in rtn:
+                    rtn.append(seq)
                 else:
-                    rtn.remove(i)
+                    rtn.remove(seq)
         return [rtn]
