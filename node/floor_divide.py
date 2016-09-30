@@ -8,8 +8,8 @@ class FloorDiv(Node):
     args = 2
     results = 1
     
-    @Node.test_func([3,2], [1])
-    @Node.test_func([6,-3], [-2])
+    @Node.test_func([3, 2], [1])
+    @Node.test_func([6, -3], [-2])
     def func(self, a:Node.number,b:Node.number):
         """a/b. Rounds down, returns an int."""
         return a//b

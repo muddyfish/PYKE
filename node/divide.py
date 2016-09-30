@@ -22,4 +22,15 @@ For integer division, see `f`"""
     def count(self, a: Node.indexable, b):
         """a.count(b)"""
         return a.count(b)
-    
+
+    @Node.test_func([[4, 4, 2, 2, 9, 9], [1, 2, 3]], [[[4], [4, 2], [2, 9, 9]]])
+    def split_length(self, inp: Node.sequence, lengths: Node.sequence):
+        """Split inp into sections length lengths"""
+        rtn = [[]]
+        cur_length = 0
+        for i in inp:
+            if cur_length != len(lengths) and len(rtn[-1]) == lengths[cur_length]:
+                cur_length += 1
+                rtn.append([])
+            rtn[-1].append(i)
+        return [rtn]
