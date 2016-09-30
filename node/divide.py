@@ -24,7 +24,7 @@ For integer division, see `f`"""
         return a.count(b)
 
     @Node.test_func([[4, 4, 2, 2, 9, 9], [1, 2, 3]], [[[4], [4, 2], [2, 9, 9]]])
-    def split_length(self, inp: Node.sequence, lengths: Node.sequence):
+    def split_length(self, inp: Node.indexable, lengths: Node.sequence):
         """Split inp into sections length lengths"""
         rtn = [[]]
         cur_length = 0
