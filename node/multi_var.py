@@ -19,7 +19,7 @@ class MultiVar(Node):
     @Node.is_func
     def apply(self, *stack):
         self.node_2.prepare(stack)
-        rtn = self.node_2(stack)
+        rtn = self.node_2(stack[:self.node_2.args])
         self.node_1.prepare(stack)
-        rtn.extend(self.node_1(stack))
+        rtn.extend(self.node_1(stack[:self.node_1.args]))
         return rtn
