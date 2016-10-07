@@ -6,10 +6,12 @@ import lang_ast
 class NoOp(Node):
     char = " "
     contents = " "
+    args = 1
+    results = 1
     
-    def func(self):
+    def func(self, arg):
         """Does nothing"""
-        pass
+        return arg
     
     @classmethod
     def accepts(cls, code):
