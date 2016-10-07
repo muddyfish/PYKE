@@ -35,7 +35,10 @@ Else return sum(stack[:`amount`])"""
             inp = inp[0]
         if str in map(type, inp):
             inp = [str(i)for i in inp]
-        current = inp[0]
+        try:
+            current = inp[0]
+        except TypeError:
+            return sum(inp)
         for val in inp[1:]:
             current += val
         return [current]

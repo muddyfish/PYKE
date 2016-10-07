@@ -11,7 +11,7 @@ class NoOp(Node):
     
     def func(self, arg):
         """Does nothing"""
-        return arg
+        return [arg]
     
     @classmethod
     def accepts(cls, code):
