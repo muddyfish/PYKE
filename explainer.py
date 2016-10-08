@@ -38,6 +38,7 @@ class Explainer(object):
                 else:
                     annotation_class = nodes[annotation_name]
                     new_code, annotation_node = Node.add_const_arg(code, annotation_class, annotations[arg_name])
+                    print(node)
         else:
             self.explain_default(code, node)
     
@@ -62,4 +63,4 @@ class Explainer(object):
 
 if __name__ == '__main__':
     e = Explainer()
-    e.explain("FKo>i<s")
+    e.explain("hZRVoeX*oe+")
