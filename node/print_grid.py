@@ -14,8 +14,8 @@ class PrintGrid(Node):
         """Surround some text with characters:
 0: upper (all),
 1: tl (corners)
-2: lower
-3: left
+2: left
+3: lower
 4: right
 5: tr
 6: br
@@ -31,9 +31,9 @@ class PrintGrid(Node):
             lines[0] = self.surround[1]+lines[0][1:-1]+self.surround[1]
             lines[-1] = self.surround[1]+lines[-1][1:-1]+self.surround[1]
         if len(self.surround) >= 3:
-            lines[-1] = lines[-1][0] + self.surround[2]*max_len + lines[-1][0]
+            lines = [lines[0]]+[self.surround[2]+line[1:]for line in lines[1:-1]]+[lines[-1]]
         if len(self.surround) >= 4:
-            lines = [lines[0]]+[self.surround[3]+line[1:]for line in lines[1:-1]]+[lines[-1]]
+            lines[-1] = lines[-1][0] + self.surround[3]*max_len + lines[-1][0]
         if len(self.surround) >= 5:
             lines = [lines[0]]+[line[:-1]+self.surround[4]for line in lines[1:-1]]+[lines[-1]]
         if len(self.surround) >= 6:
