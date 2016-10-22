@@ -67,12 +67,12 @@ def submit_code():
                                            input=bytearray(inp, 'utf-8'),
                                            stderr=stderr,
                                            timeout = 5)
-        response = process.decode()
+        response = process.decode("cp1252", errors="replace")
     except subprocess.CalledProcessError as e:
-        response = e.output.decode()
+        response = e.output.decode("cp1252", errors="replace")
     except subprocess.TimeoutExpired as e:
         response = "Timeout running code.\n"
-        response += e.output.decode()
+        response += e.output.decode("cp1252", errors="replace")
     return response
 
 @app.route("/dictionary")
