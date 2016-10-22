@@ -27,12 +27,14 @@ class Base(Node):
         """Return a in base `base` as an integer
 Base contents can be changed by changing the contents"""
         num = 0
-        a = a.replace(" ","")
+        if " " not in self.contents:
+            a = a.replace(" ","")
         mult = 0
-        if "." in a:
-            mult = len(a)-a.index(".")-1
-        a = a.replace(".","")
-        for i,char in enumerate(a[::-1]):
+        if "." not in self.contents:
+            if "." in a:
+                mult = len(a)-a.index(".")-1
+            a = a.replace(".","")
+        for i, char in enumerate(a[::-1]):
             num += self.base**(i-mult)*self.contents.index(char)
         return num
     
