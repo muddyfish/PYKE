@@ -4,6 +4,7 @@ import lang_ast, settings, nodes
 import sys
 import argparse
 
+
 def print_nodes():
     import string
     print("\n".join(sorted(nodes.nodes.keys())))
@@ -24,6 +25,7 @@ def print_nodes():
     print(chars[input("Char? ")].__name__)
     sys.exit()
 
+
 def run(code):  
     try:
         print("RUNNING: %r"%code)
@@ -34,18 +36,20 @@ def run(code):
     stack = ast.run()
     return stack
 
-def export(code):
-    print(sys.stdout.encoding)
-    broken = []
-    for i in range(255):
-        try:
-            print(chr(i),end="")
-        except UnicodeEncodeError:
-            broken.append(i)
-    print()
-    print(len(broken))
-    print(broken)
-    
+class Writer(type(sys.stdout)):
+    def __init__(self, *writers):
+        self.writers = writers
+
+    def write(self, text):
+        for w in self.writers:
+            for i in str(text):
+                try:
+                    w.write(i)
+                except UnicodeEncodeError:
+                    w.write("\\x" + hex(ord(i))[2:])
+
+
+sys.stdout = Writer(sys.stdout)
     
 if settings.DEBUG:
     for node in nodes.nodes:
@@ -53,24 +57,21 @@ if settings.DEBUG:
 
 parser = argparse.ArgumentParser(description='PYKE Interpreter')
 parser.add_argument('-w', '--warnings', dest='warnings', action='store_const',
-                   const=True, default=False,
-                   help='Force warnings')
+                    const=True, default=False,
+                    help='Force warnings')
 parser.add_argument('-r', '--max-recurse', dest='recurse',
-                   default="-1",
-                   help='Recursion limit')
+                    default="-1",
+                    help='Recursion limit')
 parser.add_argument('-s', '--safe', dest='safe', action='store_const',
-                   const=True, default=settings.SAFE,
-                   help='Force safe-eval')
-parser.add_argument('-e', '--export', dest='export', action='store_const',
-                   const=True, default=False,
-                   help='Export a .py runnable PYKE script')
+                    const=True, default=settings.SAFE,
+                    help='Force safe-eval')
 parser.add_argument('-P', '--profile', dest='profile', action='store_const',
-                   const=True, default=False,
-                   help='Profile Pyke')
+                    const=True, default=False,
+                    help='Profile Pyke')
 parser.add_argument('--print-nodes', dest='print_nodes', action='store_true',
-                   help='Print out all nodes and debug conflicts')
+                    help='Print out all nodes and debug conflicts')
 parser.add_argument('code', nargs=1,
-                   help='The code to run')
+                    help='The code to run')
 args = parser.parse_args()
 
 if args.print_nodes: print_nodes()
@@ -78,14 +79,12 @@ settings.WARNINGS = args.warnings
 settings.SAFE = args.safe
 lang_ast.AST.MAX_RECURSE = int(args.recurse, 10)
 
-if args.export:
-    export(args.code[0])
-    sys.exit()
-elif args.profile:
+if args.profile:
     import cProfile
     cProfile.run('stack = run(args.code[0])')
 else:
     stack = run(args.code[0])
+
 print("STACK")
 for obj in stack[::-1]:
     print(obj)
