@@ -37,4 +37,6 @@ class Pow(Node):
             prod //= bases[e]
             cur += i*prod
         return cur
-        
+
+    def lpad(self, string: str, amount: int):
+        return string.ljust(amount)

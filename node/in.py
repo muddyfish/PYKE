@@ -9,7 +9,7 @@ class In(Node):
     
     @Node.test_func([6,[6,2,1]], [1])
     @Node.test_func([3,[6,2,1]], [0])
-    def func(self, a,b:Node.indexable):
+    def func(self, a, b:Node.indexable):
         """a in b. returns an int"""
         return (a in b) + 0
     
@@ -23,3 +23,7 @@ class In(Node):
         if a&bit:
             return a^bit
         return a
+
+    @Node.prefer
+    def rpad(self, string: str, amount: int):
+        return string.rjust(amount)
