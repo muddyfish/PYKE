@@ -43,10 +43,13 @@ Else return sum(stack[:`amount`])"""
             current += val
         return [current]
     
-    def digital_root(self, inp:(str, int)):
+    def digital_root(self, inp: int):
         inp = str(inp)
         rtn = 0
         for i in inp:
             rtn += int(i, 36)
         return rtn
-    
+
+    def palendromise(self, inp: str):
+        r_inp = inp[::-1]
+        return inp + r_inp[1:]
