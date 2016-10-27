@@ -28,7 +28,11 @@ class LeftMap(Node):
             if len(rtn) == 1: rtn = rtn[0]
             end.append(rtn)
         rtn = [type(seq)(end)]
-        if rtn == self.normal_map.seq_map(seq, *args):
+        try:
+            reverse_args = rtn == self.normal_map.seq_map(seq, *args)
+        except:
+            reverse_args = True
+        if reverse_args:
             end = []
             for i in seq:
                 stack = [*args, i]
