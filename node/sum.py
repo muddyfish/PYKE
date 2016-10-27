@@ -21,7 +21,7 @@ class Sum(Node):
                 self.args = 1
             else:
                 self.args = len(stack)
-        if self.args == 1 and isinstance(stack[0], (str,int)):
+        if self.args == 1 and isinstance(stack[0], int):
             self.func = self.digital_root
     
     @Node.test_func([1,2], [3])
@@ -45,10 +45,9 @@ Else return sum(stack[:`amount`])"""
     
     def digital_root(self, inp: int):
         inp = str(inp)
-        rtn = 0
-        for i in inp:
-            rtn += int(i, 36)
-        return rtn
+        if len(inp) == 1:
+            return int(inp)
+        return self.digital_root(sum(map(int, inp)))
 
     def palendromise(self, inp: str):
         r_inp = inp[::-1]
