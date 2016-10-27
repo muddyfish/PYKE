@@ -44,7 +44,13 @@ Else return sum(stack[:`amount`])"""
         return [current]
     
     def digital_root(self, inp: int):
-        return inp%9
+        inp = str(inp)
+        rtn = 0
+        for i in inp:
+            rtn += int(i)
+        if rtn == inp:
+            return rtn
+        return self.digital_root(rtn)
 
     def palendromise(self, inp: str):
         r_inp = inp[::-1]
