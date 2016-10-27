@@ -18,6 +18,11 @@ class MultiVar(Node):
 
     @Node.is_func
     def apply(self, *stack):
-        rtn = self.node_2(stack[:self.node_2.args])
-        rtn.extend(self.node_1(stack[:self.node_1.args]))
-        return rtn
+        try:
+            rtn = self.node_2(stack[:self.node_2.args])
+            rtn.extend(self.node_1(stack[:self.node_1.args]))
+            return rtn
+        except Exception:
+            rtn = self.node_2(stack[:self.node_2.args][::-1])
+            rtn.extend(self.node_1(stack[:self.node_1.args][::-1]))
+            return rtn

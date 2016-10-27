@@ -68,5 +68,8 @@ class Split(Node):
             else:
                 rtn[i]=1
         return rtn
-        
-    
+
+    @Node.test_func([3, "I"], [" I "])
+    @Node.test_func([5, "It"], ["  It "])
+    def centre(self, length: int, string: str):
+        return string.center(length)
