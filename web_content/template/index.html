@@ -8,9 +8,9 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='static/content.css') }}">
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">	    
         <link rel="stylesheet" href="{{ url_for('static', filename='static/awesome-bootstrap-checkbox.css') }}">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	{% include 'analytics.html' %}
     </head>
     <body>
@@ -42,67 +42,66 @@
 	    </div>
         </div>
         <script>
-	    function submit_code() {
-		$("#loading").show();
-		ga('send', 'event', 'button', 'submit');
-                $.post('/submit', {
+			function submit_code() {
+				$("#loading").show();
+				ga('send', 'event', 'button', 'submit');
+				$.post('/submit', {
                     code: $('#code').val(),
-                    input: $('#input').val(),
-                    warnings: document.getElementById("checkbox-warn").checked? 1 : 0,
-                    },
-                    function(data) {
-			$("#loading").hide()
+					input: $('#input').val(),
+					warnings: document.getElementById("checkbox-warn").checked? 1 : 0,
+					}, function(data) {
+					    $("#loading").hide();
                         $('#output').text(data);
-			if (data.includes("Never gonna let you down")) {
-			    window.location = "http://youtube.com/watch?v=dQw4w9WgXcQ";
-			}
-                    }
+                        if (data.includes("Never gonna let you down")) {
+                            window.location = "http://youtube.com/watch?v=dQw4w9WgXcQ";
+                        }
+					}
                 );
-	    }
-	    
+			}
+
             function create_permalink() {
                 params={code: $('#code').val()};
-		if ($('#input').val()) params.input=$('#input').val();
-		if (!document.getElementById("checkbox-warn").checked) params.warnings=0;
+                if ($('#input').val()) params.input=$('#input').val();
+                if (!document.getElementById("checkbox-warn").checked) params.warnings=0;
                 history.pushState(null, null, "?" + $.param(params).replace(/[!'()*]/g, function(c) {return '%' + c.charCodeAt(0).toString(16)}))
             }
-	    
-	    dialog = $( "#dialog-message" ).dialog({
-		autoOpen: false,
-		height: 360,
-		width: 480,
-		modal: true
-	    });
-	    
-	    function copy_code() {
-		var length = $('#code').val().length;
-		var header = "##Pyke, "+(length.toString())+" bytes\n";
-		var code = ("\n"+$('#code').val()).replace("\n", "\n    ")+"\n";
-		create_permalink();
-		var link = window.location.href;
-		var try_it = "[Try it here!]("+link+")\n";
-		$("#answer").text(header+code+try_it);
-		dialog.dialog("open");
+
+			dialog = $("#dialog-message").dialog({
+                autoOpen: false,
+                height: 360,
+                width: 480,
+                modal: true
+			});
+
+			function copy_code() {
+                var length = $('#code').val().length;
+                var header = "##Pyke, "+(length.toString())+" bytes\n";
+                var code = ("\n"+$('#code').val()).replace("\n", "\n    ")+"\n";
+                create_permalink();
+                var link = window.location.href;
+                var try_it = "[Try it here!]("+link+")\n";
+                $("#answer").text(header+code+try_it);
+                dialog.dialog("open");
             }
-	    
+
             $(function() {
-		$("#loading").hide();
-		$('#button-run').click(submit_code);
-		$('#button-permalink').click(create_permalink);
-		$('#button-copy').click(copy_code);
+                $("#loading").hide();
+                $('#button-run').click(submit_code);
+                $('#button-permalink').click(create_permalink);
+                $('#button-copy').click(copy_code);
             });
-	    
-	    
-	    function onresize() {
-		//Centre on resize (64 padding on top)
-		$('#table-container').css('height', window.innerHeight - 128);
-	    }
-	    window.addEventListener('resize', onresize);
-	    onresize();
-	    
-	    $('#code').keyup(function(c) {
-		$('#length').text(c.target.value.length);
-	    }).keyup();
+
+
+			function onresize() {
+                //Centre on resize (64 padding on top)
+                $('#table-container').css('height', window.innerHeight - 128);
+			}
+			window.addEventListener('resize', onresize);
+			onresize();
+
+			$('#code').keyup(function(c) {
+			    $('#length').text(c.target.value.length);
+			}).keyup();
         </script>
     </body>
 </html>
