@@ -2,6 +2,7 @@
 
 from nodes import Node
 
+
 class Sum(Node):
     char = "s"
     args = 0
@@ -42,7 +43,7 @@ Else return sum(stack[:`amount`])"""
         for val in inp[1:]:
             current += val
         return [current]
-    
+
     def digital_root(self, inp: int):
         inp = str(inp)
         if len(inp) == 1:
