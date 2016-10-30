@@ -21,9 +21,7 @@ class Head(Node):
     
     @Node.test_func([Node.clock.default_time], [Node.clock.default_time])
     def time(self, time:Node.clock):
-        time.hour = 0
-        time.min = 0
-        time.sec = 0
+        time.defined_values[3:] = [False]*3
         return time
     
     @Node.test_func([{1:1, "2":2}], [[1,"2"]])

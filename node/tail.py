@@ -21,9 +21,7 @@ class Tail(Node):
     
     @Node.test_func([Node.clock.default_time], [Node.clock.default_time])
     def time(self, time:Node.clock):
-        time.year = 1990
-        time.month = 1
-        time.day = 1
+        time.defined_values[:3] = [False]*3
         return time
     
     @Node.test_func([{1:1, "2":2}], [[[1, 1], ['2', 2]]])
