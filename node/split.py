@@ -64,9 +64,9 @@ class Split(Node):
         rtn = {}
         for i in seq:
             if i in rtn:
-                rtn[i]+=1
+                rtn[i] += 1
             else:
-                rtn[i]=1
+                rtn[i] = 1
         return rtn
 
     @Node.test_func([3, "I"], [" I "])
