@@ -3,6 +3,8 @@
 from nodes import Node
 import datetime
 import time
+from type.type_time import TypeTime
+
 
 class Time(Node):
     char = "C"
@@ -43,7 +45,7 @@ class Time(Node):
     
     def __init__(self, methods: Node.NumericLiteral):
         if methods == -1:
-            self.func = lambda: time.time()
+            self.func = self.get_time
             self.results = 1
         else:
             self.methods = [int(i)for i in str(methods)]
@@ -82,6 +84,9 @@ Default contents: days of the week"""
             if not added:
                 rtn.append(self.months)
         return rtn
+
+    def get_time(self):
+        return [TypeTime(time.gmtime())]
     
     @classmethod
     def reset_tests(cls):

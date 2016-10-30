@@ -45,3 +45,12 @@ class FloorDiv(Node):
             if do_split: rtn.append([])
             rtn[-1].append(i)
         return [rtn]
+
+    def time_int_div(self, a: Node.clock, b: Node.number):
+        return a.floordiv_int(b)
+
+    def time_int_div_2(self, a: Node.number, b: Node.clock):
+        return b.floordiv_int(a)
+
+    def time_div(self, a: Node.clock, b: Node.clock):
+        return b.floordiv_time(a)

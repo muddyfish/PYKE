@@ -72,14 +72,14 @@ class Node(object):
             except lang_ast.GotoStart:
                 raise
             except:
-                sys.stderr.write("%r failed func %r with args %r"%(self, func.__name__, args))
+                sys.stderr.write("%r failed func %r with args %r\n"%(self, func.__name__, args))
                 raise
         if self.results == 0: return []
         if not (isinstance(ret, list) or
                 isinstance(ret, tuple)): ret = [ret]
         if self.results != None:
             if len(ret) != self.results:
-                sys.stderr.write("%r failed with args %r, returned %r"%(self, args, ret))
+                sys.stderr.write("%r failed with args %r, returned %r\n"%(self, args, ret))
                 raise AssertionError("Function didn't return correct number of things")
         return ret
 
@@ -144,7 +144,7 @@ class Node(object):
 
     def add_arg(self, args):
         q = nodes["eval_input"]
-        sys.stderr.write("Missing arg to %r, evaling input."%self)
+        sys.stderr.write("Missing arg to %r, evaling input.\n"%self)
         try:
             arg = safe_eval.evals[settings.SAFE](input())
             if not hasattr(q, "contents"):

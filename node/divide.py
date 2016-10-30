@@ -34,3 +34,12 @@ For integer division, see `f`"""
                 rtn.append([])
             rtn[-1].append(i)
         return [rtn]
+
+    def time_int_div(self, a: Node.clock, b: Node.number):
+        return a.divide_int(b)
+
+    def time_int_div_2(self, a: Node.number, b: Node.clock):
+        return b.divide_int(a)
+
+    def time_div(self, a: Node.clock, b: Node.clock):
+        return b.divide_time(a)
