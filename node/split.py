@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from nodes import Node
-from node.string_literal import StringLiteral 
+import time
 
 class Split(Node):
     char = "c"
@@ -71,5 +71,9 @@ class Split(Node):
 
     @Node.test_func([3, "I"], [" I "])
     @Node.test_func([5, "It"], ["  It "])
-    def centre(self, length: int, string: str):
+    def center(self, length: int, string: str):
+        """Center a `string` to `length`"""
         return string.center(length)
+
+    def format_time(self, time_obj: Node.clock, string: str):
+        return time.strftime(string, time_obj.time_obj)
