@@ -36,12 +36,14 @@ def run(code):
     stack = ast.run()
     return stack
 
+
 def run_file(filename):
     with open(filename, "rb") as f_obj:
         string = ""
         for char in f_obj.read():
             string += chr(char)
         return run(string)
+
 
 class Writer(type(sys.stdout)):
     def __init__(self, *writers):
