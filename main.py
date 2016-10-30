@@ -36,6 +36,13 @@ def run(code):
     stack = ast.run()
     return stack
 
+def run_file(filename):
+    with open(filename, "rb") as f_obj:
+        string = ""
+        for char in f_obj.read():
+            string += chr(char)
+        return run(string)
+
 class Writer(type(sys.stdout)):
     def __init__(self, *writers):
         self.writers = writers
@@ -70,7 +77,9 @@ parser.add_argument('-P', '--profile', dest='profile', action='store_const',
                     help='Profile Pyke')
 parser.add_argument('--print-nodes', dest='print_nodes', action='store_true',
                     help='Print out all nodes and debug conflicts')
-parser.add_argument('code', nargs=1,
+parser.add_argument('-f', '--file', dest="file", nargs=1,
+                    help='The file to look in')
+parser.add_argument('code', nargs="*",
                     help='The code to run')
 args = parser.parse_args()
 
@@ -79,12 +88,17 @@ settings.WARNINGS = args.warnings
 settings.SAFE = args.safe
 lang_ast.AST.MAX_RECURSE = int(args.recurse, 10)
 
-if args.profile:
-    import cProfile
-    cProfile.run('stack = run(args.code[0])')
-else:
-    stack = run(args.code[0])
-
-print("STACK")
-for obj in stack[::-1]:
-    print(obj)
+if __name__ == "__main__":
+    if args.file:
+        f_name = args.file[0]
+        run_string = 'stack = run_file(f_name)'
+    else:
+        run_string = 'stack = run(args.code[0])'
+    run_func = exec
+    if args.profile:
+        import cProfile
+        run_func = cProfile.run()
+    run_func(run_string)
+    print("STACK")
+    for obj in stack[::-1]:
+        print(obj)

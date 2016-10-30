@@ -22,10 +22,10 @@ class Base96Single(Node):
         return "%s: %d"%(self.__class__.__name__, self.func())
         
     @classmethod
-    def accepts(cls, code, accept = False):
-        if accept: code = "w"+code
-        if code == "" or\
-           (code[0] != cls.char): return None, None
+    def accepts(cls, code, accept=False):
+        if accept:
+            code = "w"+code
+        if code == "" or (code[0] != cls.char):
+            return None, None
         value = ord(code[1])-32
         return code[2:], cls(value)
-    
