@@ -144,7 +144,7 @@ class TypeTime(object):
             new.defined_values = TypeTime.get_defined(formats)
             return new
         except:
-            raise
+            return None
             
     @staticmethod
     def parse_struct_time(lst):
