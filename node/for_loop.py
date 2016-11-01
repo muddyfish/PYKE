@@ -26,15 +26,15 @@ Returns a list of lists to the stack"""
         args = copy.deepcopy(args)
         is_int = isinstance(args[0], int)
         if is_int:
-            args[0] = list(range(args[0]))
+            args[0] = range(args[0])
         max_len = len(args[0])
-        for i, arg in enumerate(args):
-            if i == 0: continue
-            args[i] = [arg]*max_len
+        for i, arg in enumerate(args[1:]):
+            args[i+1] = [arg]*max_len
         results = []
         for i in zip(*args):
             rtn = self.ast.run(list(i))
-            if len(rtn) == 1: rtn = rtn[0]
+            if len(rtn) == 1:
+                rtn = rtn[0]
             results.append(rtn)
         if isinstance(args[0], str) and all(isinstance(i, str) for i in results):
             return "".join(results)

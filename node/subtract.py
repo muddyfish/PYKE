@@ -21,5 +21,17 @@ class Subtract(Node):
         """Remove all characters in b from a."""
         out = a[:]
         for i in b:
-            out = out.replace(i,"")
+            out = out.replace(i, "")
         return out
+
+    def sub_list(self, seq: Node.sequence, remove):
+        while b in a:
+            a.remove(b)
+        return [a]
+
+
+    def sub_list_single(self, seq: Node.sequence, remove: (list, set)):
+        for i in remove:
+            if i in seq:
+                seq.remove(i)
+        return [seq]
