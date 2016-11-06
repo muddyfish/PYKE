@@ -7,7 +7,7 @@
 
 Copyright (c) 2016 muddyfish
 
-Pyke is a golfing language designed to be as consise as possible.
+Pyke is a golfing language designed to be as concise as possible.
 
 Pyke uses a stack based system to achieve this. The Pyke stack is first-in last-out.
 
