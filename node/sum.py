@@ -24,6 +24,8 @@ class Sum(Node):
                 self.args = len(stack)
         if self.args == 1 and isinstance(stack[0], int):
             self.func = self.digital_root
+        elif self.args == 1 and isinstance(stack[0], str):
+            self.func = self.palendromise
     
     @Node.test_func([1,2], [3])
     @Node.test_func([[3,4]], [7])
