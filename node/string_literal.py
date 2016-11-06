@@ -34,9 +34,11 @@ class StringLiteral(Node):
             rtn += code[0]
             code = code[1:]
             if rtn.endswith('"'):
-                if rtn.endswith(r'\"'):
+                if rtn.endswith(r'\"') and not rtn.endswith(r'\\"'):
                     continue
                 end = True
+                if rtn.endswith(r'\\"'):
+                    rtn = rtn[:-1]
                 rtn = rtn[:-1]
         if rtn.endswith('"') and not rtn.endswith(r'\"'):
             rtn = rtn[:-1]
