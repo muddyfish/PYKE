@@ -23,10 +23,22 @@ class StringLiteral(Node):
     @classmethod
     def accepts(cls, code, accept = False):
         if accept: code = '"'+code
-        if code == "": return None, None
-        if code[0] != StringLiteral.char:return None, None
+        if code == "":
+            return None, None
+        if code[0] != StringLiteral.char:
+            return None, None
         code = code[1:]
-        string, sep, code = code.partition(StringLiteral.char)
-        #if sep == "":
-        #    code = "+"
-        return code, cls(string)
+        rtn = ""
+        end = False
+        while code and not end:
+            rtn += code[0]
+            code = code[1:]
+            if rtn.endswith('"'):
+                if rtn.endswith(r'\"'):
+                    continue
+                end = True
+                code = code[:-1]
+        if rtn.endswith('"') and not rtn.endswith(r'\"'):
+            rtn = rtn[:-1]
+        rtn = rtn.replace(r'\"', '"')
+        return code, cls(rtn)
