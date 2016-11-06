@@ -26,7 +26,16 @@ if arg1: stack = eval_literal(stack[:-1]) (extend mode)
 else: stack = stack[:-1]"""
         args = list(args)
         if args[-1]:
+            if self.uses_i:
+                if hasattr(self.ast.i_node, "contents"):
+                    old_i = self.ast.i_node.contents
+                if args:
+                    self.ast.i_node.contents = [args[-1]]
             args = args[:-1]
             stack = self.ast.run(args)
+            try:
+                self.ast.i_node.contents = old_i
+            except (NameError, UnboundLocalError):
+                pass
             return stack
         return args[:-1]
