@@ -37,7 +37,7 @@ class StringLiteral(Node):
                 if rtn.endswith(r'\"'):
                     continue
                 end = True
-                code = code[:-1]
+                rtn = rtn[:-1]
         if rtn.endswith('"') and not rtn.endswith(r'\"'):
             rtn = rtn[:-1]
         rtn = rtn.replace(r'\"', '"')

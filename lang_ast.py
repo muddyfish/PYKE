@@ -98,4 +98,4 @@ def test_code(code, out_stack):
     ast = AST()
     ast.setup(code, first = True)
     rtn_stack = ast.run()
-    assert(rtn_stack == out_stack)
+    assert rtn_stack == out_stack, "rtn: %s, wanted: %s (code: %s)" % (rtn_stack, out_stack, code)
