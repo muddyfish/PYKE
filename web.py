@@ -4,10 +4,11 @@ from flask import Flask, request, redirect, render_template, send_from_directory
 from flask.ext.cache import Cache
 
 from collections import OrderedDict
-import time
 import subprocess
 
-import nodes, lang_ast, settings
+import nodes
+import lang_ast
+import settings
 import literal_gen
 
 for node in nodes.nodes:
@@ -23,9 +24,10 @@ modified_process = subprocess.Popen(["git",
                                      "-1",
                                      "--format=%cd",
                                      "--date=local"],
-    stdout=subprocess.PIPE)
+                                    stdout=subprocess.PIPE)
 output, errors = modified_process.communicate()
 updated_time = output.decode()[:-1]
+
 
 @app.route("/")
 def root():
@@ -33,17 +35,18 @@ def root():
     inp = request.args.get("input", "")
     warnings = int(request.args.get("warnings", "1"))
     return render_template("index.html",
-                           last_updated = updated_time,
-                           docs = docs(),
-                           code = code,
-                           input = inp,
-                           warnings = warnings)
+                           last_updated=updated_time,
+                           docs=docs(),
+                           code=code,
+                           input=inp,
+                           warnings=warnings)
 
 
 @app.route("/code")
 @app.route("/blog")
 def rick():
     return redirect("http://www.youtube.com/watch?v=dQw4w9WgXcQ")
+
 
 @app.route("/submit", methods = ['POST'])
 def submit_code():
@@ -64,9 +67,9 @@ def submit_code():
         stderr = subprocess.STDOUT
     try:
         process = subprocess.check_output(args,
-                                           input=bytearray(inp, 'utf-8'),
-                                           stderr=stderr,
-                                           timeout = 5)
+                                          input=bytearray(inp, 'utf-8'),
+                                          stderr=stderr,
+                                          timeout=5)
         response = process.decode("cp1252", errors="replace")
     except subprocess.CalledProcessError as e:
         response = e.output.decode("cp1252", errors="replace")
@@ -75,14 +78,17 @@ def submit_code():
         response += e.output.decode("cp1252", errors="replace")
     return response
 
+
 @app.route("/dictionary")
 def dictionary():
     return render_template("dictionary.html")
+
 
 @app.route("/dict_compress", methods = ['POST'])
 def dict_compress():
     inp = request.form.get("compress")
     return nodes.nodes["dictionary"].compress(inp)
+
 
 @app.route("/docs")
 @cache.cached(timeout=3600)
@@ -107,6 +113,7 @@ def docs():
     rtn = render_template("docs_table.html", keys = keys, funcs = table)
     app.jinja_env.autoescape = True
     return rtn
+
 
 def get_docs():
     docs = []
@@ -174,6 +181,7 @@ def get_docs():
             docs.append(func_doc)
     return docs
 
+
 def print_ordered_dict(ordered):
     rtn = ""
     for key, value in ordered.items():
@@ -185,7 +193,8 @@ def print_ordered_dict(ordered):
 def send_js(path):
     return send_from_directory('web_content/static', path)
 
-def main(debug = settings.DEBUG, url = "127.0.0.1"):
+
+def main(debug = settings.DEBUG, url="127.0.0.1"):
     app.debug = debug
     app.run(url)
 
