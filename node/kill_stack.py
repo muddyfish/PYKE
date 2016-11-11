@@ -2,6 +2,9 @@
 
 from nodes import Node
 
+import sys
+
+
 class KillStack(Node):
     char = ";"
     args = 0
@@ -12,7 +15,11 @@ class KillStack(Node):
         self.args = amount
         
     def prepare(self, stack):
-        if self.args == 0:
+        if len(stack) == 0:
+            self.func = self.set_auto_newline
+            self.newline_length = self.args
+            self.args = 0
+        elif self.args == 0:
             self.args = len(stack)
           
     @Node.test_func([4,2,4,5,1], [])  
@@ -20,4 +27,6 @@ class KillStack(Node):
     def func(self, *args):
         """Remove the first `amount` items from the stack"""
         return []
-    
+
+    def set_auto_newline(self):
+        sys.stdout.set_auto_newline(self.newline_length)

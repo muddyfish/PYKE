@@ -18,7 +18,8 @@ def print_nodes():
     chars = {}
     for node in nodes.nodes.values():
         if node.char in chars:
-            if node.char == "": continue
+            if node.char == "":
+                continue
             print("DUPLICATE CHARS: %r and %r"%(chars[node.char], node))
         else:
             chars[node.char] = node
@@ -30,9 +31,9 @@ def run(code):
     try:
         print("RUNNING: %r"%code)
     except UnicodeEncodeError:
-        print("RUNNING BADUNICODE")
+        print("RUNNING BAD UNICODE")
     ast = lang_ast.AST()
-    ast.setup(code, first = True)
+    ast.setup(code, first=True)
     stack = ast.run()
     return stack
 
@@ -46,8 +47,15 @@ def run_file(filename):
 
 
 class Writer(type(sys.stdout)):
+    auto_newline = False
+
     def __init__(self, *writers):
         self.writers = writers
+        self.line_length = 0
+
+    def set_auto_newline(self, length):
+        self.line_length = 0
+        self.auto_newline = length
 
     def write(self, text):
         for w in self.writers:
@@ -56,6 +64,10 @@ class Writer(type(sys.stdout)):
                     w.write(i)
                 except UnicodeEncodeError:
                     w.write("\\x" + hex(ord(i))[2:])
+                self.line_length += 1
+                if self.line_length == self.auto_newline or i == "\n":
+                    self.line_length = 0
+                    w.write("\n")
 
 
 sys.stdout = Writer(sys.stdout)
@@ -85,7 +97,8 @@ parser.add_argument('code', nargs="*",
                     help='The code to run')
 args = parser.parse_args()
 
-if args.print_nodes: print_nodes()
+if args.print_nodes:
+    print_nodes()
 settings.WARNINGS = args.warnings
 settings.SAFE = args.safe
 lang_ast.AST.MAX_RECURSE = int(args.recurse, 10)
@@ -101,6 +114,7 @@ if __name__ == "__main__":
         import cProfile
         run_func = cProfile.run()
     run_func(run_string)
-    print("STACK")
+    if settings.WARNINGS:
+        print("STACK")
     for obj in stack[::-1]:
         print(obj)
