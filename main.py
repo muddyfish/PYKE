@@ -65,9 +65,12 @@ class Writer(type(sys.stdout)):
                 except UnicodeEncodeError:
                     w.write("\\x" + hex(ord(i))[2:])
                 self.line_length += 1
-                if self.line_length == self.auto_newline or i == "\n":
+                if self.line_length == self.auto_newline:
                     self.line_length = 0
                     w.write("\n")
+                elif i == "\n":
+                    self.line_length = 0
+
 
 
 sys.stdout = Writer(sys.stdout)
