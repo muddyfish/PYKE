@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import glob
-import imp
 import sys
 import types
 
@@ -11,6 +10,7 @@ import settings
 from type.type_time import TypeTime
 
 nodes = {}
+
 
 class Node(object):
     char = ""
@@ -122,7 +122,6 @@ class Node(object):
         items = list(cls.__dict__.items())
         base = cls.__bases__[0]
         if base is not Node:
-            #print(cls, base)
             items.extend(base.__dict__.items())
         if ins is not None:
             cls = ins
@@ -167,10 +166,9 @@ class Node(object):
             annotations = func.__annotations__
             arg_names = func.__code__.co_varnames[1:func.__code__.co_argcount]
             overwrote_default = False
-            if args == None: args = []
+            if args is None: args = []
             for arg in arg_names:
                 if arg in annotations:
-                    #print(arg, annotations[arg])
                     const_arg = annotations[arg]
                     node = nodes[const_arg]
                     new_code, results = Node.add_const_arg(code, node, const_arg)
@@ -181,7 +179,6 @@ class Node(object):
                         code = new_code
                         results = results([])[0]
                     args.append(results)
-                #print(code, cls, args)
             obj = cls(*args)
             obj.overwrote_default = overwrote_default
             obj.setup_repr(args)
@@ -190,8 +187,7 @@ class Node(object):
 
     @classmethod
     def add_const_arg(cls, code, node, const_arg):
-        accept_args = []
-        accept_args.append(code)
+        accept_args = [code]
         if const_arg in (Node.StringLiteral,
                          Node.Base36Single,
                          Node.Base10Single,
@@ -229,7 +225,6 @@ class Node(object):
                     in_stack = in_stack[::-1]
                     node.prepare(in_stack)
                     in_stack = in_stack[::-1]
-                    #assert(code == ""), (func, test, code)
                     assert(node is not None), node
                     if node.choose_function(in_stack).__func__ is not func:
                         raise AssertionError(cls.__name__+"(%r): %r chose %r instead of %r"%(in_stack, out_stack, node.choose_function(in_stack).__name__, func.__name__))
