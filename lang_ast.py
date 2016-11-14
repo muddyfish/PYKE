@@ -6,7 +6,7 @@ class AST(object):
     END_CHARS = ")("
     MAX_RECURSE = 0
     
-    def setup(self, code, first = False):
+    def setup(self, code, first=False):
         self.first = first
         self.nodes = []
         self.restore_point = None
@@ -21,10 +21,13 @@ class AST(object):
                     self.i_node = node.ast.i_node
         if code != "" and code[0] != "(":
             code = code[1:]
+        if len(self.nodes) > 1:
+            if isinstance(self.nodes[-1], nodes.nodes[nodes.Node.StringLiteral]):
+                self.nodes[-2], self.nodes[-1] = self.nodes[-1], self.nodes[-2]
         return code
     
-    def run(self, stack = None):
-        if stack == None:
+    def run(self, stack=None):
+        if stack is None:
             stack = []
         if self.first:
             retries = 0
@@ -33,20 +36,18 @@ class AST(object):
                 old_i = self.i_node.contents
             if stack:
                 self.i_node.contents = [stack[0]]
-                #print("RUN",stack)
         counter = 0
         while counter != len(self.nodes):
             cur_node = self.nodes[counter]
             counter += 1
-            #print(cur_node)
-            #print(stack)
             try:
                 cur_node.prepare(stack)
                 no_args = cur_node.args
                 stack, args = stack[no_args:], stack[:no_args]
                 stack = cur_node(args) + stack
             except GotoStart as goto:
-                if not self.first: raise
+                if not self.first:
+                    raise
                 stack = goto.stack
                 self.restore_point = [stack, counter]
                 counter = 0
@@ -90,9 +91,11 @@ class AST(object):
             raise SyntaxError("No nodes will accept code: %r"%(code))
         return sorted(accepting, key = lambda node:-len(node[0]))[0][1:]
 
+
 class GotoStart(RuntimeError):
     def __init__(self, stack):
         self.stack = stack
+
 
 def test_code(code, out_stack):
     ast = AST()
