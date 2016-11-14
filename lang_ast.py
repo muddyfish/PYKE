@@ -87,7 +87,7 @@ class AST(object):
             if new_code is not None:
                 assert(new_node is not None)
                 accepting.append((node.char, new_code, new_node))
-        if accepting == []:
+        if not accepting:
             raise SyntaxError("No nodes will accept code: %r"%(code))
         return sorted(accepting, key = lambda node:-len(node[0]))[0][1:]
 
