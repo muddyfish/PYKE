@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 
-import glob, os, imp, sys
-import node as _
+import glob
+import imp
+import sys
+import types
+
 import eval as safe_eval
-from type.type_time import TypeTime
 import lang_ast
 import settings
-import collections
-import types
+from type.type_time import TypeTime
 
 nodes = {}
 
@@ -77,7 +78,7 @@ class Node(object):
         if self.results == 0: return []
         if not (isinstance(ret, list) or
                 isinstance(ret, tuple)): ret = [ret]
-        if self.results != None:
+        if self.results is not None:
             if len(ret) != self.results:
                 sys.stderr.write("%r failed with args %r, returned %r\n"%(self, args, ret))
                 raise AssertionError("Function didn't return correct number of things")
