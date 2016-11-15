@@ -23,15 +23,28 @@ Takes a list or tuple with a varying depth.
 Returns a list with the same depth all round with the function applied."""
         seq, *args = copy.deepcopy(args)
         assert(isinstance(seq,Node.sequence))
-        return [self.recurse(seq, args)]
+        self.type = None
+        self.shared_type = False
+        rtn = self.recurse(seq, args)
+        if self.type is None or self.shared_type:
+            return [rtn]
+        return [self.recurse(seq, args, run_func=self.cleanup)]
 
-    def recurse(self, seq, args):
+    def recurse(self, seq, args, run_func=None):
+        not_overwritten = run_func is None
+        if not_overwritten:
+            run_func = self.run
         rtn = []
         for i in seq:
             if isinstance(i, Node.sequence):
-                rtn.append(self.recurse(i, args))
+                if not_overwritten:
+                    rtn.append(self.recurse(i, args))
+                else:
+                    rtn.append(self.recurse(i, args, run_func))
             else:
-                rtn.append(self.run(i, args))
+                rtn.append(run_func(i, args))
+                if not_overwritten:
+                    self.get_type(rtn[-1])
         return rtn
     
     def run(self, obj, args):
@@ -39,3 +52,25 @@ Returns a list with the same depth all round with the function applied."""
         if len(rtn) == 1: rtn = rtn[0]
         return rtn
     
+    def cleanup(self, obj, args):
+        obj = self.run(obj, args)
+        if obj:
+            return obj
+        else:
+            return self.type
+
+    def get_type(self, obj):
+        if obj:
+            rtn_type = {str: "",
+			int: 0,
+			list: [],
+			dict: {},
+			tuple: (),
+			set: set(),
+			bool: False}.get(type(obj), None)
+            if self.type is None:
+                self.type = rtn_type
+            elif self.type == rtn_type: pass
+            else:
+                self.shared_type = True
+        return obj
