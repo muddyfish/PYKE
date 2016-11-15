@@ -71,6 +71,8 @@ Or print a 1D list with padding equal to the maximum length"""
                         max_len = max(max_len, max(map(len, i.split("\n"))))
                     else:
                         max_len = max(max_len, len(str(i)))
+                    if i == "":
+                        i = " "
                     pad |= (not isinstance(i,str)) or len(i)!=1
             except TypeError:
                 seq[j] = [row]
