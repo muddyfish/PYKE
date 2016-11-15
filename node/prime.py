@@ -61,7 +61,8 @@ Or print a 1D list with padding equal to the maximum length"""
             print()
             return
         if not isinstance(seq[0], Node.sequence):
-            return self.print_aligned(seq)
+            self.print_aligned(seq)
+            return
         max_len = 0
         pad = 0
         has_newline = False
