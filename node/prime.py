@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 
-from nodes import Node
-from node.sort import Sort
 import math
+
+from node.sort import Sort
+from nodes import Node
+
 
 class Prime(Node):
     char = "P"
@@ -22,15 +24,15 @@ class Prime(Node):
         """If is_neg(a): return is_prime(a)
 Else: return prime_factors(a)"""
         a = int(a)
-        if a<0:
+        if a < 0:
             return self.is_prime(-a)
         return self.prime_factors(a)
-    
+
     def is_prime(self, a):
         if a in Prime.checked:
             return Prime.checked[a]
         for i in range(2, int(a**.5)+1):
-            if a%i==0:
+            if a % i == 0:
                 Prime.checked[a] = 0
                 return 0
         Prime.checked[a] = 1
@@ -44,7 +46,7 @@ Else: return prime_factors(a)"""
             return [[a]]
         factors = []
         for i in range(2, int(a**.5)+1):
-            if a%i==0:
+            if a % i == 0:
                 factors.append(i)
                 factors.extend(self.prime_factors(a//i)[0])
                 break
@@ -73,7 +75,7 @@ Or print a 1D list with padding equal to the maximum length"""
                         max_len = max(max_len, len(str(i)))
                     if i == "":
                         i = " "
-                    pad |= (not isinstance(i,str)) or len(i)!=1
+                    pad |= (not isinstance(i, str)) or len(i) != 1
             except TypeError:
                 seq[j] = [row]
         max_len += pad
@@ -98,8 +100,9 @@ Or print a 1D list with padding equal to the maximum length"""
             first = True
             for i in j:
                 adjusted = str(i)
-                if not first: adjusted = adjusted.rjust(max_len)
-                print(adjusted,end="")
+                if not first:
+                    adjusted = adjusted.rjust(max_len)
+                print(adjusted, end="")
                 first = False
             print()
         
@@ -109,12 +112,10 @@ Or print a 1D list with padding equal to the maximum length"""
     def is_alpha_num(self, string:str):
         """Is a string alphanumeric?"""
         return int(string.isalnum())
-    
-    
+
     @Node.test_func([{1:1, "2":2}], [[1, '2']])
     def sort_values(self, dic:dict):
         """Return the keys of the dictionary in a list sorted by their values"""
         value_sort = Sort.sort_list(dic.values())
-        sort = sorted(dic, key = lambda x:value_sort.index(dic[x]))
+        sort = sorted(dic, key=lambda x: value_sort.index(dic[x]))
         return [sort]
-    
