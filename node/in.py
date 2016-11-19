@@ -2,16 +2,22 @@
 
 from nodes import Node
 
+
 class In(Node):
     char = "{"
     args = 2
     results = 1
     
-    @Node.test_func([6,[6,2,1]], [1])
-    @Node.test_func([3,[6,2,1]], [0])
-    def func(self, a, b:Node.indexable):
+    @Node.test_func([6, [6, 2, 1]], [1])
+    @Node.test_func([3, [6, 2, 1]], [0])
+    def func(self, a, b: Node.indexable):
         """a in b. returns an int"""
         return (a in b) + 0
+
+    @Node.test_func([3, "123"], [1])
+    def str_in(self, a: int, b: str):
+        """str(a) in b"""
+        return (str(a) in b) + 0
     
     @Node.test_func([1,1], [1])
     @Node.test_func([3,1], [1])
@@ -25,5 +31,6 @@ class In(Node):
         return a
 
     @Node.prefer
-    def rpad(self, string: str, amount: int):
+    def r_pad(self, string: str, amount: int):
+        """pad string with spaces to make `amount` long"""
         return string.rjust(amount)
