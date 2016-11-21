@@ -1,10 +1,9 @@
 from node.for_loop import For
-from node.splat import Splat
 from nodes import Node
 
 
-class SplatFor(Node):
-    char = "XF"
+class ForwardsSplatFor(Node):
+    char = " F"
     args = None
     results = None
     default_arg = 1
@@ -18,6 +17,7 @@ class SplatFor(Node):
     def func(self, *args):
         looper = For(self.args, self.ast)
         looper.contents = False
-        splatter = Splat()
         rtn = looper(args)
-        return splatter(rtn)
+        if len(rtn) == 1:
+            rtn = rtn[0]
+        return list(rtn)[::-1]

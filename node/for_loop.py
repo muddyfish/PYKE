@@ -1,12 +1,14 @@
-import lang_ast
-from nodes import Node
 import copy
+
+from nodes import Node
+
 
 class For(Node):
     char = "F"
     args = None
     results = None
     default_arg = 1
+    contents = 1
     
     def __init__(self, args: Node.NumericLiteral, ast:Node.EvalLiteral):
         self.args = args
@@ -36,6 +38,6 @@ Returns a list of lists to the stack"""
             if len(rtn) == 1:
                 rtn = rtn[0]
             results.append(rtn)
-        if isinstance(args[0], str) and all(isinstance(i, str) for i in results):
+        if isinstance(args[0], str) and all(isinstance(i, str) for i in results) and self.contents:
             return "".join(results)
         return [results]
