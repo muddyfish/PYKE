@@ -16,6 +16,8 @@ class SplatFor(Node):
             self.ast.add_node("}")
 
     def func(self, *args):
+        """For loop.
+When finished, splat output"""
         looper = For(self.args, self.ast)
         looper.contents = False
         splatter = Splat()

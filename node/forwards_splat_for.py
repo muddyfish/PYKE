@@ -15,6 +15,8 @@ class ForwardsSplatFor(Node):
             self.ast.add_node("}")
 
     def func(self, *args):
+        """For loop.
+When finished, splat output forwards"""
         looper = For(self.args, self.ast)
         looper.contents = False
         rtn = looper(args)
