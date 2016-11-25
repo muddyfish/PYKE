@@ -45,14 +45,6 @@ class Node(object):
     def __repr__(self):
         return self.__class__.__name__
 
-    #def __str__(self):
-    #    cls = self.__class__
-    #    string = cls.__name__
-    #    assert(hasattr(self, "init_args"))
-    #    if self.init_args:
-    #        return [type(i)for i in self.init_args]
-    #    return string
-        
     def __call__(self, args):
         self.added_args = 0
         if self.__class__.reverse_first:
@@ -115,11 +107,12 @@ class Node(object):
         try:
             func = funcs[max(funcs.keys())]
         except ValueError:
-            raise AssertionError("No valid func for node %r, args: %r"%(self.__class__.__name__, args))
+            sys.stderr.write("No valid func for node %r, args: %r. Trying with Map.\n"%(self.__class__.__name__, args))
+            return nodes["map"](self).choose_function(args)
         return func
     
     @classmethod
-    def get_functions(cls, ins = None):
+    def get_functions(cls, ins=None):
         items = list(cls.__dict__.items())
         base = cls.__bases__[0]
         if base is not Node:
@@ -138,7 +131,6 @@ class Node(object):
         if funcs == [cls.func] and cls.func is Node.func:
             print(cls, "No funcs?")
         return funcs
-        
 
     def prepare(self, stack):
         pass

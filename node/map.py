@@ -7,7 +7,7 @@ class Map(Node):
     results = None
     contents = 1000
     
-    def __init__(self, node:Node.NodeSingle):
+    def __init__(self, node: Node.NodeSingle):
         self.node = node
         self.args = node.args
         

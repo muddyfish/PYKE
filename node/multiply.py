@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
-from nodes import Node
 from math import ceil
 
-import settings
+from nodes import Node
+
 
 class Multiply(Node):
     char = "*"
@@ -28,8 +28,3 @@ class Multiply(Node):
     def seq_mult_2(self, a:Node.number, b:Node.indexable):
         """Repeat sequence b a times"""
         return self.seq_mult(b,a)
-    
-    def func(self, a,b):
-        """Deprecated, warns if ever used"""
-        if settings.WARNINGS: print("Bad mult func")
-        return[a*b]
