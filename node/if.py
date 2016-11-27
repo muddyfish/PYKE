@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 
-import lang_ast
 from nodes import Node
+from type.type_infinite_list import IntegerList
+
 
 class If(Node):
     char = "I"
     args = 1
     results = None
+    contents = IntegerList()
     
     def __init__(self, ast: Node.EvalLiteral):
         self.ast = ast
@@ -18,8 +20,8 @@ class If(Node):
     def prepare(self, stack):
         self.args = max(len(stack), 1)
             
-    @Node.test_func([5,1], [10], "}")
-    @Node.test_func([5,0], [5], "}")
+    @Node.test_func([5, 1], [10], "}")
+    @Node.test_func([5, 0], [5], "}")
     def func(self, *args):
         """Takes stack.
 if arg1: stack = eval_literal(stack[:-1]) (extend mode)
@@ -39,3 +41,7 @@ else: stack = stack[:-1]"""
                 pass
             return stack
         return args[:-1]
+
+    def not_filter_infinite(self, inf: Node.infinite):
+        self.ast.add_node("!")
+        return inf.modify(inf.filter, self.ast)

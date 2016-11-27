@@ -56,3 +56,6 @@ class Filter(Node):
             if val and val[0]:
                 rtn[key] = val[0]
         return [rtn, *args]
+
+    def filter_infinite(self, inf: Node.infinite):
+        return inf.modify(inf.filter, self.ast)

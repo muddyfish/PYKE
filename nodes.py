@@ -8,6 +8,7 @@ import types
 import eval as safe_eval
 import lang_ast
 import settings
+from type.type_infinite_list import InfiniteList
 from type.type_time import TypeTime
 
 nodes = {}
@@ -28,6 +29,7 @@ class Node(object):
     indexable = (list, tuple, str)
     dict_indexable = (list, tuple, str, dict)
     dict_seq = (list, tuple, dict)
+    infinite = (InfiniteList,)
     clock = TypeTime
     
     Base10Single = "base10_single"
@@ -170,7 +172,10 @@ class Node(object):
                     else:
                         overwrote_default = True
                         code = new_code
-                        results = results([])[0]
+                        try:
+                            results = results([])[0]
+                        except TypeError:
+                            pass
                     args.append(results)
             obj = cls(*args)
             obj.overwrote_default = overwrote_default
@@ -192,6 +197,8 @@ class Node(object):
                          Node.NodeClass):
             accept_args.append(True)
         new_code, results = node.accepts(*accept_args)
+        if results is None and const_arg is Node.NodeClass:
+            return code[1:], code[0]
         return new_code, results
 
     @classmethod

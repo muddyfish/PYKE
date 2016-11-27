@@ -52,3 +52,6 @@ class Map(Node):
         for key in dic:
             rtn[key] = self.node([dic[key], key, *args][:self.node.args])[0]
         return [rtn]
+
+    def infinity_map(self, inf: Node.infinite):
+        return inf.modify(inf.node_map, self.node)

@@ -2,20 +2,28 @@
 
 from nodes import Node
 from nodes import nodes as all_nodes
+from type.type_infinite_list import CountList, count
 
-import copy
 
 class GetVar(Node):
     char = "~"
     args = 0
     results = 1
     
-    def __init__(self, node:Node.NodeClass):
+    def __init__(self, node: Node.NodeClass):
         self.node = node
 
     def func(self):
         """return the contents of `node`"""
-        return [getattr(self.node, "contents")]
+        try:
+            if issubclass(self.node, Node):
+                return [getattr(self.node, "contents")]
+        except TypeError:
+            if self.node.isnumeric():
+                inf = CountList()
+                inf.modify(inf.every, int(self.node), count())
+                return inf
+
     
     @classmethod
     def run_tests(cls):

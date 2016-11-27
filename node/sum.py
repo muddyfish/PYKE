@@ -18,7 +18,7 @@ class Sum(Node):
         if len(stack) == 0:
             self.add_arg(stack)
         if not self.overwrote_default:
-            if isinstance(stack[0], (list,tuple)):
+            if isinstance(stack[0], (list, tuple)):
                 self.args = 1
             else:
                 self.args = len(stack)
@@ -37,7 +37,7 @@ Else return sum(stack[:`amount`])"""
         if self.args == 1:
             inp = inp[0]
         if str in map(type, inp):
-            inp = [str(i)for i in inp]
+            inp = [str(i) for i in inp]
         try:
             current = inp[0]
         except TypeError:
@@ -55,3 +55,6 @@ Else return sum(stack[:`amount`])"""
     def palendromise(self, inp: str):
         r_inp = inp[::-1]
         return inp + r_inp[1:]
+
+    def run_infinite(self, inf: Node.infinite):
+        return inf.modify(inf.node_map, self.__class__(self.args))

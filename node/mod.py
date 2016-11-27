@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from itertools import count
+
 from nodes import Node
 
 #Modulo
@@ -30,3 +32,9 @@ class Mod(Node):
     def indexes(self, a, seq:Node.indexable):
         """Return a list of indecies in seq that equal a"""
         return [list(i for i,v in enumerate(seq) if v==a)]
+
+    def inf_every(self, inf: Node.infinite, every: int):
+        return inf.modify(inf.every, every, count())
+
+    def inf_not_every(self, every: int,  inf: Node.infinite):
+        return inf.modify(inf.not_every, every, count())

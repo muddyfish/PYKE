@@ -41,3 +41,6 @@ Returns a list of lists to the stack"""
         if isinstance(args[0], str) and all(isinstance(i, str) for i in results) and self.contents:
             return "".join(results)
         return [results]
+
+    def map(self, inf: Node.infinite):
+        return inf.modify(inf.ast_map, self.ast)

@@ -1,7 +1,6 @@
 #!/usr/bin/env python
-
 from nodes import Node
-import math
+
 
 class FloorDiv(Node):
     char = "f"

@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 
+import subprocess
+from collections import OrderedDict
+
 from flask import Flask, request, redirect, render_template, send_from_directory
 from flask.ext.cache import Cache
 
-from collections import OrderedDict
-import subprocess
-
-import nodes
 import lang_ast
-import settings
 import literal_gen
+import nodes
+import settings
 
 for node in nodes.nodes:
     nodes.nodes[node].run_tests()
@@ -178,6 +178,9 @@ def get_docs():
                         func_doc["output"] += (str(test[1])+"\n")
                 func_doc["input"] = func_doc["input"][:-1]
                 func_doc["output"] = func_doc["output"][:-1]
+                func_doc["output"] = func_doc["output"].replace("<", "&lt;")
+                func_doc["output"] = func_doc["output"].replace(">", "&gt;")
+                print(func_doc)
             docs.append(func_doc)
     return docs
 
