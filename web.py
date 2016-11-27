@@ -180,7 +180,6 @@ def get_docs():
                 func_doc["output"] = func_doc["output"][:-1]
                 func_doc["output"] = func_doc["output"].replace("<", "&lt;")
                 func_doc["output"] = func_doc["output"].replace(">", "&gt;")
-                print(func_doc)
             docs.append(func_doc)
     return docs
 
