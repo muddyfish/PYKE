@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 
-import lang_ast, settings, nodes
-import sys
 import argparse
+import sys
+
+import lang_ast
+import nodes
+import settings
 
 
 def print_nodes():
@@ -70,6 +73,7 @@ class Writer(type(sys.stdout)):
                     w.write("\n")
                 elif i == "\n":
                     self.line_length = 0
+                w.flush()
 
 
 
