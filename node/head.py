@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
-from nodes import Node
 from node.sort import Sort
+from nodes import Node
+
 
 class Head(Node):
     char = "h"
@@ -28,3 +29,6 @@ class Head(Node):
     def keys(self, inp: dict):
         """sorted(inp.keys)"""
         return [Sort.sort_list(inp.keys())]
+
+    def inf_next(self, inf: Node.infinite):
+        return next(inf)

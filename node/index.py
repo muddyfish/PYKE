@@ -41,4 +41,9 @@ class Index(Node):
     def set_bit(self, a: int, b: int):
         """Set bit b in a"""
         return a|(2**b)
-    
+
+    def inf_at(self, inf: Node.infinite, nth: int):
+        while nth != 0:
+            next(inf)
+            nth -= 1
+        return next(inf)

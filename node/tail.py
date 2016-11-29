@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
-from nodes import Node
 from node.sort import Sort
+from nodes import Node
+
 
 class Tail(Node):
     char = "t"
@@ -14,7 +15,7 @@ class Tail(Node):
         """inp-1"""
         return inp-1
     
-    @Node.test_func([[1,2,3]], [[2,3]])
+    @Node.test_func([[1, 2, 3]], [[2, 3]])
     def first(self, inp: Node.indexable):
         """inp[1:]"""
         return [inp[1:]]
@@ -28,3 +29,7 @@ class Tail(Node):
     def items(self, inp: dict):
         """sorted(inp.items)"""
         return [[list(i)for i in Sort.sort_list(inp.items())]]
+
+    def inf_tail(self, inf: Node.infinite):
+        next(inf)
+        return inf

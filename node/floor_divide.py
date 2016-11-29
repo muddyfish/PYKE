@@ -17,9 +17,9 @@ class FloorDiv(Node):
     @Node.test_func(["134", 1], [["134"]])
     @Node.test_func(["1234", 2], [["12", "34"]])
     @Node.test_func(["1234", 3], [["1", "2", "34"]])
-    @Node.test_func([[4,8,15,16,23,42], 5], [[[4],[8],[15],[16],[23,42]]])
+    @Node.test_func([[4, 8, 15, 16, 23, 42], 5], [[[4], [8], [15], [16], [23, 42]]])
     @Node.test_func(["123456789", 5], [['1', '2', '3', '4', '56789']])
-    @Node.test_func([[4,8,15,16,23,42], 7], [[[],[],[],[],[],[],[4,8,15,16,23,42]]])
+    @Node.test_func([[4, 8, 15, 16, 23, 42], 7], [[[], [], [], [], [], [], [4, 8, 15, 16, 23, 42]]])
     def chunk(self, inp:Node.indexable, num:int):
         """Return inp seperated into num groups"""
         rtn = []
@@ -36,8 +36,8 @@ class FloorDiv(Node):
             rtn[-1] += inp[i+size:]
         return [rtn]
     
-    @Node.test_func([[4, 4, 2, 2, 9, 9], [0, -2, 0, 7, 0]], [[[4],[4,2],[2,9,9]]])
-    def split_at(self, inp:Node.indexable, splits:Node.indexable):
+    @Node.test_func([[4, 4, 2, 2, 9, 9], [0, -2, 0, 7, 0]], [[[4], [4, 2], [2, 9, 9]]])
+    def split_at(self, inp:Node.indexable, splits:Node.sequence):
         """Split inp at truthy values in splits"""
         rtn = [[]]
         for i, do_split in zip(inp, splits+[0]):
@@ -53,3 +53,8 @@ class FloorDiv(Node):
 
     def time_div(self, a: Node.clock, b: Node.clock):
         return b.floordiv_time(a)
+
+    def mold(self, a: str, b: str):
+        """Reshape `b` so it is `a` long, cylicly"""
+        b *= len(a)
+        return b[:len(a)]

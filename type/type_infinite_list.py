@@ -14,15 +14,15 @@ class InfiniteList(object):
 
     def __str__(self):
         while 1:
-            print(self.__next__())
+            print(next(self))
 
     def __next__(self):
         while 1:
             try:
-                next = self._iter.__next__()
+                i = next(self._iter)
                 for func, args, kwargs in self.filters:
-                    next = func(next, *args, **kwargs)
-                return next
+                    i = func(i, *args, **kwargs)
+                return i
             except RemovedError:
                 pass
 
@@ -37,12 +37,12 @@ class InfiniteList(object):
         raise RemovedError
 
     def every(self, i, every, count):
-        if count.__next__() % every:
+        if next(count) % every:
             raise RemovedError
         return i
 
     def not_every(self, i, every, count):
-        if count.__next__() % every:
+        if next(count) % every:
             return i
         raise RemovedError
 
@@ -92,6 +92,7 @@ class IntegerList(InfiniteList):
             i += 1
             yield i
             yield -i
+
 
 class NegativeList(InfiniteList):
     def __init__(self):
