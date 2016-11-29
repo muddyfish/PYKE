@@ -2,19 +2,19 @@
 
 from nodes import Node
 
+
 class Index(Node):
     char = "@"
     args = 2
     results = 1
     
-    @Node.test_func(["tes",1], ["e"])
-    @Node.test_func([[1,2,3],-1], [3])
+    @Node.test_func(["tes", 1], ["e"])
+    @Node.test_func([[1, 2, 3], -1], [3])
     def at(self, a: Node.indexable, b:int):
         """a[b]"""
-        return[a[b%len(a)]]
-    
-    
-    @Node.test_func([2, {1:2,2:3}], [3])
+        return[a[b % len(a)]]
+
+    @Node.test_func([2, {1: 2,2: 3}], [3])
     @Node.test_func(["hello", {"hello":"world"}], ["world"])
     @Node.prefer
     def dict_at(self, a, b:dict):
@@ -40,10 +40,13 @@ class Index(Node):
     @Node.test_func([1, 2], [5])
     def set_bit(self, a: int, b: int):
         """Set bit b in a"""
-        return a|(2**b)
+        return a | (2**b)
 
     def inf_at(self, inf: Node.infinite, nth: int):
         while nth != 0:
             next(inf)
             nth -= 1
         return next(inf)
+
+    def inf_at_2(self, nth: int, inf: Node.infinite):
+        return self.inf_at(inf, nth)

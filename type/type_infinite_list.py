@@ -1,6 +1,5 @@
 from itertools import count, cycle
 
-
 class InfiniteList(object):
     def __init__(self):
         self._iter = None
@@ -32,7 +31,13 @@ class InfiniteList(object):
 
     def filter(self, i, ast):
         rtn = ast.run([i])
-        if rtn and rtn[0]:
+        if all(rtn):
+            return i
+        raise RemovedError
+
+    def not_filter(self, i, ast):
+        rtn = ast.run([i])
+        if not any(rtn):
             return i
         raise RemovedError
 

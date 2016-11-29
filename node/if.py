@@ -19,6 +19,8 @@ class If(Node):
         
     def prepare(self, stack):
         self.args = max(len(stack), 1)
+        if isinstance(stack[0], Node.infinite):
+            self.ast.uses_i = self.uses_i
             
     @Node.test_func([5, 1], [10], "}")
     @Node.test_func([5, 0], [5], "}")
@@ -43,5 +45,4 @@ else: stack = stack[:-1]"""
         return args[:-1]
 
     def not_filter_infinite(self, inf: Node.infinite):
-        self.ast.add_node("!")
-        return inf.modify(inf.filter, self.ast)
+        return inf.modify(inf.not_filter, self.ast)
