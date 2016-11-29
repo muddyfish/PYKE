@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 
-from nodes import Node
+import math
 import string
+
+from nodes import Node
+
 
 class Letters(Node):
     char = "l"
@@ -34,7 +37,7 @@ class Letters(Node):
     @Node.test_func(["  world  "], ["world"], "7")
     @Node.test_func(["  world  "], ["world  "], "8")
     @Node.test_func(["  world  "], ["  world"], "9")
-    def func(self, x):
+    def func(self, x: Node.dict_indexable):
         """0 - len (floor(log(x)) with numbers)
 1 - lower
 2 - upper
@@ -50,7 +53,14 @@ class Letters(Node):
         return Letters.settings[self.config-1](x)
     
     def len(self, x):
-        if isinstance(x, Node.number):
-            return len(str(x)) - isinstance(x, float)
         return len(x)
-    
+
+    def factors(self, num:int):
+        rtn = []
+        for i in range(1,int(math.sqrt(num))):
+            if num % i == 0:
+                rtn.append(i)
+                rtn.append(num//i)
+        if num % (i+1) == 0:
+            rtn.append(i+1)
+        return [rtn]
