@@ -55,12 +55,20 @@ class Letters(Node):
     def len(self, x):
         return len(x)
 
-    def factors(self, num:int):
+    def factors(self, num: int):
+        if num in [0, 1]:
+            return [[]]
+        if num in [2, 3]:
+            return [[num]]
         rtn = []
-        for i in range(1,int(math.sqrt(num))):
-            if num % i == 0:
+        end = int(math.sqrt(num))
+        for i in range(2, end+1):
+            if i == end:
+                if num % i == 0:
+                    rtn.append(i)
+            elif num % i == 0:
                 rtn.append(i)
                 rtn.append(num//i)
-        if num % (i+1) == 0:
-            rtn.append(i+1)
-        return [rtn]
+        if rtn:
+            return [rtn]
+        return [[num]]
