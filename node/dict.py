@@ -12,3 +12,6 @@ class Dict(Node):
     def func(self, a:Node.sequence):
         """Turn a sequence into a dict"""
         return dict(a)
+
+    def digits(self, num: int):
+        return [[int(i) for i in str(num)]]
