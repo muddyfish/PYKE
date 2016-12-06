@@ -1,6 +1,5 @@
-import lang_ast
 from nodes import Node
-from node.numeric_literal import NumericLiteral 
+
 
 class FirstN(Node):
     char = ".f"
@@ -10,6 +9,8 @@ class FirstN(Node):
     
     def __init__(self, ast: Node.EvalLiteral):
         self.ast = ast
+        self.uses_i = self.ast.uses_i
+        self.ast.uses_i = False
         
     def prepare(self, stack):
         if len(stack) == 0:
@@ -24,10 +25,18 @@ class FirstN(Node):
         results = []
         i = start
         while len(results) != count:
+            if self.uses_i:
+                if hasattr(self.ast.i_node, "contents"):
+                    old_i = self.ast.i_node.contents
+                self.ast.i_node.contents = [len(results)+1]
             rtn = self.ast.run([i])
+            try:
+                self.ast.i_node.contents = old_i
+            except (NameError, UnboundLocalError):
+                pass
             if len(rtn) != 0 and rtn[-1]:
                 results.append(i)
-            i+=1
+            i += 1
         if count == 1:
             return results
         return [results]
@@ -44,6 +53,3 @@ class FirstN(Node):
     def first(self):
         """return first_n(1)"""
         return self.first_n(1)
-    
-    #def sort_by(self, to_sort: Node.sequence, by:Node.sequence):
-    #    pass
