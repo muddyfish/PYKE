@@ -114,5 +114,14 @@ class NegativeList(InfiniteList):
             i -= 1
 
 
+class DummyList(InfiniteList):
+    def __init__(self, iterator):
+        super().__init__()
+        self._iter = iterator
+
+    def __repr__(self):
+        return "<DummyList>"+super().__repr__()
+
+
 class RemovedError(Exception):
     pass

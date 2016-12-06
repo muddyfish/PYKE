@@ -1,6 +1,8 @@
-import lang_ast
-from nodes import Node
 import copy
+
+from nodes import Node
+from type.type_infinite_list import DummyList
+
 
 class DeepForApply(Node):
     char = "a"
@@ -40,3 +42,15 @@ class DeepForApply(Node):
             val = self.ast.run([dic[key], key, *args])
             rtn[key] = val
         return [rtn, *args]
+
+
+    def inf_list(self, base: (int, float, str)):
+        def iterate():
+            cur = [base]
+            while 1:
+                cur = self.ast.run(cur)
+                if len(cur) == 1:
+                    yield cur[0]
+                else:
+                    yield cur
+        return DummyList(iterate())
