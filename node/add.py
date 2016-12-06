@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 from nodes import Node
+from type.type_infinite_list import DummyList
+
 
 class Add(Node):
     """
@@ -43,4 +45,16 @@ The returned type is the same as the first arg"""
     def func(self, a,b):
         """Adds two objects together - vanilla addition"""
         return a+b
-    
+
+    def sort_join_inf_list(self, a: Node.infinite, b: Node.infinite):
+        def sort_join():
+            cur_a = next(a)
+            cur_b = next(b)
+            while 1:
+                if cur_a <= cur_b:
+                    yield cur_a
+                    cur_a = next(a)
+                else:
+                    yield cur_b
+                    cur_b = next(b)
+        return DummyList(sort_join())
