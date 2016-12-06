@@ -1,24 +1,23 @@
 #!/usr/bin/env python
+
 from nodes import Node
+from type.type_infinite_list import DummyList
+
 
 class Divide(Node):
-    """
-    Takes two items from the stack and divides them
-    """
     char = "/"
     args = 2
     results = 1
-    
-    
-    @Node.test_func([4,2], [2])
-    @Node.test_func([2,4], [0.5])
+
+    @Node.test_func([4, 2], [2])
+    @Node.test_func([2, 4], [0.5])
     def func(self, a: Node.number, b: Node.number):
         """a/b. floating point division.
 For integer division, see `f`"""
         return a/b
     
     @Node.test_func(["test", "t"], [2])
-    @Node.test_func([(3,1,2,1,3), 3], [2])
+    @Node.test_func([(3, 1, 2, 1, 3), 3], [2])
     def count(self, a: Node.indexable, b):
         """a.count(b)"""
         return a.count(b)
@@ -43,3 +42,10 @@ For integer division, see `f`"""
 
     def time_div(self, a: Node.clock, b: Node.clock):
         return b.divide_time(a)
+
+    def transpose_inf_list(self, a: Node.infinite, b: Node.infinite):
+        def transpose():
+            while 1:
+                yield next(a)
+                yield next(b)
+        return DummyList(transpose())
