@@ -25,9 +25,9 @@ class Subtract(Node):
         return out
 
     def sub_list(self, seq: Node.sequence, remove):
-        while b in a:
-            a.remove(b)
-        return [a]
+        while remove in seq:
+            seq.remove(remove)
+        return [seq]
 
 
     def sub_list_single(self, seq: Node.sequence, remove: (list, set)):
