@@ -1,6 +1,6 @@
 
 from nodes import Node
-
+from type.type_infinite_list import DummyList
 
 class Map(Node):
     char = "m"
@@ -53,5 +53,17 @@ class Map(Node):
             rtn[key] = self.node([dic[key], key, *args][:self.node.args])[0]
         return [rtn]
 
-    def infinity_map(self, inf: Node.infinite):
-        return inf.modify(inf.node_map, self.node)
+    def infinity_map(self, inf: Node.infinite, *args):
+        return inf.modify(inf.node_map, [self.node, *args])
+
+    def infinity_map_2(self, inf_1: Node.infinite, inf_2: Node.infinite):
+        def iterate():
+            while 1:
+                rtn = self.node([next(inf_1), next(inf_2)])
+                if len(rtn) == 1: yield rtn[0]
+                else: yield rtn
+        return DummyList(iterate())
+
+    @Node.prefer
+    def infinity_map_3(self, arg, inf: Node.infinite):
+        return inf.modify(inf.node_left_map, [self.node, arg])

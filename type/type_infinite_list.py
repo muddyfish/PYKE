@@ -14,6 +14,9 @@ class InfiniteList(object):
     def __str__(self):
         while 1:
             print(next(self))
+ 
+    def __iter__(self):
+        return self
 
     def __next__(self):
         while 1:
@@ -57,8 +60,16 @@ class InfiniteList(object):
             rtn = rtn[0]
         return rtn
 
-    def node_map(self, i, node):
-        rtn = node([i])
+    def node_map(self, i, combined):
+        node, *args = combined
+        rtn = node([i, *args])
+        if len(rtn) == 1:
+            rtn = rtn[0]
+        return rtn
+
+    def node_left_map(self, i, combined):
+        node, *args = combined
+        rtn = node([*args, i])
         if len(rtn) == 1:
             rtn = rtn[0]
         return rtn

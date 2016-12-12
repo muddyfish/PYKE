@@ -4,6 +4,7 @@ import glob
 import imp
 import sys
 import types
+import inspect
 
 import eval as safe_eval
 import lang_ast
@@ -83,8 +84,8 @@ class Node(object):
         funcs = {}
         for cur_func in self.get_functions(self):
             arg_types_dict = cur_func.__annotations__
-            func_arg_names = cur_func.__code__.co_varnames[1:cur_func.__code__.co_argcount]
             has_star_args = cur_func.__code__.co_flags & 4
+            func_arg_names = cur_func.__code__.co_varnames[1:cur_func.__code__.co_argcount+has_star_args]
             if len(func_arg_names) != self.args and not has_star_args:
                 continue
             arg_types = []
@@ -98,12 +99,12 @@ class Node(object):
             priority = 0
             for arg in zip(args, arg_types):
                 if not isinstance(*arg): possible = False
-                if not isinstance(arg[1], tuple):length = 1
+                if not isinstance(arg[1], tuple): length = 1
                 else: length = len(arg[1])
                 priority += 1/length
                 if arg[1] is object: priority -= 1
-                if hasattr(cur_func, "prefer") and cur_func.prefer:
-                    priority += 1000
+            if hasattr(cur_func, "prefer") and cur_func.prefer:
+                priority += 1000
             if possible:
                 funcs[priority] = cur_func
         try:
