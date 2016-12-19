@@ -2,6 +2,8 @@
 
 import subprocess
 from collections import OrderedDict
+import sys
+from io import StringIO
 
 from flask import Flask, request, redirect, render_template, send_from_directory
 from flask.ext.cache import Cache
@@ -14,6 +16,8 @@ import settings
 for node in nodes.nodes:
     nodes.nodes[node].run_tests()
         
+
+sys.stdin = StringIO()
 app = Flask(__name__,
             template_folder="web_content/template/",
             static_folder="web_content/static/")

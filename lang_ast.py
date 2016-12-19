@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 
 import nodes
+from nodes import Node
+import eval as safe_eval
+import settings
+
 
 class AST(object):
     END_CHARS = ")("
@@ -68,6 +72,8 @@ class AST(object):
             self.i_node.contents = old_i
         except NameError:
             pass
+        if self.first:
+            stack = self.implicit_complete(stack)
         return stack
       
     def __repr__(self):
@@ -90,6 +96,31 @@ class AST(object):
         if not accepting:
             raise SyntaxError("No nodes will accept code: %r"%(code))
         return sorted(accepting, key = lambda node:-len(node[0]))[0][1:]
+
+    def implicit_complete(self, stack):
+        stack_types = {Node.infinite: self.strip_infinite}
+        for i, value in enumerate(stack):
+            for type in stack_types:
+                if isinstance(value, type):
+                    stack[i] = stack_types[type](stack[i])
+        return stack
+
+    def strip_infinite(self, infinite):
+        try:
+            arg = safe_eval.evals[settings.SAFE](input())
+        except EOFError:
+            return infinite
+        if arg == "":
+            return infinite
+        if isinstance(arg, str) and arg.isnumeric():
+            arg = int(arg)
+            return "\n".join(map(str, infinite[:arg]))
+        elif isinstance(arg, int):
+            return infinite[arg]
+        elif isinstance(arg, Node.sequence):
+            sequence = infinite[:max(arg)+1]
+            return "\n".join(str(sequence[i]) for i in arg)
+        return infinite
 
 
 class GotoStart(RuntimeError):

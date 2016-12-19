@@ -28,6 +28,12 @@ class InfiniteList(object):
             except RemovedError:
                 pass
 
+    def __getitem__(self, item):
+        if isinstance(item, int):
+            for i in range(item+1): rtn = next(self)
+            return rtn
+        return [next(self) for i in range(item.stop)]
+
     def modify(self, func, *args, **kwargs):
         self.filters.append((func, args, kwargs))
         return self
