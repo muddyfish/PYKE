@@ -19,15 +19,15 @@ class In(Node):
         """str(a) in b"""
         return (str(a) in b) + 0
     
-    @Node.test_func([1,1], [1])
-    @Node.test_func([3,1], [1])
-    @Node.test_func([5,2], [1])
-    @Node.test_func([7,0], [6])
+    @Node.test_func([1, 1], [1])
+    @Node.test_func([3, 1], [1])
+    @Node.test_func([5, 2], [1])
+    @Node.test_func([7, 0], [6])
     def unset_bit(self, a: int, b: int):
         """Unset bit b in a"""
         bit = 2**b
-        if a&bit:
-            return a^bit
+        if a & bit:
+            return a ^ bit
         return a
 
     def mold(self, inp: Node.indexable, length: int):
