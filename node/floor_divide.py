@@ -53,8 +53,3 @@ class FloorDiv(Node):
 
     def time_div(self, a: Node.clock, b: Node.clock):
         return b.floordiv_time(a)
-
-    def mold(self, a: str, b: str):
-        """Reshape `b` so it is `a` long, cylicly"""
-        b *= len(a)
-        return b[:len(a)]

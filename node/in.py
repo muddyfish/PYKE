@@ -30,7 +30,9 @@ class In(Node):
             return a^bit
         return a
 
-    @Node.prefer
-    def r_pad(self, string: str, amount: int):
-        """pad string with spaces to make `amount` long"""
-        return string.rjust(amount)
+    def mold(self, inp: Node.indexable, length: int):
+        """Reshape `inp` so it is `length` long, cylicly"""
+        rtn = [inp[i % len(inp)] for i in range(length)]
+        if isinstance(inp, Node.sequence):
+            return [type(inp)(rtn)]
+        return "".join(inp)
