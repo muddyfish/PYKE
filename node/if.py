@@ -19,6 +19,8 @@ class If(Node):
         
     def prepare(self, stack):
         self.args = max(len(stack), 1)
+        if len(stack) == 0:
+            self.add_arg(stack)
         if isinstance(stack[0], Node.infinite):
             self.ast.uses_i = self.uses_i
             
