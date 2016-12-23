@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
-from nodes import Node
 import json
+
+from nodes import Node
+
 
 class Dictionary(Node):
     char = ".d"
@@ -16,7 +18,8 @@ class Dictionary(Node):
         
     def func(self):
         return self.words
-    
+
+    @staticmethod
     def compress(inp):
         words = init_words()
         inp_words = [word.lower()for word in inp.split(" ")]
