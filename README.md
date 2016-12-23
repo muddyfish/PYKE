@@ -3,7 +3,7 @@
 ###Golfing language by muddyfish
 
 ###Pyke requires python >= 3.4
-###Also requires `python-dateutil`
+###Extra requirements in requirements.txt
 
 Copyright (c) 2016 muddyfish
 

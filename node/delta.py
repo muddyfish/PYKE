@@ -1,14 +1,17 @@
 #!/usr/bin/env python
 
+import datetime
+
 from nodes import Node
+
 
 class Delta(Node):
     char = "$"
     args = 1
     results = 1
     
-    @Node.test_func([[1,2,3,5]], [[1,1,2]])
-    def delta(self, seq:Node.sequence):
+    @Node.test_func([[1, 2, 3, 5]], [[1, 1, 2]])
+    def delta(self, seq: Node.sequence):
         """Return the difference in terms in the input sequence.
 Returns a sequence of the same type, one shorter."""
         deltas = []
@@ -26,3 +29,7 @@ Returns a sequence of the same type, one shorter."""
     def is_lower(self, string:str):
         """Is a string lower case?"""
         return int(string.islower())
+
+    def get_day_of_week(self, time: Node.clock):
+        new_time = datetime.datetime(*time.time_obj[:7])
+        return new_time.weekday()

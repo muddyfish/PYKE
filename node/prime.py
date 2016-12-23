@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 
+import datetime
 import math
+
+import ephem
 
 from node.sort import Sort
 from nodes import Node
@@ -120,3 +123,11 @@ Or print a 1D list with padding equal to the maximum length"""
         value_sort = Sort.sort_list(dic.values())
         sort = sorted(dic, key=lambda x: value_sort.index(dic[x]))
         return [sort]
+
+    def get_moon_phase(self, time: Node.clock):
+        """Gets the current phase of the moon"""
+        new_time = datetime.datetime(*time.time_obj[:7])
+
+        moon = ephem.Moon()  # I seriously just added a dependency for this one line :P
+        moon.compute(new_time)
+        return moon.phase

@@ -1,12 +1,17 @@
 #!/usr/bin/env python
 
+import datetime
+
+import ephem
+
 from nodes import Node
+
 
 class Product(Node):
     char = "B"
     args = 1
     results = 1
-    contents = "><+-.,[]" #Possible bytes in a BF program
+    contents = "><+-.,[]"  # Possible bytes in a BF program
     
     @Node.test_func([[1,2]], [2])
     @Node.test_func([[3,4]], [12])
@@ -31,3 +36,9 @@ class Product(Node):
     def is_alpha(self, string:str):
         """Is a string alphabetic?"""
         return int(string.isalpha())
+
+    def get_next_full_moon(self, time: Node.clock):
+        """Gets the date of the next full moon"""
+        new_time = datetime.datetime(*time.time_obj[:7])
+
+        return ephem.next_full_moon(new_time)
