@@ -57,7 +57,29 @@ class Index(Node):
 
     @Node.prefer
     def get_distance_to_earth(self, time: Node.clock, object: str):
-        """Gets the distance to the sun from `object`"""
+        """Gets the distance to the Earth from `object`"""
         new_time = datetime.datetime(*time.time_obj[:7])
-
-        return getattr(ephem, object)(new_time).earth_distance
+        try:
+            return getattr(ephem, object)(new_time).earth_distance
+        except AttributeError:
+            with open("astro_db.txt") as astro_db:
+                name = None
+                line = astro_db.readline()
+                while name != object:
+                    assert line.startswith("* ")
+                    name, launch_date, updated_date = line[2:].split(":")
+                    name = name[:-9]
+                    if name != object:
+                        line = astro_db.readline()
+                        while line[0] != "*" or line.startswith("* Good from "):
+                            line = astro_db.readline()
+                year = int(astro_db.readline()[-5:])
+                while year < new_time.year:
+                    astro_db.readline()
+                    line = astro_db.readline()
+                    line = line.split("  (")[0]
+                    year = int(line[-4:])
+                line = astro_db.readline()
+            object = ephem.readdb(line)
+            object.compute(new_time)
+            return object.earth_distance
