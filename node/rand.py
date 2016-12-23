@@ -22,7 +22,7 @@ class Random(Node):
         return random.randint(0,inp)
 
     def get_next_new_moon(self, time: Node.clock):
-        """Gets the date of the next full moon"""
+        """Gets the date of the next new moon"""
         new_time = datetime.datetime(*time.time_obj[:7])
 
-        return ephem.next_full_moon(new_time)
+        return ephem.next_new_moon(new_time)
