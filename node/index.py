@@ -63,13 +63,13 @@ class Index(Node):
             return getattr(ephem, object)(new_time).earth_distance
         except AttributeError:
             with open("astro_db.txt") as astro_db:
-                name = None
+                name = ""
                 line = astro_db.readline()
-                while name != object:
+                while name.lower() != object.lower():
                     assert line.startswith("* ")
                     name, launch_date, updated_date = line[2:].split(":")
                     name = name[:-9]
-                    if name != object:
+                    if name.lower() != object.lower():
                         line = astro_db.readline()
                         while line[0] != "*" or line.startswith("* Good from "):
                             line = astro_db.readline()
