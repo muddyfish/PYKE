@@ -1,7 +1,12 @@
 #!/usr/bin/env python
 
-from nodes import Node
+import datetime
 import time
+
+import ephem
+
+from nodes import Node
+
 
 class Split(Node):
     char = "c"
@@ -18,13 +23,13 @@ class Split(Node):
     
     @Node.test_func(["1 2 1", " "], [["1", "2", "1"]])
     @Node.test_func(["1,3,4", ","], [["1", "3", "4"]])
-    def split(self, inp:str, split:str):
+    def split(self, inp: str, split: str):
         """inp.split(`arg`)"""
         return [inp.split(split)]
     
     @Node.test_func(["134", 1], [["1", "3", "4"]])
     @Node.test_func(["1234", 2], [["12", "34"]])
-    def chunk(self, inp:Node.indexable, size:Node.number):
+    def chunk(self, inp: Node.indexable, size: Node.number):
         """Return inp seperated into groups sized size"""
         size = float(size)
         rtn = []
@@ -54,12 +59,12 @@ class Split(Node):
     @Node.test_func([3, 1], [3])
     @Node.test_func([3, 2], [2])
     @Node.test_func([7, 3], [6])
-    def floor_remainder(self, a:Node.number, multiple:Node.number):
+    def floor_remainder(self, a: Node.number, multiple: Node.number):
         """a-(a%multiple)"""
-        return a-(a%multiple)
+        return a - (a % multiple)
     
-    @Node.test_func([[1,2,2,3,3,3]], [{1:1,2:2,3:3}])
-    def count(self, seq:Node.sequence):
+    @Node.test_func([[1, 2, 2, 3, 3, 3]], [{1: 1, 2: 2, 3: 3}])
+    def count(self, seq: Node.sequence):
         """Return a dict with values equal to the number of times values appear in a list"""
         rtn = {}
         for i in seq:
@@ -77,3 +82,9 @@ class Split(Node):
 
     def format_time(self, time_obj: Node.clock, string: str):
         return time.strftime(string, time_obj.time_obj)
+
+    def get_size(self, time: Node.clock, object: str):
+        """Gets the size of the object in arcseconds"""
+        new_time = datetime.datetime(*time.time_obj[:7])
+
+        return getattr(ephem, object)(new_time).size

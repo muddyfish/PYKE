@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+import datetime
+
+import ephem
+
 from nodes import Node
 
 
@@ -50,3 +54,10 @@ class Index(Node):
 
     def inf_at_2(self, nth: int, inf: Node.infinite):
         return self.inf_at(inf, nth)
+
+    @Node.prefer
+    def get_distance_to_earth(self, time: Node.clock, object: str):
+        """Gets the distance to the sun from `object`"""
+        new_time = datetime.datetime(*time.time_obj[:7])
+
+        return getattr(ephem, object)(new_time).earth_distance

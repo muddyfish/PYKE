@@ -1,6 +1,11 @@
 #!/usr/bin/env python
 
+import datetime
+
+import ephem
+
 from nodes import Node
+
 
 class Pow(Node):
     """
@@ -40,3 +45,9 @@ class Pow(Node):
 
     def lpad(self, string: str, amount: int):
         return string.ljust(amount)
+
+    def get_distance_to_sun(self, time: Node.clock, object: str):
+        """Gets the distance to the sun from `object`"""
+        new_time = datetime.datetime(*time.time_obj[:7])
+
+        return getattr(ephem, object)(new_time).sun_distance
