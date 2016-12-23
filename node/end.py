@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 
-from nodes import Node
-from node.sort import Sort
+import datetime
 import math
+
+from node.sort import Sort
+from nodes import Node
+
 
 class End(Node):
     char = "e"
@@ -26,3 +29,8 @@ class End(Node):
     def values(self, inp: dict):
         """sorted(inp.values)"""
         return [[i[1]for i in Sort.sort_list(inp.items())]]
+
+
+    def is_weekend(self, time: Node.clock):
+        new_time = datetime.datetime(*time.time_obj[:7])
+        return new_time.weekday() >= 5

@@ -1,24 +1,34 @@
 import copy
 
+from node.sum import Sum
 from nodes import Node
 
 
 class For(Node):
     char = "F"
-    args = None
+    args = 1
     results = None
-    default_arg = 1
+    default_arg = -1
     contents = 1
     
-    def __init__(self, args: Node.NumericLiteral, ast:Node.EvalLiteral):
-        self.args = args
+    def __init__(self, args: Node.Base10Single, ast: Node.EvalLiteral):
+        self.numeric_input = args
+        self.overwrote_default_arg = self.numeric_input != -1
+        if not self.overwrote_default_arg:
+            self.numeric_input = 1
         self.ast = ast
         if self.ast.nodes == []:
             self.ast.add_node("\n")
-        
-    @Node.test_func([[1,5]], [[2,10]], "}")
-    @Node.test_func([[1,5], 2], [[4,12]], "2}+")
-    @Node.test_func([3, 2], [[0,2,4]], "2*")
+
+    def prepare(self, stack):
+        if len(stack) == 0:
+            self.add_arg(stack)
+        if not isinstance(stack[0], (Node.clock, Node.infinite)):
+            self.args = self.numeric_input
+
+    @Node.test_func([[1, 5]], [[2, 10]], "}")
+    @Node.test_func([[1, 5], 2], [[4, 12]], "2}+")
+    @Node.test_func([3, 2], [[0, 2, 4]], "2*")
     @Node.test_func(["tesT"], ["1110"], "$`")
     def func(self, *args):
         """Constant arg - how many items off the stack to take, default 1
@@ -44,3 +54,12 @@ Returns a list of lists to the stack"""
 
     def map(self, inf: Node.infinite):
         return inf.modify(inf.ast_map, self.ast)
+
+    def next_time(self, time: Node.clock):
+        incrementer = Sum(self.numeric_input)
+        incrementer.overwrote_default = self.overwrote_default_arg
+        done = False
+        while not done:
+            time = incrementer.inc_time(time)
+            done = self.ast.run([time])[0]
+        return time

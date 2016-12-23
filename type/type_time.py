@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import time
+
 from dateutil.relativedelta import relativedelta
 
 
@@ -50,13 +51,13 @@ class TypeTime(object):
             return "time({})".format(str(list(zip(self.values, self.time_obj)))[1:-1])
 
     def __add__(self, other: "TypeTime"):
-        return TypeTime.parse_time_delta(self.get_rel_delta() + other.get_rel_delta())
+        return TypeTime.parse_time_delta(self.get_rel_delta() + other.get_rel_delta(), extra_months=2)
 
     def __sub__(self, other: "TypeTime"):
-        return TypeTime.parse_time_delta(self.get_rel_delta() - other.get_rel_delta())
+        return TypeTime.parse_time_delta(self.get_rel_delta() - other.get_rel_delta(), extra_months=2)
 
     def __mul__(self, other):
-        return TypeTime.parse_time_delta(self.get_rel_delta() * other)
+        return TypeTime.parse_time_delta(self.get_rel_delta() * other, extra_months=other)
 
     __rmul__ = __mul__
 
@@ -100,11 +101,11 @@ class TypeTime(object):
 
     def get_rel_delta(self):
         return relativedelta(years=self.time_obj.tm_year  * self.defined_values[0],
-                             months=self.time_obj.tm_mon  * self.defined_values[1],
+                             months=self.time_obj.tm_mon  * self.defined_values[1] - 1,
                              days=self.time_obj.tm_mday   * self.defined_values[2],
                              hours=self.time_obj.tm_hour  * self.defined_values[3],
                              minutes=self.time_obj.tm_min * self.defined_values[4],
-                             seconds=self.time_obj.tm_sec * self.defined_values[5])
+                             seconds=self.time_obj.tm_sec * self.defined_values[5]).normalized()
 
     @staticmethod
     def get_defined(format):
@@ -164,9 +165,9 @@ class TypeTime(object):
         return new
 
     @staticmethod
-    def parse_time_delta(delta):
+    def parse_time_delta(delta, extra_months=1):
         rtn = TypeTime.parse_struct_time([delta.years,
-                                          delta.months,
+                                          delta.months + extra_months,
                                           delta.days,
                                           delta.hours,
                                           delta.minutes,

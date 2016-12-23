@@ -1,9 +1,13 @@
 #!/usr/bin/env python
 
+import datetime
 import math
 import string
 
+from dateutil.relativedelta import relativedelta
+
 from nodes import Node
+from type.type_time import TypeTime
 
 
 class Letters(Node):
@@ -72,3 +76,33 @@ class Letters(Node):
         if rtn:
             return [rtn]
         return [[num]]
+
+
+    def dec_time(self, time: Node.clock):
+        """Decrement a time object by the following amount:
+0 - years
+1 - months
+2 - days
+3 - hours
+4 - minutes
+5 - seconds
+6 - weeks
+7 - 4 years
+8 - decades
+9 - 12 hours"""
+        arg_map = (("years", -1),
+                   ("months", -1),
+                   ("days", -1),
+                   ("hours", -1),
+                   ("minutes", -1),
+                   ("seconds", -1),
+                   ("days", -7),
+                   ("years", -4),
+                   ("years", -10),
+                   ("hours", -12))
+        args = 2
+        if self.overwrote_default:
+            args = self.args
+        delta = relativedelta(**dict([arg_map[args]]))
+        new_time = datetime.datetime(*time.time_obj[:7]) + delta
+        return TypeTime(new_time.timetuple())
