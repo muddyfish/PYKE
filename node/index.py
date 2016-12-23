@@ -60,7 +60,7 @@ class Index(Node):
         """Gets the distance to the Earth from `object`"""
         new_time = datetime.datetime(*time.time_obj[:7])
         try:
-            return getattr(ephem, object)(new_time).earth_distance
+            return getattr(ephem, object.title())(new_time).earth_distance
         except AttributeError:
             with open("astro_db.txt") as astro_db:
                 name = ""
