@@ -6,6 +6,7 @@ import random
 import ephem
 
 from nodes import Node
+from type.type_time import TypeTime
 
 
 class Random(Node):
@@ -19,10 +20,10 @@ class Random(Node):
         
     def randint(self, inp:int):
         """Random number between 0 and inp inclusive"""
-        return random.randint(0,inp)
+        return random.randint(0, inp)
 
     def get_next_new_moon(self, time: Node.clock):
         """Gets the date of the next new moon"""
         new_time = datetime.datetime(*time.time_obj[:7])
-
-        return ephem.next_new_moon(new_time)
+        rtn_time = ephem.next_new_moon(new_time).datetime()
+        return TypeTime.parse_struct_time(rtn_time.timetuple())
