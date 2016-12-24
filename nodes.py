@@ -4,7 +4,6 @@ import glob
 import imp
 import sys
 import types
-import inspect
 
 import eval as safe_eval
 import lang_ast
@@ -125,7 +124,8 @@ class Node(object):
         funcs = [cls.func]
         for k, cur_func in items:
             if isinstance(cur_func, types.FunctionType):
-                if k in ["__init__", "func"]: continue
+                if k in ["__init__", "func"]:
+                    continue
                 cur_func = getattr(cls, k)
                 if cur_func.__annotations__ != {}:
                     funcs.append(cur_func)
@@ -154,8 +154,9 @@ class Node(object):
     
 
     @classmethod
-    def accepts(cls, code, args = None):
-        if cls.char == "": return None, None
+    def accepts(cls, code, args=None):
+        if cls.char == "":
+            return None, None
         if code.startswith(cls.char):
             code = code[len(cls.char):]
             func = cls.__init__

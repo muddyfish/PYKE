@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 import subprocess
-from collections import OrderedDict
 import sys
+from collections import OrderedDict
 from io import StringIO
 
 from flask import Flask, request, redirect, render_template, send_from_directory
@@ -52,7 +52,7 @@ def rick():
     return redirect("http://www.youtube.com/watch?v=dQw4w9WgXcQ")
 
 
-@app.route("/submit", methods = ['POST'])
+@app.route("/submit", methods=['POST'])
 def submit_code():
     code = request.form.get("code", "")
     inp = request.form.get("input", "") + "\n"

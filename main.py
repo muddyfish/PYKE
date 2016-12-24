@@ -32,7 +32,7 @@ def print_nodes():
 
 def run(code):  
     try:
-        print("RUNNING: %r"%code)
+        print("RUNNING: {} ({} bytes)".format(repr(code), len(code.encode("utf-8"))))
     except UnicodeEncodeError:
         print("RUNNING BAD UNICODE")
     ast = lang_ast.AST()
@@ -74,7 +74,6 @@ class Writer(type(sys.stdout)):
                 elif i == "\n":
                     self.line_length = 0
                 w.flush()
-
 
 
 sys.stdout = Writer(sys.stdout)
