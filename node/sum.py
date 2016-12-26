@@ -18,9 +18,16 @@ class Sum(Node):
         self.arg = args
         
     def prepare(self, stack):
-        self.args = self.arg
         if len(stack) == 0:
             self.add_arg(stack)
+        if self.arg == 1 and isinstance(stack[0], int):
+            self.func = self.digital_root
+        elif self.arg == 1 and isinstance(stack[0], str):
+            self.func = self.palendromise
+        elif isinstance(stack[0], Node.clock):
+            self.args = 1
+        else:
+            self.args = self.arg
         if self.arg == 0:
             self.args = len(stack)
         elif not self.overwrote_default:
@@ -28,10 +35,6 @@ class Sum(Node):
                 self.args = 1
             else:
                 self.args = len(stack)
-        if self.args == 1 and isinstance(stack[0], int):
-            self.func = self.digital_root
-        elif self.args == 1 and isinstance(stack[0], str):
-            self.func = self.palendromise
     
     @Node.test_func([1, 2], [3])
     @Node.test_func([[3, 4]], [7])
@@ -90,7 +93,7 @@ Else return sum(stack[:`amount`])"""
                    ("hours", 12))
         args = 2
         if self.overwrote_default:
-            args = self.args
+            args = self.arg
         delta = relativedelta(**dict([arg_map[args]]))
         new_time = datetime.datetime(*time.time_obj[:7]) + delta
         return TypeTime(new_time.timetuple())

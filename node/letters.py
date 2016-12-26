@@ -28,7 +28,7 @@ class Letters(Node):
                 lambda x: x.rstrip()
                 ]
     
-    def __init__(self, config:Node.Base10Single):
+    def __init__(self, config: Node.Base10Single):
         self.config = config
         
     @Node.test_func([[3,2]], [2], "0")
@@ -102,7 +102,7 @@ class Letters(Node):
                    ("hours", -12))
         args = 2
         if self.overwrote_default:
-            args = self.args
+            args = self.config
         delta = relativedelta(**dict([arg_map[args]]))
         new_time = datetime.datetime(*time.time_obj[:7]) + delta
         return TypeTime(new_time.timetuple())
