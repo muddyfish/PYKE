@@ -27,7 +27,7 @@
 		<button id="button-copy" class="btn btn-primary">Copy Answer</button>
 		<i class="fa fa-spinner fa-spin" id="loading"></i>
 		<div class="checkbox">
-		    <input type="checkbox" id="checkbox-warn"  checked={{ warnings }}>
+		    <input type="checkbox" id="checkbox-warn"  {{ "checked" * warnings }}>
 		    <label for="checkbox-warn">Warnings?</label>
 		</div>
 		<textarea id="code" placeholder="Code" class="form-control pad-top pad-bottom" rows="7">{{ code }}</textarea>
