@@ -31,7 +31,8 @@ Else: return prime_factors(a)"""
             return self.is_prime(-a)
         return self.prime_factors(a)
 
-    def is_prime(self, a):
+    @staticmethod
+    def is_prime(a):
         if a in Prime.checked:
             return Prime.checked[a]
         for i in range(2, int(a**.5)+1):

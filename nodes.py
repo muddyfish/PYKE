@@ -23,6 +23,7 @@ class Node(object):
     reverse_first = False
     default_arg = None
     uses_i = False
+    uses_j = False
     
     sequence = (list, tuple)
     number = (int, float)

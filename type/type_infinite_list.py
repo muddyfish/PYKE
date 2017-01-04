@@ -1,5 +1,8 @@
 from itertools import count, cycle
 
+import lang_ast
+
+
 class InfiniteList(object):
     def __init__(self):
         self._iter = None
@@ -99,38 +102,6 @@ class CycleList(InfiniteList):
         return "<CycleList>"+super(CountList, self).__repr__()
 
 
-class IntegerList(InfiniteList):
-    def __init__(self):
-        super(IntegerList, self).__init__()
-        self._iter = self.integers()
-
-    def __repr__(self):
-        return "<IntegerList>"+super(IntegerList, self).__repr__()
-
-    def integers(self):
-        i = 0
-        yield i
-        while 1:
-            i += 1
-            yield i
-            yield -i
-
-
-class NegativeList(InfiniteList):
-    def __init__(self):
-        super(NegativeList, self).__init__()
-        self._iter = self.negatives()
-
-    def __repr__(self):
-        return "<NegativeList>"+super(NegativeList, self).__repr__()
-
-    def negatives(self):
-        i = 0
-        while 1:
-            yield i
-            i -= 1
-
-
 class DummyList(InfiniteList):
     def __init__(self, iterator):
         super().__init__()
@@ -138,6 +109,30 @@ class DummyList(InfiniteList):
 
     def __repr__(self):
         return "<DummyList>"+super().__repr__()
+
+
+class FilterList(InfiniteList):
+    def __init__(self, base: InfiniteList, code: str):
+        super().__init__()
+        self.base = base
+        self.code = code
+        self._iter = iter(base)
+        self.modify(self.filter_code, code)
+
+    def __repr__(self):
+        rtn = "<filter({})>".format(repr(self.code))
+        for func, args, kwargs in self.filters[1:]:
+            rtn += "<%s(*%s, **%s)>" % (func.__name__, args, kwargs)
+        return repr(self.base)+rtn
+
+    def filter_code(self, i, code):
+        ast = lang_ast.AST()
+        ast.setup(code)
+        rtn = ast.run([i])
+        if all(rtn):
+            return i
+        raise RemovedError
+
 
 
 class RemovedError(Exception):

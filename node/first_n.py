@@ -9,8 +9,8 @@ class FirstN(Node):
     
     def __init__(self, ast: Node.EvalLiteral):
         self.ast = ast
-        self.uses_i = self.ast.uses_i
-        self.ast.uses_i = False
+        self.uses_j = self.ast.uses_j
+        self.ast.uses_j = False
         
     def prepare(self, stack):
         if len(stack) == 0:
@@ -25,13 +25,13 @@ class FirstN(Node):
         results = []
         i = start
         while len(results) != count:
-            if self.uses_i:
-                if hasattr(self.ast.i_node, "contents"):
-                    old_i = self.ast.i_node.contents
-                self.ast.i_node.contents = [len(results)+1]
+            if self.uses_j:
+                if hasattr(self.ast.j_node, "contents"):
+                    old_j = self.ast.j_node.contents
+                self.ast.j_node.contents = [len(results)+1]
             rtn = self.ast.run([i])
             try:
-                self.ast.i_node.contents = old_i
+                self.ast.j_node.contents = old_j
             except (NameError, UnboundLocalError):
                 pass
             if len(rtn) != 0 and rtn[-1]:

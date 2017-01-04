@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 
 from nodes import Node
-from type.type_infinite_list import IntegerList
+from type.type_infinite_list import FilterList, CountList
 
 
 class If(Node):
     char = "I"
     args = 1
     results = None
-    contents = IntegerList()
+    contents = FilterList(CountList(), "h2.DR}t*")
     
     def __init__(self, ast: Node.EvalLiteral):
         self.ast = ast

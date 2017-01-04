@@ -35,6 +35,7 @@ def run(code):
         print("RUNNING: {} ({} bytes)".format(repr(code), len(code.encode("utf-8"))))
     except UnicodeEncodeError:
         print("RUNNING BAD UNICODE")
+
     ast = lang_ast.AST()
     ast.setup(code, first=True)
     stack = ast.run()

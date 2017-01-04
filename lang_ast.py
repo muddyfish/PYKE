@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
-import nodes
-from nodes import Node
 import eval as safe_eval
+import nodes
 import settings
+from nodes import Node
 
 
 class AST(object):
@@ -15,6 +15,7 @@ class AST(object):
         self.nodes = []
         self.restore_point = None
         self.uses_i = False
+        self.uses_j = False
         while code != "" and (self.first or code[0] not in AST.END_CHARS):
             code, node = self.add_node(code)
             if node.uses_i:
@@ -23,6 +24,12 @@ class AST(object):
                     self.i_node = node.__class__
                 else:
                     self.i_node = node.ast.i_node
+            if node.uses_j:
+                self.uses_j = True
+                if node.char == "j":
+                    self.j_node = node.__class__
+                else:
+                    self.j_node = node.ast.j_node
         if code != "" and code[0] != "(":
             code = code[1:]
         if len(self.nodes) > 1:
@@ -35,7 +42,7 @@ class AST(object):
             stack = []
         if self.first:
             retries = 0
-        elif self.uses_i:
+        if self.uses_i:
             if hasattr(self.i_node, "contents"):
                 old_i = self.i_node.contents
             if stack:
