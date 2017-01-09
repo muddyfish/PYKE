@@ -7,20 +7,25 @@ class Greater(Node):
     args = 2
     results = 1
     
-    @Node.test_func([4,2], [1])  
-    @Node.test_func([0,0], [0])  
-    @Node.test_func([4,5], [0])  
-    def func(self, a,b):
+    @Node.test_func([4, 2], [1])  
+    @Node.test_func([0, 0], [0])  
+    @Node.test_func([4, 5], [0])  
+    def func(self, a, b):
         """a>b"""
         return (a>b)+0
     
-    @Node.test_func(["test",2], ["st"])  
-    def indexable_1(self, a:Node.indexable, b:int):
+    @Node.test_func(["test", 2], ["st"])  
+    def indexable_1(self, a: Node.indexable, b: int):
         """a[b:]"""
         return [a[b:]]
     
-    @Node.test_func([3,"test"], ["est"])  
-    def indexable_2(self, a:int, b:Node.indexable):
+    @Node.test_func([3, "test"], ["est"])  
+    def indexable_2(self, a: int, b: Node.indexable):
         """b[-a:]"""
         return [b[-a:]]
     
+    def inf_next_n(self, inf: Node.infinite, n: int):
+        return [[next(inf) for i in range(n)]]
+
+    def inf_next_n(self, n: int, inf: Node.infinite):
+        return [[next(inf) for i in range(n)]]

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from nodes import Node
+from type.type_infinite_list import DummyList
 
 
 class Subtract(Node):
@@ -39,3 +40,21 @@ class Subtract(Node):
     def r_pad(self, string: str, amount: int):
         """pad string with spaces to make `amount` long"""
         return string.rjust(amount)
+
+    def sort_remove_inf_list(self, a: Node.infinite, b: Node.infinite):
+        def sort_remove():
+            cur_a = next(a)
+            cur_b = next(b)
+            while 1:
+                if cur_a < cur_b:
+                    yield cur_a
+                    cur_a = next(a)
+                elif cur_a > cur_b:
+                    yield cur_b
+                    cur_b = next(b)
+                else:
+                    cur_a = next(a)
+                    cur_b = next(b)
+        return DummyList(sort_remove())
+
+
