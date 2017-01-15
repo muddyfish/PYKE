@@ -134,6 +134,5 @@ class FilterList(InfiniteList):
         raise RemovedError
 
 
-
 class RemovedError(Exception):
     pass

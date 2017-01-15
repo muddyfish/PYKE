@@ -152,7 +152,6 @@ class Node(object):
             args.insert(0, arg)
         else:
             args.append(arg)
-    
 
     @classmethod
     def accepts(cls, code, args=None):
@@ -240,14 +239,17 @@ class Node(object):
     
     def setup_repr(self, args):
         self.init_args = args
-       
+
+    @staticmethod
     def prefer(func):
         func.prefer = True
         return func
-    
+
+    @staticmethod
     def is_func(func):
         func.is_func = True
         return func
+
 
 def load_node(node, file_path):
     path_var = "node.%s"%node
@@ -258,7 +260,8 @@ def load_node(node, file_path):
                 nodes[node] = c
                 return c
         except TypeError: pass
-      
+
+
 def get_nodes():
     nodes = glob.glob("node/*.py")
     return sorted(nodes, key = lambda node: node[5:-3] in
