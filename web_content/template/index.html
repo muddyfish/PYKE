@@ -77,12 +77,18 @@
 			function copy_code() {
 				var length = $('#code').val().length;
 				var header = "##Pyke, "+(length.toString())+" bytes\n";
-				var code = ("\n"+$('#code').val()).split("\n").join("\n    ")+"\n";
+				var code = ("\n"+$('#code').val()).split("\n").join("\n    ");
 				create_permalink();
 				var link = window.location.href;
 				var try_it = "[Try it here!]("+link+")\n";
-				$("#answer").text(header+code+try_it);
-				dialog.dialog("open");
+				$.post('/explain', {
+                        code: $('#code').val()
+                    },
+                    function(explanation) {
+                        $("#answer").text(header+code+"\n\n"+try_it+"\n\n"+explanation);
+                        dialog.dialog("open");
+                    }
+				);
 			}
 
 			$(function() {

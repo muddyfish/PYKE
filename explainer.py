@@ -1,66 +1,71 @@
-import lang_ast
-from node.numeric_literal import NumericLiteral
+from typing import List
+
+from lang_ast import AST
 from nodes import Node, nodes
 
-class Explainer(object):
-    def __init__(self):
-        self.annotation_explain = {Node.EvalLiteral: self.explain_eval,
-                                   Node.NodeSingle: self.explain_node,
-                                   Node.NodeClass: self.explain_node}
-    
-    def explain(self, code, code_indent = 0, explain_indent = 0, pad_indent = 0):
-        while code != "":
-            code, node_code, node = self.add_node(code)
-            print(" "*code_indent, node_code, " "*(len(code)+pad_indent), " - ", sep="", end="")
-            self.parse_node(node_code, node, code_indent, explain_indent, pad_indent + len(code))
-            code_indent += len(node_code)
-    
-    def add_node(self, code):
-        new_code, node = lang_ast.AST._add_node(code)
-        if new_code == "":
-            code_removed = code
-        else:                
-            code_removed = code[:-len(new_code)]
-        return new_code, code_removed, node
 
-    def parse_node(self, code, node, code_indent, explain_indent, pad_indent):
-        code_indent += len(node.char)
-        func = node.__init__
+class NodeExplainer(object):
+    def __init__(self, node: Node, diff: str, indent: int=0, remaining: int=0):
+        self.node = node
+        self.diff = diff
+        self.indent = indent
+        self.remaining = remaining
+
+    def __str__(self):
+        rtn = [" "*self.indent + self.diff.replace("\n", r"\n") + " "*(self.remaining+1-self.diff.count("\n")) + "- " + self.explain()]
+        func = self.node.__class__.__init__
         annotations = func.__annotations__
-        if annotations:
-            code = code[len(node.char):]
-            arg_names = func.__code__.co_varnames[1:func.__code__.co_argcount]
-            for arg_name in arg_names:
-                if arg_name not in annotations: continue
-                annotation_name = annotations[arg_name]
-                if annotation_name in self.annotation_explain:
-                    self.annotation_explain[annotation_name](code, node, code_indent, explain_indent, pad_indent)
-                else:
-                    annotation_class = nodes[annotation_name]
-                    new_code, annotation_node = Node.add_const_arg(code, annotation_class, annotations[arg_name])
-                    print(node)
-        else:
-            self.explain_default(code, node)
-    
-    def explain_eval(self, code, node, code_indent, explain_indent, pad_indent):
-        print(node)
-        if code[-1] in lang_ast.AST.END_CHARS:
-            code = code[:-1]
-            pad_indent += 1
-        self.explain(code, code_indent, explain_indent, pad_indent)
-        
-    def explain_node(self, code, node, code_indent, explain_indent, pad_indent):
-        print(node)
-    
-    def explain_default(self, code, node):
-        print(node)
-    
-    def check_code(self, code, node):
-        if node.accepts(code) == (None, None):
-            print("Node (",node,") doesn't accept ", code, sep="")
-    
-        
+        arg_names = func.__code__.co_varnames[1:func.__code__.co_argcount]
+        arg_code = self.diff
+        arg_code = arg_code[len(self.node.char):]
+        self.indent += len(self.node.char)
+        for arg in arg_names:
+            if arg in annotations:
+                const_arg = annotations[arg]
+                node = nodes[const_arg]
+                new_code, results = Node.add_const_arg(arg_code, node, const_arg)
+                if new_code is not None:
+                    diff = arg_code[:-len(new_code)]
+                    if diff == "":
+                        diff = arg_code
+                    if isinstance(results, (nodes["eval_literal"])):
+                        rtn.append(str(Explainer(diff, [], self.indent, self.remaining+len(new_code))))
+                    self.indent += len(diff)
+                    arg_code = new_code
+        return "\n".join(rtn)
+
+    def explain(self):
+        return ""
+
+class Explainer(object):
+    def __init__(self, code: str, arg_types: List[type], indent: int=0, remaining: int=0):
+        self.code = code
+        self.arg_types = arg_types
+        self.indent = indent
+        if remaining == 0:
+            remaining = self.code.count("\n")
+        self.remaining = remaining
+        self.tokens = self.parse_code(self.code)
+
+    def __str__(self):
+        return "\n".join(map(str, self.tokens))
+
+    def parse_code(self, code) -> List[Node]:
+        rtn = []
+        while code:
+            if code.startswith("(") or code.startswith(")"):
+                self.indent += 1
+                code = code[1:]
+            new_code, node = AST._add_node(code)
+            diff = code[:-len(new_code)]
+            if diff == "":
+                diff = code
+            code = new_code
+            rtn.append(NodeExplainer(node, diff, self.indent, self.remaining+len(code)))
+            self.indent += len(diff) + diff.count("\n")
+            self.remaining -= diff.count("\n")
+        return rtn
 
 if __name__ == '__main__':
-    e = Explainer()
-    e.explain("hZRVoeX*oe+")
+    e = Explainer("hF1_P\n(P", arg_types=[int])
+    print(e)

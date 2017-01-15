@@ -8,6 +8,7 @@ from io import StringIO
 from flask import Flask, request, redirect, render_template, send_from_directory
 from flask.ext.cache import Cache
 
+import explainer
 import lang_ast
 import literal_gen
 import nodes
@@ -82,6 +83,11 @@ def submit_code():
         response += e.output.decode("cp1252", errors="replace")
     return response
 
+
+@app.route("/explain", methods=['POST'])
+def explain_code():
+    code = request.form.get("code", "")
+    return str(explainer.Explainer(code, []))
 
 @app.route("/dictionary")
 def dictionary():
