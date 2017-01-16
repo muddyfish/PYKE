@@ -57,6 +57,7 @@ def rick():
 def submit_code():
     code = request.form.get("code", "")
     inp = request.form.get("input", "") + "\n"
+    print(code, inp)
     warnings = int(request.form.get("warnings", "0"), 10)
     max_recurse = max(1, min(10000, int(request.form.get("max_recurse", "1000"), 10)))
     args = ['python3',
@@ -87,7 +88,10 @@ def submit_code():
 @app.route("/explain", methods=['POST'])
 def explain_code():
     code = request.form.get("code", "")
-    return str(explainer.Explainer(code, []))
+    try:
+        return ("\n"+str(explainer.Explainer(code, []))).replace("\n", "\n    ")
+    except:
+        return ""
 
 @app.route("/dictionary")
 def dictionary():
