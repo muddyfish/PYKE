@@ -24,3 +24,20 @@ class Less(Node):
         """b[:-a]"""
         return [b[:-a]]
     
+    def inf_upto_n(self, inf: Node.infinite, n: int):
+        rtn = []
+        nxt = next(inf)
+        while nxt < n:
+            rtn.append(nxt)
+            nxt = next(inf)
+        return [rtn]
+
+    def inf_upto_n_2(self, n: int, inf: Node.infinite):
+        rtn = []
+        nxt = next(inf)
+        while nxt < n:
+            rtn.append(nxt)
+            nxt = next(inf)
+        return [rtn]
+
+
