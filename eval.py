@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import ast
-import settings
 
+import settings
 from type.type_time import time_eval
 
 

@@ -113,6 +113,7 @@ class AST(object):
         return stack
 
     def strip_infinite(self, infinite):
+        infinite.prepend(next(infinite))
         try:
             arg = safe_eval.evals[settings.SAFE](input())
         except EOFError:

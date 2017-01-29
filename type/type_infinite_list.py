@@ -1,3 +1,4 @@
+from collections import deque
 from itertools import count, cycle
 
 import lang_ast
@@ -7,6 +8,7 @@ class InfiniteList(object):
     def __init__(self):
         self._iter = None
         self.filters = []
+        self.prepends = deque()
 
     def __repr__(self):
         rtn = ""
@@ -22,6 +24,8 @@ class InfiniteList(object):
         return self
 
     def __next__(self):
+        if self.prepends:
+            return self.prepends.popleft()
         while 1:
             try:
                 i = next(self._iter)
@@ -42,6 +46,14 @@ class InfiniteList(object):
         return self
 
     def filter(self, i, ast):
+        rtn = ast.run([i])
+        if all(rtn):
+            return i
+        raise RemovedError
+
+    def filter_code(self, i, code):
+        ast = lang_ast.AST()
+        ast.setup(code)
         rtn = ast.run([i])
         if all(rtn):
             return i
@@ -82,6 +94,9 @@ class InfiniteList(object):
         if len(rtn) == 1:
             rtn = rtn[0]
         return rtn
+
+    def prepend(self, value):
+        self.prepends.appendleft(value)
 
 
 class CountList(InfiniteList):
@@ -124,14 +139,6 @@ class FilterList(InfiniteList):
         for func, args, kwargs in self.filters[1:]:
             rtn += "<%s(*%s, **%s)>" % (func.__name__, args, kwargs)
         return repr(self.base)+rtn
-
-    def filter_code(self, i, code):
-        ast = lang_ast.AST()
-        ast.setup(code)
-        rtn = ast.run([i])
-        if all(rtn):
-            return i
-        raise RemovedError
 
 
 class RemovedError(Exception):

@@ -23,4 +23,9 @@ class Less(Node):
     def indexable_2(self, a:int, b:Node.indexable):
         """b[:-a]"""
         return [b[:-a]]
-    
+
+    def inf_over_n(self, n: int, inf: Node.infinite):
+        return inf.modify(inf.filter_code, "{}>".format(n))
+
+    def inf_under_n(self, inf: Node.infinite, n: int):
+        return inf.modify(inf.filter_code, "{}<".format(n))

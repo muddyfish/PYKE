@@ -144,8 +144,6 @@ class Node(object):
         sys.stderr.write("Missing arg to %r, evaling input.\n"%self)
         try:
             arg = safe_eval.evals[settings.SAFE](input())
-            if not hasattr(q, "contents"):
-                q.contents = arg
         except EOFError:
             arg = q.contents
         if self.__class__.reverse_first:
