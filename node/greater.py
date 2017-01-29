@@ -27,5 +27,5 @@ class Greater(Node):
     def inf_next_n(self, inf: Node.infinite, n: int):
         return [[next(inf) for i in range(n)]]
 
-    def inf_next_n(self, n: int, inf: Node.infinite):
+    def inf_next_n_2(self, n: int, inf: Node.infinite):
         return [[next(inf) for i in range(n)]]
