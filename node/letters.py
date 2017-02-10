@@ -79,7 +79,7 @@ class Letters(Node):
 
     def nth_root(self, num: float):
         conf = 3 or self.config
-        return num ** (1 / conf)
+        return round(num ** (1 / conf), 10)
 
     def dec_time(self, time: Node.clock):
         """Decrement a time object by the following amount:
