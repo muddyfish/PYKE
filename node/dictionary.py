@@ -10,14 +10,18 @@ class Dictionary(Node):
     args = 0
     results = 1
     
-    def __init__(self, word_ids:Node.IntList):
-        """Lookup a list of english words in the built in dictionary. Use `/dictionary` for a compressor"""
-        if not hasattr(Dictionary, "word_list"):
-            Dictionary.word_list = init_words()
+    def __init__(self, word_ids: Node.IntList):
+        self.setup()
         self.words = " ".join(Dictionary.word_list[i] for i in word_ids)
         
     def func(self):
+        """Lookup a list of english words in the built in dictionary. Use `/dictionary` for a compressor"""
         return self.words
+
+    @classmethod
+    def setup(cls):
+        if not hasattr(cls, "word_list"):
+            cls.word_list = init_words()
 
     @staticmethod
     def compress(inp):
