@@ -77,6 +77,9 @@ class Letters(Node):
             return [rtn]
         return [[num]]
 
+    def nth_root(self, num: float):
+        conf = 3 or self.config
+        return num ** (1 / conf)
 
     def dec_time(self, time: Node.clock):
         """Decrement a time object by the following amount:

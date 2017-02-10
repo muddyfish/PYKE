@@ -132,3 +132,6 @@ Or print a 1D list with padding equal to the maximum length"""
         moon = ephem.Moon()  # I seriously just added a dependency for this one line :P
         moon.compute(new_time)
         return moon.phase
+
+    def is_int(self, num: float):
+        return num % 1 == 0
