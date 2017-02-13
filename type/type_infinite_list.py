@@ -51,13 +51,11 @@ class InfiniteList(object):
             return i
         raise RemovedError
 
-    def filter_code(self, i, code):
+    def modify_code(self, i, code):
         ast = lang_ast.AST()
         ast.setup(code)
         rtn = ast.run([i])
-        if all(rtn):
-            return i
-        raise RemovedError
+        return rtn
 
     def not_filter(self, i, ast):
         rtn = ast.run([i])
@@ -126,16 +124,16 @@ class DummyList(InfiniteList):
         return "<DummyList>"+super().__repr__()
 
 
-class FilterList(InfiniteList):
+class ModifyList(InfiniteList):
     def __init__(self, base: InfiniteList, code: str):
         super().__init__()
         self.base = base
         self.code = code
         self._iter = iter(base)
-        self.modify(self.filter_code, code)
+        self.modify(self.modify_code, code)
 
     def __repr__(self):
-        rtn = "<filter({})>".format(repr(self.code))
+        rtn = "<modify({})>".format(repr(self.code))
         for func, args, kwargs in self.filters[1:]:
             rtn += "<%s(*%s, **%s)>" % (func.__name__, args, kwargs)
         return repr(self.base)+rtn
