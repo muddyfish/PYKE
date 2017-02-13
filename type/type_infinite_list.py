@@ -55,7 +55,7 @@ class InfiniteList(object):
         ast = lang_ast.AST()
         ast.setup(code)
         rtn = ast.run([i])
-        return rtn
+        return rtn[0]
 
     def not_filter(self, i, ast):
         rtn = ast.run([i])
