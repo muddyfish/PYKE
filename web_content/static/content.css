@@ -30,22 +30,15 @@
     margin-top: 16px;
 }
 
-.docs,
-.info {
+.docs {
+    padding-top: 32px;
     display: inline;
-    float: left;
     position: relative;
 }
 
-
-.docs {
-    float: right;
-    padding-top: 32px;
-    width: 65%;
-}
-
 .info {
-    width: 30%;
+    display: inline;
+    position: relative;
 }
 
 td, th {
@@ -54,4 +47,29 @@ td, th {
 
 .ui-dialog {
     padding: .3em;
+}
+
+@media screen and (max-width: 1040px) {
+    .docs {
+        position-top: 32px;
+        width: 95%;
+        float: bottom;
+    }
+
+    .info {
+        width: 95%;
+        float: top;
+    }
+}
+
+@media screen and (min-width: 1041px) {
+    .docs {
+        width: 65%;
+        float: right;
+    }
+
+    .info {
+        width: 30%;
+        float: left;
+    }
 }
