@@ -13,7 +13,6 @@ class AST(object):
     def setup(self, code, first=False):
         self.first = first
         self.nodes = []
-        self.restore_point = None
         self.uses_i = False
         self.uses_j = False
         while code != "" and (self.first or code[0] not in AST.END_CHARS):
@@ -40,8 +39,6 @@ class AST(object):
     def run(self, stack=None):
         if stack is None:
             stack = []
-        if self.first:
-            retries = 0
         if self.uses_i:
             if hasattr(self.i_node, "contents"):
                 old_i = self.i_node.contents
@@ -60,19 +57,11 @@ class AST(object):
                 if not self.first:
                     raise
                 stack = goto.stack
-                self.restore_point = [stack, counter]
-                counter = 0
-                retries += 1
-                if retries == AST.MAX_RECURSE:
-                    if self.restore_point is not None:
-                        stack, counter = self.restore_point
-                        self.restore_point = None
-                    else:
-                        counter = len(self.nodes)
+                restore_point = [stack, counter]
             except:
-                if self.restore_point is not None:
-                    stack, counter = self.restore_point
-                    self.restore_point = None
+                if restore_point is not None:
+                    stack, counter = restore_point
+                    restore_point = None
                 else:
                     raise
         try:
@@ -101,15 +90,15 @@ class AST(object):
                 assert(new_node is not None)
                 accepting.append((node.char, new_code, new_node))
         if not accepting:
-            raise SyntaxError("No nodes will accept code: %r"%(code))
-        return sorted(accepting, key = lambda node:-len(node[0]))[0][1:]
+            raise SyntaxError("No nodes will accept code: {}".format(repr(code)))
+        return sorted(accepting, key=lambda node:-len(node[0]))[0][1:]
 
     def implicit_complete(self, stack):
         stack_types = {Node.infinite: self.strip_infinite}
         for i, value in enumerate(stack):
-            for type in stack_types:
-                if isinstance(value, type):
-                    stack[i] = stack_types[type](stack[i])
+            for stack_type, func in stack_types.items():
+                if isinstance(value, stack_type):
+                    stack[i] = func(stack[i])
         return stack
 
     def strip_infinite(self, infinite):
@@ -138,6 +127,6 @@ class GotoStart(RuntimeError):
 
 def test_code(code, out_stack):
     ast = AST()
-    ast.setup(code, first = True)
+    ast.setup(code, first=True)
     rtn_stack = ast.run()
     assert rtn_stack == out_stack, "rtn: %s, wanted: %s (code: %s)" % (rtn_stack, out_stack, code)
