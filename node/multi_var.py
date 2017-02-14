@@ -1,11 +1,12 @@
 
 from nodes import Node
 
+
 class MultiVar(Node):
     char = "'"
     args = 0
     results = None
-    contents = -1
+    contents = 100
     
     def __init__(self, node_1: Node.NodeSingle, node_2: Node.NodeSingle):
         self.node_1 = node_1
@@ -18,6 +19,10 @@ class MultiVar(Node):
 
     @Node.is_func
     def apply(self, *stack):
+        """With the current stack, run the next 2 nodes with that stack.
+Pops `n` items from the stack where `n` is the greatest number of elements required.
+When a different number of args are taken by the nodes, the one that takes fewest consumes
+from closest to start of stack first towards the top of stack"""
         try:
             rtn = self.node_2(stack[:self.node_2.args])
             rtn.extend(self.node_1(stack[:self.node_1.args]))
