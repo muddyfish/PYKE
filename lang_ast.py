@@ -78,10 +78,7 @@ class AST(object):
         if self.first:
             stack = self.implicit_complete(stack)
         return stack
-      
-    def __repr__(self):
-        return str(self.nodes)
-    
+
     def add_node(self, code):
         code, node = AST._add_node(code)
         self.nodes.append(node)

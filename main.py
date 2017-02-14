@@ -119,5 +119,6 @@ if __name__ == "__main__":
     run_func(run_string)
     if settings.WARNINGS:
         print("STACK")
-    for obj in stack[::-1]:
+    for obj in reversed(stack):
         print(obj)
+    sys.stdout = sys.__stdout__
