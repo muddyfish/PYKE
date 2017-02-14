@@ -1,13 +1,19 @@
 #!/usr/bin/env python
 
+import os
+import signal
+
 import eval as safe_eval
 import nodes
 import settings
 from nodes import Node
 
+is_windows = hasattr(os.sys, 'winver')
+
 
 class AST(object):
     END_CHARS = ")("
+    run = True
     
     def setup(self, code, first=False):
         self.first = first
@@ -44,7 +50,7 @@ class AST(object):
             if stack:
                 self.i_node.contents = [stack[0]]
         counter = 0
-        while counter != len(self.nodes):
+        while counter != len(self.nodes) and AST.run:
             cur_node = self.nodes[counter]
             counter += 1
             try:
@@ -58,9 +64,6 @@ class AST(object):
                 stack = goto.stack
                 restore_point = [stack, counter]
                 counter = 0
-            except KeyboardInterrupt:
-                print("interrupt")
-                break
             except:
                 if restore_point is not None:
                     stack, counter = restore_point
@@ -121,6 +124,12 @@ class AST(object):
             sequence = infinite[:max(arg)+1]
             return "\n".join(str(sequence[i]) for i in arg)
         return infinite
+
+
+if is_windows:
+    signal.signal(signal.SIGBREAK, lambda: setattr(AST, "run", False))
+else:
+    signal.signal(signal.SIGTERM, lambda: setattr(AST, "run", False))
 
 
 class GotoStart(RuntimeError):

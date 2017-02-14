@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 
+import os
+import signal
+import subprocess
 import sys
 from collections import OrderedDict
 from io import StringIO
-from signal import CTRL_C_EVENT
-from subprocess import Popen, PIPE, STDOUT, CREATE_NEW_PROCESS_GROUP, TimeoutExpired
+from subprocess import Popen, PIPE, STDOUT, TimeoutExpired
 
 from flask import Flask, request, redirect, render_template, send_from_directory
 from flask.ext.cache import Cache
@@ -17,7 +19,8 @@ import settings
 
 for node in nodes.nodes:
     nodes.nodes[node].run_tests()
-        
+
+is_windows = hasattr(os.sys, 'winver')
 
 sys.stdin = StringIO()
 app = Flask(__name__,
@@ -33,6 +36,8 @@ modified_process = Popen(["git",
                          stdout=PIPE)
 output, errors = modified_process.communicate()
 updated_time = output.decode()[:-1]
+if is_windows:
+    updated_time += ", WINDOWS"
 
 
 @app.route("/")
@@ -73,7 +78,7 @@ def submit_code(timeout=5):
                stdin=PIPE,
                stdout=PIPE,
                stderr=stderr,
-               creationflags=CREATE_NEW_PROCESS_GROUP) as process:
+               creationflags=is_windows and subprocess.CREATE_NEW_PROCESS_GROUP) as process:
         process.stdin.write(bytearray(inp, "utf-8"))
         process.stdin.close()
         response = ""
@@ -81,9 +86,12 @@ def submit_code(timeout=5):
             process.wait(timeout)
         except TimeoutExpired:
             response = "Timeout running code.\n"
-            process.send_signal(CTRL_C_EVENT)
+            if is_windows:
+                os.kill(process.pid, signal.CTRL_BREAK_EVENT)
+            else:
+                process.send_signal(signal.SIGTERM)
             try:
-                process.wait(1)
+                process.wait(2)
             except TimeoutExpired:
                 response += "Really timed out code\n"
             process.kill()
