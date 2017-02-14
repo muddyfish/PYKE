@@ -17,6 +17,9 @@ class MultiVar(Node):
         self.node_2.prepare(stack)
         self.args = max([self.node_1.args,self.node_2.args])
 
+    @Node.test_func([1, 5], [2, 4], "-h")
+    @Node.test_func([5], [6, 4], "th")
+    @Node.test_func(["hello"], ["h", "ello"], "th")
     @Node.is_func
     def apply(self, *stack):
         """With the current stack, run the next 2 nodes with that stack.
