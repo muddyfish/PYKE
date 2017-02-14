@@ -42,6 +42,7 @@ class AST(object):
         return code
     
     def run(self, stack=None):
+        restore_point = None
         if stack is None:
             stack = []
         if self.uses_i:
