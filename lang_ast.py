@@ -58,6 +58,7 @@ class AST(object):
                     raise
                 stack = goto.stack
                 restore_point = [stack, counter]
+                counter = 0
             except:
                 if restore_point is not None:
                     stack, counter = restore_point
