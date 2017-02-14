@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 
-import subprocess
 import sys
 from collections import OrderedDict
 from io import StringIO
+from signal import CTRL_C_EVENT
+from subprocess import Popen, PIPE, STDOUT, CREATE_NEW_PROCESS_GROUP, TimeoutExpired
 
 from flask import Flask, request, redirect, render_template, send_from_directory
 from flask.ext.cache import Cache
@@ -24,12 +25,12 @@ app = Flask(__name__,
             static_folder="web_content/static/")
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
-modified_process = subprocess.Popen(["git",
-                                     "log",
-                                     "-1",
-                                     "--format=%cd",
-                                     "--date=local"],
-                                    stdout=subprocess.PIPE)
+modified_process = Popen(["git",
+                          "log",
+                          "-1",
+                          "--format=%cd",
+                          "--date=local"],
+                         stdout=PIPE)
 output, errors = modified_process.communicate()
 updated_time = output.decode()[:-1]
 
@@ -54,34 +55,39 @@ def rick():
 
 
 @app.route("/submit", methods=['POST'])
-def submit_code():
+def submit_code(timeout=5):
     code = request.form.get("code", "")
     inp = request.form.get("input", "") + "\n"
     print(code, inp)
     warnings = int(request.form.get("warnings", "0"), 10)
-    max_recurse = max(1, min(10000, int(request.form.get("max_recurse", "1000"), 10)))
     args = ['python3',
             'main.py',
-            '--max-recurse',
-            str(max_recurse),
             '--safe',
             '--',
             code]
-    stderr = subprocess.PIPE
+    stderr = PIPE
     if warnings:
         args.insert(2, "--warnings")
-        stderr = subprocess.STDOUT
-    try:
-        process = subprocess.check_output(args,
-                                          input=bytearray(inp, 'utf-8'),
-                                          stderr=stderr,
-                                          timeout=5)
-        response = process.decode("cp1252", errors="replace")
-    except subprocess.CalledProcessError as e:
-        response = e.output.decode("cp1252", errors="replace")
-    except subprocess.TimeoutExpired as e:
-        response = "Timeout running code.\n"
-        response += e.output.decode("cp1252", errors="replace")
+        stderr = STDOUT
+    with Popen(args,
+               stdin=PIPE,
+               stdout=PIPE,
+               stderr=stderr,
+               creationflags=CREATE_NEW_PROCESS_GROUP) as process:
+        process.stdin.write(bytearray(inp, "utf-8"))
+        process.stdin.close()
+        response = ""
+        try:
+            process.wait(timeout)
+        except TimeoutExpired:
+            response = "Timeout running code.\n"
+            process.send_signal(CTRL_C_EVENT)
+            try:
+                process.wait(1)
+            except TimeoutExpired:
+                response += "Really timed out code\n"
+            process.kill()
+        response += process.stdout.read().decode("cp1252", errors="replace")
     return response
 
 
@@ -92,6 +98,7 @@ def explain_code():
         return ("\n"+str(explainer.Explainer(code, []))).replace("\n", "\n    ")
     except:
         return ""
+
 
 @app.route("/dictionary")
 def dictionary():

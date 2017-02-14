@@ -8,7 +8,6 @@ from nodes import Node
 
 class AST(object):
     END_CHARS = ")("
-    MAX_RECURSE = 0
     
     def setup(self, code, first=False):
         self.first = first
@@ -59,6 +58,9 @@ class AST(object):
                 stack = goto.stack
                 restore_point = [stack, counter]
                 counter = 0
+            except KeyboardInterrupt:
+                print("interrupt")
+                break
             except:
                 if restore_point is not None:
                     stack, counter = restore_point

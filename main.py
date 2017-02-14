@@ -87,9 +87,6 @@ parser = argparse.ArgumentParser(description='PYKE Interpreter')
 parser.add_argument('-w', '--warnings', dest='warnings', action='store_const',
                     const=True, default=False,
                     help='Force warnings')
-parser.add_argument('-r', '--max-recurse', dest='recurse',
-                    default="-1",
-                    help='Recursion limit')
 parser.add_argument('-s', '--safe', dest='safe', action='store_const',
                     const=True, default=settings.SAFE,
                     help='Force safe-eval')
@@ -108,7 +105,6 @@ if args.print_nodes:
     print_nodes()
 settings.WARNINGS = args.warnings
 settings.SAFE = args.safe
-lang_ast.AST.MAX_RECURSE = int(args.recurse, 10)
 
 if __name__ == "__main__":
     if args.file:
