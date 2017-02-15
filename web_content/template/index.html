@@ -31,8 +31,8 @@
                     <input type="checkbox" id="checkbox-warn"  {{ "checked" * warnings }}>
                     <label for="checkbox-warn">Warnings?</label>
                 </div>
-                <textarea id="code" placeholder="Code" class="form-control pad-top pad-bottom" rows="7">{{ code }}</textarea>
-                <textarea id="input" placeholder="Input" class="form-control pad-top pad-bottom" rows="3">{{ input }}</textarea>
+                <textarea id="code" placeholder="Code" class="form-control pad-top pad-bottom" rows="{{ code.count("\n")+1 if code else 7 }}">{{ code }}</textarea>
+                <textarea id="input" placeholder="Input" class="form-control pad-top pad-bottom" rows="{{ input.count("\n")+1 if input else 3 }}">{{ input }}</textarea>
                 <pre class="scrollable" id="output"></pre>
             </div>
             <div class="docs">

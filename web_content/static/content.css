@@ -18,7 +18,6 @@
 }
 
 .container {
-    padding-top: 32px;
     width:95%;
 }
 
@@ -60,6 +59,10 @@ td, th {
         width: 95%;
         float: top;
     }
+
+    #code, #input, #output {
+        max-width: 479px;
+    }
 }
 
 @media screen and (min-width: 1041px) {
@@ -71,5 +74,11 @@ td, th {
     .info {
         width: 30%;
         float: left;
+    }
+}
+
+@media screen and (min-height: 640px) {
+    .container {
+        padding-top: 32px;
     }
 }
