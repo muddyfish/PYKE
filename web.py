@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import logging
 import os
 import signal
 import subprocess
@@ -20,7 +21,6 @@ import settings
 for node in nodes.nodes:
     nodes.nodes[node].run_tests()
 
-is_windows = hasattr(os.sys, 'winver')
 
 sys.stdin = StringIO()
 app = Flask(__name__,
@@ -36,6 +36,8 @@ modified_process = Popen(["git",
                          stdout=PIPE)
 output, errors = modified_process.communicate()
 updated_time = output.decode()[:-1]
+
+is_windows = hasattr(os.sys, 'winver')
 if is_windows:
     updated_time += ", WINDOWS"
 
@@ -225,7 +227,15 @@ def send_js(path):
     return send_from_directory('web_content/static', path)
 
 
-def main(debug = settings.DEBUG, url="127.0.0.1"):
+def main(debug=settings.DEBUG, url="127.0.0.1"):
+    log = logging.getLogger('werkzeug')
+    log.setLevel(logging.DEBUG)
+    file_handler = logging.FileHandler("log.log", "a")
+    file_handler.setLevel(logging.DEBUG)
+    log.addHandler(file_handler)
+    stream_handler = logging.StreamHandler()
+    stream_handler.setLevel(logging.DEBUG)
+    log.addHandler(stream_handler)
     app.debug = debug
     app.run(url)
 
