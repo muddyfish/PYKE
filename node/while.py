@@ -20,10 +20,8 @@ while not continue:
     continue = pop(stack)
 return stack"""
         cont = True
-        max_num = 1000
-        while cont and max_num:
+        while cont:
             stack = self.ast.run(list(stack))[::-1]
             cont = stack.pop()
-            max_num -= 1
         return stack
     
