@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import ast
+import sys
 
-import settings
 from type.type_time import time_eval
 
 
@@ -12,7 +12,7 @@ def safe_eval(string):
         time_literal = time_eval(string)
         if time_literal:
             return time_literal
-        if settings.WARNINGS: print("BAD EVAL")
+        sys.stderr.write("BAD EVAL\n")
         return string
 
 
@@ -23,7 +23,7 @@ def nonsafe_eval(string):
         time_literal = time_eval(string)
         if time_literal:
             return time_literal
-        if settings.WARNINGS: print("BAD EVAL")
+        sys.stderr.write("BAD EVAL\n")
         return string
 
 evals = {True: safe_eval, False: nonsafe_eval}
