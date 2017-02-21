@@ -57,6 +57,14 @@ class InfiniteList(object):
         rtn = ast.run([i])
         return rtn[0]
 
+    def modify_filter(self, i, code):
+        ast = lang_ast.AST()
+        ast.setup(code)
+        rtn = ast.run([i])
+        if all(rtn):
+            return i
+        raise RemovedError
+
     def not_filter(self, i, ast):
         rtn = ast.run([i])
         if not any(rtn):
@@ -134,6 +142,21 @@ class ModifyList(InfiniteList):
 
     def __repr__(self):
         rtn = "<modify({})>".format(repr(self.code))
+        for func, args, kwargs in self.filters[1:]:
+            rtn += "<%s(*%s, **%s)>" % (func.__name__, args, kwargs)
+        return repr(self.base)+rtn
+
+
+class FilterList(InfiniteList):
+    def __init__(self, base: InfiniteList, code: str):
+        super().__init__()
+        self.base = base
+        self.code = code
+        self._iter = iter(base)
+        self.modify(self.filter_code, code)
+
+    def __repr__(self):
+        rtn = "<filter({})>".format(repr(self.code))
         for func, args, kwargs in self.filters[1:]:
             rtn += "<%s(*%s, **%s)>" % (func.__name__, args, kwargs)
         return repr(self.base)+rtn

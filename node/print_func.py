@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from nodes import Node
-from type.type_infinite_list import CountList, ModifyList
+from type.type_infinite_list import CountList, FilterList
 
 
 class PrintFunc(Node):
@@ -9,7 +9,7 @@ class PrintFunc(Node):
     args = 1
     results = 1
 
-    contents = ModifyList(CountList(), "_P")
+    contents = FilterList(CountList(), "_P")
 
     def func(self, arg):
         """print arg
