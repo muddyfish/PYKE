@@ -32,9 +32,9 @@ def print_nodes():
 
 def run(code):  
     try:
-        print("RUNNING: {} ({} bytes)".format(repr(code), len(code.encode("utf-8"))))
+        sys.stderr.write("RUNNING: {} ({} bytes)".format(repr(code), len(code.encode("utf-8"))))
     except UnicodeEncodeError:
-        print("RUNNING BAD UNICODE")
+        sys.stderr.write("RUNNING BAD UNICODE")
 
     ast = lang_ast.AST()
     ast.setup(code, first=True)
@@ -117,8 +117,7 @@ if __name__ == "__main__":
         import cProfile
         run_func = cProfile.run()
     run_func(run_string)
-    if settings.WARNINGS:
-        print("STACK")
+    sys.stderr.write("STACK\n")
     for obj in reversed(stack):
         print(obj)
     sys.stdout = sys.__stdout__
