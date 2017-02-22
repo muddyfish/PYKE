@@ -15,8 +15,9 @@ class EvalInput(Node):
     args = 0
     results = 1
     if "web" not in __main__.__file__:
-        new = safe_eval.evals[settings.SAFE](input())
-        sys.stdin.prepend(new+"\n")
+        line = input()
+        new = safe_eval.evals[settings.SAFE](line)
+        sys.stdin.prepend(line+"\n")
         contents = new
             
     def func(self):
