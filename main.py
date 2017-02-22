@@ -30,9 +30,9 @@ def print_nodes():
 
 def run(code):  
     try:
-        sys.stderr.write("RUNNING: {} ({} bytes)".format(repr(code), len(code.encode("utf-8"))))
+        sys.stderr.write("RUNNING: {} ({} bytes)\n".format(repr(code), len(code.encode("utf-8"))))
     except UnicodeEncodeError:
-        sys.stderr.write("RUNNING BAD UNICODE")
+        sys.stderr.write("RUNNING BAD UNICODE\n")
 
     ast = lang_ast.AST()
     ast.setup(code, first=True)

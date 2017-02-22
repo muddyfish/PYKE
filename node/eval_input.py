@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import copy
+import sys
 
 import __main__
 
@@ -15,6 +16,7 @@ class EvalInput(Node):
     results = 1
     if "web" not in __main__.__file__:
         new = safe_eval.evals[settings.SAFE](input())
+        sys.stdin.prepend(new+"\n")
         contents = new
             
     def func(self):

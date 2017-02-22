@@ -19,7 +19,7 @@ def safe_eval(string):
 def nonsafe_eval(string):
     try:
         return eval(string)
-    except (ValueError, SyntaxError):
+    except:
         time_literal = time_eval(string)
         if time_literal:
             return time_literal
