@@ -153,7 +153,7 @@ class FilterList(InfiniteList):
         self.base = base
         self.code = code
         self._iter = iter(base)
-        self.modify(self.filter_code, code)
+        self.modify(self.modify_filter, code)
 
     def __repr__(self):
         rtn = "<filter({})>".format(repr(self.code))
