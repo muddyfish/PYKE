@@ -2,6 +2,7 @@
 
 import glob
 import imp
+import os
 import sys
 import types
 
@@ -261,8 +262,9 @@ def load_node(node, file_path):
 
 
 def get_nodes():
-    nodes = glob.glob("node/*.py")
-    return sorted(nodes, key = lambda node: node[5:-3] in
+    pyke_path = os.path.dirname(__file__)
+    nodes = glob.glob(os.path.join(pyke_path, "node/*.py"))
+    return sorted(nodes, key=lambda node: node[5:-3] in
                  (Node.Base10Single,
                   Node.Base36Single,
                   Node.Base96Single,
@@ -270,7 +272,8 @@ def get_nodes():
                   Node.NumericLiteral,
                   Node.StringLiteral,
                   Node.EvalLiteral,
-                  Node.NodeSingle), reverse = True)
+                  Node.NodeSingle), reverse=True)
 
 for node in get_nodes():
-    load_node(node[5:-3], node)
+    name = os.path.basename(node)[:-3]
+    load_node(name, node)
