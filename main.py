@@ -2,10 +2,8 @@
 
 import argparse
 import sys
+from io import StringIO
 
-import lang_ast
-import nodes
-import settings
 
 
 def print_nodes():
@@ -77,8 +75,27 @@ class Writer(type(sys.stdout)):
                 w.flush()
 
 
+class StdinMock(StringIO):
+    def prepend(self, data):
+        current = self.read()
+        pos = self.tell()
+        self.write(data+current)
+        self.seek(pos)
+
+    def append(self, data):
+        current = self.read()
+        pos = self.tell()
+        self.write(current+data)
+        self.seek(pos)
+
 sys.stdout = Writer(sys.stdout)
-    
+sys.stdin = StdinMock(sys.stdin.read())
+sys.stdin.append("\n")
+
+import lang_ast
+import nodes
+import settings
+
 if settings.DEBUG:
     for node in nodes.nodes:
         nodes.nodes[node].run_tests()

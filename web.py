@@ -64,7 +64,7 @@ def rick():
 @app.route("/submit", methods=['POST'])
 def submit_code(timeout=5):
     code = request.form.get("code", "")
-    inp = request.form.get("input", "") + "\n"
+    inp = request.form.get("input", "")
     print(code, inp)
     warnings = int(request.form.get("warnings", "0"), 10)
     args = ['python3',

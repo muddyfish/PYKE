@@ -13,9 +13,8 @@ class EvalInput(Node):
     char = "Q"
     args = 0
     results = 1
-    msg = ["Q:", ""][settings.IS_WEB]
     if "web" not in __main__.__file__:
-        new = safe_eval.evals[settings.SAFE](input(msg))
+        new = safe_eval.evals[settings.SAFE](input())
         contents = new
             
     def func(self):
