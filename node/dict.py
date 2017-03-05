@@ -13,8 +13,11 @@ class Dict(Node):
         
     @Node.test_func([[["test", 2], [2,3]]], [{"test":2,2:3}])
     def func(self, a: Node.sequence):
-        """Turn a sequence into a dict"""
-        return dict(a)
+        """Turn a sequence into a dict. If that fails, take the mean"""
+        try:
+            return dict(a)
+        except TypeError:
+            return sum(a) / len(a)
 
     def digits(self, num: int):
         return [[int(i) for i in str(num)]]
