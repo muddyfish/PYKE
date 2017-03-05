@@ -4,6 +4,7 @@ import datetime
 
 from dateutil.relativedelta import relativedelta
 
+from node.prime import Prime
 from nodes import Node
 from type.type_time import TypeTime
 
@@ -21,7 +22,7 @@ class Sum(Node):
         if len(stack) == 0:
             self.add_arg(stack)
         if self.arg == 1 and isinstance(stack[0], int):
-            self.func = self.digital_root
+            self.func = self.prime
         elif self.arg == 1 and isinstance(stack[0], str):
             self.func = self.palendromise
         elif isinstance(stack[0], Node.clock):
@@ -56,11 +57,8 @@ Else return sum(stack[:`amount`])"""
             current += val
         return [current]
 
-    def digital_root(self, inp: int):
-        inp = str(inp)
-        if len(inp) == 1:
-            return int(inp)
-        return self.digital_root(sum(map(int, inp)))
+    def prime(self, inp: int):
+        return Prime.is_prime(inp)
 
     def palendromise(self, inp: str):
         r_inp = inp[::-1]
