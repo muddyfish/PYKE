@@ -19,8 +19,11 @@ class StringSingle(Node):
         return "%s: %r"%(self.__class__.__name__, self.func())
         
     @classmethod
-    def accepts(cls, code):
-        if code == "": return None, None
+    def accepts(cls, code, accept=False):
+        if code == "":
+            return None, None
+        if accept:
+            return code[1:], cls(code[0])
         if code[0] == '\\':
             string = code[1]
             code = code[2:]
