@@ -2,6 +2,7 @@ import copy
 
 from node.sum import Sum
 from nodes import Node
+from type.type_infinite_list import ModifyList, CountList
 
 
 class For(Node):
@@ -9,7 +10,7 @@ class For(Node):
     args = 1
     results = None
     default_arg = -1
-    contents = 1
+    contents = ModifyList(CountList(), ".b")
     
     def __init__(self, args: Node.Base10Single, ast: Node.EvalLiteral):
         self.numeric_input = args

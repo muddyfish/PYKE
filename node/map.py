@@ -15,6 +15,8 @@ class Map(Node):
     def prepare(self, stack):
         if len(stack) == 0:
             self.add_arg(stack)
+        self.node.prepare(stack)
+        self.args = self.node.args
         if isinstance(stack[0], dict):
             self.args = max(1, self.args-2)
     
@@ -33,7 +35,7 @@ class Map(Node):
         return [type(seq)(end)]
     
     @Node.test_func([5, 2], [[2, 3, 4, 5, 6]], "+")
-    def int_map(self, num:int, *args):
+    def int_map(self, num: int, *args):
         seq = list(range(num))
         return self.seq_map(seq, *args)
 

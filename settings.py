@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
 WARNINGS = True
-SAFE = False
+SAFE = True
 DEBUG = True
-IS_WEB = True
+IS_WEB = False
