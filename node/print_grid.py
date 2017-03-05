@@ -43,3 +43,8 @@ class PrintGrid(Node):
         if len(self.surround) >= 8:
             lines[-1] = self.surround[7]+lines[-1][1:]
         return "\n".join(lines)
+
+
+    def space_pad(self, arg: int):
+        """Pad the character with `arg` spaces to the left"""
+        return " " * arg + self.surround

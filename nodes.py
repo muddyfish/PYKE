@@ -40,6 +40,7 @@ class Node(object):
     IntList = "int_list"
     NumericLiteral = "numeric_literal"
     StringLiteral = "string_literal"
+    StringSingle = "string_single"
     EvalLiteral = "eval_literal"
     NodeSingle = "node_single"
     NodeClass = "node_class"
@@ -188,6 +189,7 @@ class Node(object):
     def add_const_arg(cls, code, node, const_arg):
         accept_args = [code]
         if const_arg in (Node.StringLiteral,
+                         Node.StringSingle,
                          Node.Base36Single,
                          Node.Base10Single,
                          Node.Base96Single,
