@@ -46,5 +46,5 @@ class PrintGrid(Node):
 
 
     def space_pad(self, arg: int):
-        """Pad the character with `arg` spaces to the left"""
-        return " " * arg + self.surround
+        """Pad the character with `arg` spaces to the right"""
+        return self.surround + " " * arg
