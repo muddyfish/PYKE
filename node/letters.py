@@ -108,4 +108,6 @@ class Letters(Node):
             args = self.config
         delta = relativedelta(**dict([arg_map[args]]))
         new_time = datetime.datetime(*time.time_obj[:7]) + delta
-        return TypeTime(new_time.timetuple())
+        rtn = TypeTime(new_time.timetuple())
+        rtn.defined_values = time.defined_values
+        return rtn
