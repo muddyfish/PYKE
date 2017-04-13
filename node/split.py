@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 
-import datetime
 import time
-
-import ephem
 
 from nodes import Node
 
@@ -82,9 +79,3 @@ class Split(Node):
 
     def format_time(self, time_obj: Node.clock, string: str):
         return time.strftime(string, time_obj.time_obj)
-
-    def get_size(self, time: Node.clock, object: str):
-        """Gets the size of the object in arcseconds"""
-        new_time = datetime.datetime(*time.time_obj[:7])
-
-        return getattr(ephem, object)(new_time).size

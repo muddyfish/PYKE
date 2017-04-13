@@ -28,14 +28,14 @@ class Base(Node):
 Base contents can be changed by changing the contents"""
         num = 0
         if " " not in self.contents:
-            a = a.replace(" ","")
-        mult = 0
+            a = a.replace(" ", "")
+        multiplier = 0
         if "." not in self.contents:
             if "." in a:
-                mult = len(a)-a.index(".")-1
-            a = a.replace(".","")
+                multiplier = len(a)-a.index(".")-1
+            a = a.replace(".", "")
         for i, char in enumerate(a[::-1]):
-            num += self.base**(i-mult)*self.contents.index(char)
+            num += self.base**(i-multiplier)*self.contents.index(char)
         return num
     
     @Node.test_func([[2,1,0]], [10], "2")

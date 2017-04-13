@@ -5,7 +5,6 @@ import sys
 from io import StringIO
 
 
-
 def print_nodes():
     import string
     print("\n".join(sorted(nodes.nodes.keys())))

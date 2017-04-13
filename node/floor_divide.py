@@ -1,5 +1,8 @@
 #!/usr/bin/env python
+import datetime
 from itertools import product
+
+import ephem
 
 import nodes
 from nodes import Node
@@ -69,3 +72,9 @@ class FloorDiv(Node):
     def combinations(self, length: int, seq: Node.indexable):
         """Return all combinations of `seq` length `length`"""
         return [["".join(a) for a in product(seq, repeat=length)]]
+
+    def get_size(self, time: Node.clock, object: str):
+        """Gets the size of the object in arcseconds"""
+        new_time = datetime.datetime(*time.time_obj[:7])
+
+        return getattr(ephem, object)(new_time).size
