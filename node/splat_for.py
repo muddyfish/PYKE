@@ -12,14 +12,19 @@ class SplatFor(Node):
     def __init__(self, args: Node.NumericLiteral, ast:Node.EvalLiteral):
         self.args = args
         self.ast = ast
-        if self.ast.nodes == []:
+        self.ast.empty = self.ast.nodes == []
+        if self.ast.empty:
             self.ast.add_node("}")
+        self.looper = For(self.args, self.ast)
+        self.looper.contents = False
+
+    def prepare(self, stack):
+        self.looper.prepare(stack)
+        self.args = self.looper.args
 
     def func(self, *args):
         """For loop.
 When finished, splat output"""
-        looper = For(self.args, self.ast)
-        looper.contents = False
         splatter = Splat()
-        rtn = looper(args)
+        rtn = self.looper(args[::-1])
         return splatter(rtn)

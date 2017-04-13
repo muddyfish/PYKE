@@ -44,7 +44,7 @@ class TypeTime(object):
         else:
             return super(TypeTime, self).__getattribute__(item)
         
-    def __str__(self):
+    def __repr__(self):
         try:
             return time.strftime(self.get_display_format(), self.time_obj)
         except ValueError:

@@ -18,14 +18,21 @@ class For(Node):
         if not self.overwrote_default_arg:
             self.numeric_input = 1
         self.ast = ast
-        if self.ast.nodes == []:
-            self.ast.add_node("\n")
+        if not hasattr(self.ast, "empty"):
+            self.ast.empty = self.ast.nodes == []
+            if self.ast.empty:
+                self.ast.add_node("\n")
 
     def prepare(self, stack):
         if len(stack) == 0:
             self.add_arg(stack)
         if not isinstance(stack[0], (Node.clock, Node.infinite)):
             self.args = self.numeric_input
+        elif isinstance(stack[0], Node.clock) and len(stack) > 1:
+            if isinstance(stack[1], int):
+                self.args = 2
+                if self.ast.empty:
+                    self.ast.nodes = []
 
     @Node.test_func([[1, 5]], [[2, 10]], "}")
     @Node.test_func([[1, 5], 2], [[4, 12]], "2}+")
@@ -64,3 +71,15 @@ Returns a list of lists to the stack"""
             time = incrementer.inc_time(time)
             done = self.ast.run([time])[0]
         return time
+
+    def map_times(self, repeats: int, time: Node.clock):
+        incrementer = Sum(self.numeric_input)
+        incrementer.overwrote_default = self.overwrote_default_arg
+        results = []
+        for i in range(repeats):
+            time = incrementer.inc_time(time)
+            rtn = self.ast.run([time])
+            if len(rtn) == 1:
+                rtn = rtn[0]
+            results.append(rtn)
+        return [results]
