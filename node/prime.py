@@ -114,12 +114,12 @@ Or print a 1D list with padding equal to the maximum length"""
     @Node.test_func(["HELLO"], [1])
     @Node.test_func(["World7"], [1])
     @Node.test_func(["@"], [0])
-    def is_alpha_num(self, string:str):
-        """Is a string alphanumeric?"""
-        return int(string.isalnum())
+    def is_vowel(self, string: str):
+        """Is a string all vowels?"""
+        return all(i in "aeiouAEIOU" for i in string)
 
-    @Node.test_func([{1:1, "2":2}], [[1, '2']])
-    def sort_values(self, dic:dict):
+    @Node.test_func([{1: 1, "2": 2}], [[1, '2']])
+    def sort_values(self, dic: dict):
         """Return the keys of the dictionary in a list sorted by their values"""
         value_sort = Sort.sort_list(dic.values())
         sort = sorted(dic, key=lambda x: value_sort.index(dic[x]))

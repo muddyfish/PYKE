@@ -67,12 +67,10 @@ class Letters(Node):
         rtn = []
         end = int(math.sqrt(num))
         for i in range(2, end+1):
-            if i == end:
-                if num % i == 0:
-                    rtn.append(i)
-            elif num % i == 0:
+            if num % i == 0:
                 rtn.append(i)
-                rtn.append(num//i)
+                if i != end:
+                    rtn.append(num//i)
         if rtn:
             return [rtn]
         return [[num]]
