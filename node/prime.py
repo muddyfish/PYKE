@@ -111,12 +111,13 @@ Or print a 1D list with padding equal to the maximum length"""
                 first = False
             print()
         
-    @Node.test_func(["HELLO"], [1])
-    @Node.test_func(["World7"], [1])
+    @Node.test_func(["HELLO"], [0])
+    @Node.test_func(["World7"], [0])
     @Node.test_func(["@"], [0])
+    @Node.test_func(["aea"], [1])
     def is_vowel(self, string: str):
         """Is a string all vowels?"""
-        return all(i in "aeiouAEIOU" for i in string)
+        return all(i in "aeiouAEIOU" for i in string)+0
 
     @Node.test_func([{1: 1, "2": 2}], [[1, '2']])
     def sort_values(self, dic: dict):

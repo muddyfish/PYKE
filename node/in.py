@@ -35,4 +35,4 @@ class In(Node):
         rtn = [inp[i % len(inp)] for i in range(length)]
         if isinstance(inp, Node.sequence):
             return [type(inp)(rtn)]
-        return "".join(inp)
+        return "".join(rtn)
