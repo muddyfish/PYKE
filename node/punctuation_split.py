@@ -2,6 +2,7 @@
 
 from nodes import Node
 
+
 class PuncSplit(Node):
     char = ".c"
     args = 1
@@ -11,7 +12,7 @@ class PuncSplit(Node):
     @Node.test_func(["bob-bob is sad."], [["bob-bob", "is", "sad"]])
     @Node.test_func(["Why?"], [["Why"]])
     @Node.test_func(["He, She, It."], [["He", "She", "It"]])
-    def split(self, inp:str):
+    def split(self, inp: str):
         """Split by space and remove punctuation"""
         inp = inp.split()
         rtn = []
@@ -25,5 +26,5 @@ class PuncSplit(Node):
             rtn.append(i)
         return [rtn]
         
-    def digit_sum(self, a:int):
-        return sum(str(a))
+    def digit_sum(self, a: int):
+        return sum(map(int, str(a)))
