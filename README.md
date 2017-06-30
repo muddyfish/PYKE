@@ -2,7 +2,7 @@
 
 ###Golfing language by muddyfish
 
-###Pyke requires python >= 3.4
+###Pyke requires python >= 3.5
 ###Extra requirements in requirements.txt
 
 Copyright (c) 2016 muddyfish
