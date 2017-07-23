@@ -110,7 +110,7 @@ Else return sum(stack[:`amount`])"""
         return rtn
 
     @Node.prefer
-    def periodic_lookup(self, id):
+    def periodic_lookup(self, id: int):
         """0 - period
 1 - symbol
 2 - name
