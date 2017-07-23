@@ -24,8 +24,10 @@ class Dictionary(Node):
     @classmethod
     def setup(cls):
         if not hasattr(cls, "word_list"):
-            filename = os.path.join(os.path.split(__main__.__file__)[0], "PeriodicTableJSON.json")
+            filename = os.path.join(os.path.split(__main__.__file__)[0], "dictionary.json")
             cls.word_list = init_words(filename)
+            filename = os.path.join(os.path.split(__main__.__file__)[0], "pokemon.json")
+            cls.word_list[1000:1000] = init_words(filename)
 
     @staticmethod
     def compress(inp):

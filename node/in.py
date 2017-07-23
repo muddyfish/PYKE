@@ -7,6 +7,7 @@ class In(Node):
     char = "{"
     args = 2
     results = 1
+    contents = 802
     
     @Node.test_func([6, [6, 2, 1]], [1])
     @Node.test_func([3, [6, 2, 1]], [0])
