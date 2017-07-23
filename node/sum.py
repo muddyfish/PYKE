@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 
 import datetime
+import json
+import os
 
+import __main__
 from dateutil.relativedelta import relativedelta
 
 from node.prime import Prime
@@ -14,6 +17,11 @@ class Sum(Node):
     args = 0
     results = 1
     default_arg = 1
+
+    filename = os.path.join(os.path.split(__main__.__file__)[0], "PeriodicTableJSON.json")
+    with open(filename) as periodic_table_f:
+        periodic_table = json.load(periodic_table_f)["elements"]
+    contents = {element["symbol"]: element["name"] for element in periodic_table}
     
     def __init__(self, args: Node.Base10Single):
         self.arg = args
@@ -21,7 +29,10 @@ class Sum(Node):
     def prepare(self, stack):
         if len(stack) == 0:
             self.add_arg(stack)
-        if self.arg == 1 and isinstance(stack[0], int):
+        if self.overwrote_default and isinstance(stack[0], int):
+            self.func = self.periodic_lookup
+            self.args = 1
+        elif self.arg == 1 and isinstance(stack[0], int):
             self.func = self.prime
         elif self.arg == 1 and isinstance(stack[0], str):
             self.func = self.palendromise
@@ -97,3 +108,20 @@ Else return sum(stack[:`amount`])"""
         rtn = TypeTime(new_time.timetuple())
         rtn.defined_values = time.defined_values
         return rtn
+
+    @Node.prefer
+    def periodic_lookup(self, id):
+        """0 - period
+1 - symbol
+2 - name
+3 - shells
+4 - phase
+5 - melt
+6 - boil
+7 - atomic_mass
+8 - density
+9 - discovered_by"""
+        element = Sum.periodic_table[id]
+        arg_map = ["period", "symbol", "name", "shells", "phase", "melt", "boil", "atomic_mass", "density", "discovered_by"]
+        return element[arg_map[self.arg]]
+

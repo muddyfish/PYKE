@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 
 import json
+import os
+
+import __main__
 
 from nodes import Node
 
@@ -21,7 +24,8 @@ class Dictionary(Node):
     @classmethod
     def setup(cls):
         if not hasattr(cls, "word_list"):
-            cls.word_list = init_words()
+            filename = os.path.join(os.path.split(__main__.__file__)[0], "PeriodicTableJSON.json")
+            cls.word_list = init_words(filename)
 
     @staticmethod
     def compress(inp):
@@ -34,9 +38,8 @@ class Dictionary(Node):
             else:
                 rtn += chr(words.index(word))
         return rtn
-    
-def init_words(dict_file = "dictionary.json"):
-    words_f = open(dict_file)
-    words = json.load(words_f)
-    words_f.close()
-    return words
+
+
+def init_words(dict_file):
+    with open(dict_file) as words_f:
+        return json.load(words_f)
