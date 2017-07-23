@@ -1,9 +1,11 @@
-#PYKE
+# PYKE
 
-###Golfing language by muddyfish
+### Golfing language by muddyfish
 
-###Pyke requires python >= 3.5
-###Extra requirements in requirements.txt
+
+### Pyke requires python >= 3.5
+
+### Extra requirements in requirements.txt
 
 Copyright (c) 2016 muddyfish
 
