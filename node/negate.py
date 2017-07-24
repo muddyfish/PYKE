@@ -2,11 +2,13 @@
 
 from nodes import Node
 
+
 class Negate(Node):
     char = "_"
     args = 1
     results = 1
-    
+    contents = 333333
+
     @Node.test_func([[3,2]], [[2,3]])
     def reverse(self, sequence: Node.indexable):
         """sequence[::-1]"""

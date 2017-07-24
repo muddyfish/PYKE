@@ -27,7 +27,7 @@ class Dictionary(Node):
             filename = os.path.join(os.path.split(__main__.__file__)[0], "dictionary.json")
             cls.word_list = init_words(filename)
             filename = os.path.join(os.path.split(__main__.__file__)[0], "pokemon.json")
-            cls.word_list[1000:1000] = init_words(filename)
+            cls.word_list.extend(init_words(filename))
 
     @staticmethod
     def compress(inp):

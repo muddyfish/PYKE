@@ -2,10 +2,12 @@
 
 from nodes import Node
 
+
 class Not(Node):
     char = "!"
     args = 1
     results = 1
+    contents = 333332
     
     
     @Node.test_func([1], [0])
