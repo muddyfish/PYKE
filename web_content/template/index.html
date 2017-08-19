@@ -65,7 +65,7 @@
                 params={code: $('#code').val()};
                 if ($('#input').val()) params.input=$('#input').val();
                 if (!document.getElementById("checkbox-warn").checked) params.warnings=0;
-                if (!document.getElementById("checkbox-hex").checked) params.hex=0;
+                if (document.getElementById("checkbox-hex").checked) params.hex=1;
                         history.pushState(null, null, "?" + $.param(params).replace(/[!'()*]/g, function(c) {return '%' + c.charCodeAt(0).toString(16)}))
                 }
 

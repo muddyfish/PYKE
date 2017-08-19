@@ -48,12 +48,14 @@ def root():
     code = request.args.get("code", "")
     inp = request.args.get("input", "")
     warnings = int(request.args.get("warnings", "1"))
+    hex = int(request.args.get("hex", "1"))
     return render_template("index.html",
                            last_updated=updated_time,
                            docs=docs(),
                            code=code,
                            input=inp,
-                           warnings=warnings)
+                           warnings=warnings,
+                           hex=hex)
 
 
 @app.route("/code")
@@ -108,7 +110,7 @@ def submit_code(timeout=5):
 @app.route("/explain", methods=['POST'])
 def explain_code():
     code = request.form.get("code", "")
-    hex_code = codecs.encode(code.encode("utf-8"), 'hex_codec').upper().decode("ascii")
+    hex_code = b" ".join(codecs.encode(i.encode("utf-8"), 'hex_codec') for i in code).upper().decode("ascii")
     try:
         return ("\n{}\n{}".format(hex_code, explainer.Explainer(code, []))).replace("\n", "\n    ")
     except:
@@ -120,7 +122,7 @@ def dictionary():
     return render_template("dictionary.html")
 
 
-@app.route("/dict_compress", methods = ['POST'])
+@app.route("/dict_compress", methods=['POST'])
 def dict_compress():
     inp = request.form.get("compress")
     return nodes.nodes["dictionary"].compress(inp)
