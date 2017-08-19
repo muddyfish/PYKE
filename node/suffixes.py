@@ -2,7 +2,7 @@ from nodes import Node
 
 
 class Suffixes(Node):
-    char = ".>"
+    char = ".<"
     args = 1
     results = 1
 
