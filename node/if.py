@@ -15,7 +15,7 @@ class If(Node):
         self.uses_i = self.ast.uses_i
         self.ast.uses_i = False
         if self.ast.nodes == []:
-            self.ast.add_node("\n")
+            self.ast.add_node(b"\n")
         
     def prepare(self, stack):
         self.args = max(len(stack), 1)

@@ -1,6 +1,7 @@
-import lang_ast
-from nodes import Node
 import copy
+
+from nodes import Node
+
 
 class Repeat(Node):
     char = "V"
@@ -10,7 +11,7 @@ class Repeat(Node):
     def __init__(self, ast:Node.EvalLiteral):
         self.ast = ast
         if self.ast.nodes == []:
-            self.ast.add_node("\n")
+            self.ast.add_node(b"\n")
 
     def prepare(self, stack):
         self.args = max(1, len(stack))

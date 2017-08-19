@@ -2,8 +2,9 @@
 
 from nodes import Node
 
+
 class RickRoll(Node):
-    char = "Never gonna give you up"
+    char = ".."
     args = 0
     results = 1
     

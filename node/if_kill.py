@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-import lang_ast
 from nodes import Node
+
 
 class IfKill(Node):
     char = ".I"
@@ -13,13 +13,13 @@ class IfKill(Node):
         self.uses_i = self.ast.uses_i
         self.ast.uses_i = False
         if self.ast.nodes == []:
-            self.ast.add_node("\n")
+            self.ast.add_node(b"\n")
         
     def prepare(self, stack):
         self.args = max(len(stack), 1)
             
-    @Node.test_func([5,1], [10], "}")
-    @Node.test_func([5,0], [], "}")
+    @Node.test_func([5, 1], [10], "}")
+    @Node.test_func([5, 0], [], "}")
     def func(self, *args):
         """Takes stack.
 if arg1: stack = eval_literal(stack[:-1]) (extend mode)

@@ -22,16 +22,17 @@ class StringLiteral(Node):
         
     @classmethod
     def accepts(cls, code, accept = False):
-        if accept: code = '"'+code
-        if code == "":
+        if accept:
+            code = b'"'+code
+        if not code:
             return None, None
-        if code[0] != StringLiteral.char:
+        if code[0] != StringLiteral.char[0]:
             return None, None
         code = code[1:]
         rtn = ""
         end = False
         while code and not end:
-            rtn += code[0]
+            rtn += chr(code[0])
             code = code[1:]
             if rtn.endswith('"'):
                 if rtn.endswith(r'\"') and not rtn.endswith(r'\\"'):

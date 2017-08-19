@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import codecs
 import logging
 import os
 import signal
@@ -67,6 +68,7 @@ def submit_code(timeout=5):
     inp = request.form.get("input", "")
     print(code, inp)
     warnings = int(request.form.get("warnings", "0"), 10)
+    use_hex = int(request.form.get("hex", "0"), 10)
     args = ['python3',
             'main.py',
             '--safe',
@@ -76,6 +78,8 @@ def submit_code(timeout=5):
     if warnings:
         args.insert(2, "--warnings")
         stderr = STDOUT
+    if use_hex:
+        args.insert(2, "--hex")
     with Popen(args,
                stdin=PIPE,
                stdout=PIPE,
@@ -104,10 +108,11 @@ def submit_code(timeout=5):
 @app.route("/explain", methods=['POST'])
 def explain_code():
     code = request.form.get("code", "")
+    hex_code = codecs.encode(code.encode("utf-8"), 'hex_codec').upper().decode("ascii")
     try:
-        return ("\n"+str(explainer.Explainer(code, []))).replace("\n", "\n    ")
+        return ("\n{}\n{}".format(hex_code, explainer.Explainer(code, []))).replace("\n", "\n    ")
     except:
-        return ""
+        return "\n{}".format(hex_code)
 
 
 @app.route("/dictionary")
@@ -126,7 +131,7 @@ def dict_compress():
 def docs():
     docs = get_docs()
     keys = ["char", "name", "arg_types", "fixed_params", "input", "output", "docs"]
-    types = ["<br>","<br>","<br>","<br>","<pre>","<pre>","<br>"]
+    types = ["<br>", "<br>", "<br>", "<br>", "<pre>", "<pre>", "<br>"]
     table = []
     for func in docs:
         row = [func[doc_type] for doc_type in keys]
@@ -136,12 +141,15 @@ def docs():
                     row[i] = col.replace("\n", "<br>")
                 elif types[i] == "<pre>":
                     row[i] = '<pre class="doc_pre">'+str(col)+"</pre>"
-            except AttributeError: pass
+            except AttributeError:
+                pass
         table.append(row)
-    table.sort(key = lambda x:x[0]+x[1])
+    table.sort(key=lambda x: x[0]+x[1])
     keys = [key.title().replace("_", " ") for key in keys]
     app.jinja_env.autoescape = False
-    rtn = render_template("docs_table.html", keys = keys, funcs = table)
+    rtn = render_template("docs_table.html",
+                          keys=keys,
+                          funcs=table)
     app.jinja_env.autoescape = True
     return rtn
 
@@ -149,7 +157,8 @@ def docs():
 def get_docs():
     docs = []
     for node in nodes.nodes:
-        if nodes.nodes[node].ignore: continue
+        if nodes.nodes[node].ignore:
+            continue
         funcs = nodes.nodes[node].get_functions()
         for func in funcs:
             func_doc = {}
@@ -173,7 +182,8 @@ def get_docs():
                     arg_types[arg] = ["object"]
             func_doc["arg_types"] = print_ordered_dict(arg_types)
             if func.__code__.co_flags & 4:
-                if func_doc["arg_types"]: func_doc["arg_types"] += "\n"
+                if func_doc["arg_types"]:
+                    func_doc["arg_types"] += "\n"
                 func_doc["arg_types"] += "*args"
             cls_init = nodes.nodes[node].__init__
             fixed = cls_init.__annotations__
@@ -188,7 +198,11 @@ def get_docs():
             func_doc["docs"] = func.__doc__
             if hasattr(nodes.nodes[node], "documentation"):
                 func_doc["docs"] = nodes.nodes[node].documentation
-            func_doc["char"] = nodes.nodes[node].char
+            try:
+                func_doc["char"] = nodes.nodes[node].char.decode("ascii")
+            except UnicodeDecodeError:
+                if nodes.nodes[node].char[0] & 0x80:
+                    func_doc["char"] = "." + chr(nodes.nodes[node].char[0] & 0x7F)
             func_doc["input"] = ""
             func_doc["output"] = ""
             if hasattr(func, "tests"):
@@ -198,14 +212,26 @@ def get_docs():
                     pass
                 for test in func.tests[::-1]:
                     try:
+                        #print(node, test, end=" ")
                         inp = literal_gen.stack_literal(test[0])
-                        cmd = nodes.nodes[node].char+test[-1]
+                        #print(test)
+                        if isinstance(test[-1], bytearray):
+                            cmd = nodes.nodes[node].char + test[-1]
+                        else:
+                            cmd = nodes.nodes[node].char+bytearray(test[-1].encode("ascii"))
                         lang_ast.test_code(inp+cmd, test[1])
                     except NotImplementedError:
                         func_doc["input"] = "Literal Undefined\n"
                         func_doc["output"] = str(test[1])+"\n"
                     else:
-                        func_doc["input"] += (inp+cmd+"\n")
+                        try:
+                            cmd = cmd.decode("ascii")
+                        except UnicodeDecodeError:
+                            if cmd[0] & 0x80:
+                                cmd = "." + chr(cmd[0] & 0x7F) + cmd[1:].decode("ascii")
+                            elif cmd[:1] == b"~":
+                                cmd = "~." + chr(cmd[1] & 0x7F)
+                        func_doc["input"] += (inp.decode("ascii")+cmd+"\n")
                         func_doc["output"] += (str(test[1])+"\n")
                 func_doc["input"] = func_doc["input"][:-1]
                 func_doc["output"] = func_doc["output"][:-1]
@@ -218,7 +244,7 @@ def get_docs():
 def print_ordered_dict(ordered):
     rtn = ""
     for key, value in ordered.items():
-        rtn += key+": "+str(value).replace("'","")+"\n"
+        rtn += key+": "+str(value).replace("'", "")+"\n"
     return rtn[:-1]
 
 

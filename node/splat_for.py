@@ -4,7 +4,7 @@ from nodes import Node
 
 
 class SplatFor(Node):
-    char = "XF"
+    char = b"\xb0"
     args = None
     results = None
     default_arg = 1
@@ -14,7 +14,7 @@ class SplatFor(Node):
         self.ast = ast
         self.ast.empty = self.ast.nodes == []
         if self.ast.empty:
-            self.ast.add_node("}")
+            self.ast.add_node(b"}")
         self.looper = For(self.args, self.ast)
         self.looper.contents = False
 

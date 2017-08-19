@@ -12,29 +12,32 @@ is_windows = hasattr(os.sys, 'winver')
 
 
 class AST(object):
-    END_CHARS = ")("
+    END_CHARS = b")("
     run = True
+
+    def __repr__(self):
+        return " ".join("<{}>".format(i) for i in self.nodes) or "EmptyAST"
     
     def setup(self, code, first=False):
         self.first = first
         self.nodes = []
         self.uses_i = False
         self.uses_j = False
-        while code != "" and (self.first or code[0] not in AST.END_CHARS):
+        while code and (self.first or code[:1] not in AST.END_CHARS):
             code, node = self.add_node(code)
             if node.uses_i:
                 self.uses_i = True
-                if node.char == "i":
+                if node.char == b"i":
                     self.i_node = node.__class__
                 else:
                     self.i_node = node.ast.i_node
             if node.uses_j:
                 self.uses_j = True
-                if node.char == "j":
+                if node.char == b"j":
                     self.j_node = node.__class__
                 else:
                     self.j_node = node.ast.j_node
-        if code != "" and code[0] != "(":
+        if code and code[0] != b"(":
             code = code[1:]
         if len(self.nodes) > 1:
             if isinstance(self.nodes[-1], nodes.nodes[nodes.Node.StringLiteral]):
@@ -89,7 +92,7 @@ class AST(object):
         accepting = []
         for name in nodes.nodes:
             node = nodes.nodes[name]
-            new_code, new_node = node.accepts(code)
+            new_code, new_node = node.accepts(code[:])
             if new_code is not None:
                 assert(new_node is not None)
                 accepting.append((node.char, new_code, new_node))

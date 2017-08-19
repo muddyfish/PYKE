@@ -2,6 +2,7 @@
 
 from nodes import Node
 
+
 class Filter(Node):
     char = "#"
     args = 1
@@ -14,9 +15,9 @@ class Filter(Node):
         self.args = max(len(stack), 1)
         stack.reverse()
         
-    @Node.test_func([[1,2,3,0]], [[1,2,3]], "")
-    @Node.test_func([[1,2,3,4,5]], [[2,3,5]], "Plt!")
-    @Node.test_func([2,[1,2,3,4,5]], [[2],2], "q")
+    @Node.test_func([[1, 2, 3, 0]], [[1, 2, 3]], "")
+    @Node.test_func([[1, 2, 3, 4, 5]], [[2, 3, 5]], "Plt!")
+    @Node.test_func([2, [1, 2, 3, 4, 5]], [[2], 2], "q")
     def func(self, seq: Node.indexable, *args):
         """filter seq on Truthiness - returns the same type as given"""
         rtn = []
@@ -28,7 +29,7 @@ class Filter(Node):
             return ["".join(rtn), *args]
         return [type(seq)(rtn), *args]
     
-    @Node.test_func([10], [[0,2,4,6,8,10]], "}")
+    @Node.test_func([10], [[0, 2, 4, 6, 8, 10]], "}")
     def up_to(self, up_to: Node.number, *args):
         """Repeat until return is bigger or equal to up_to"""
         rtn = []
@@ -43,7 +44,7 @@ class Filter(Node):
                 val = bool(val)
         return [rtn, *args]
     
-    def filter_values(self, dic:dict, *args):
+    def filter_values(self, dic: dict, *args):
         """for value, key in dic:
     rtn = literal_eval(value, key, args)
     if rtn:

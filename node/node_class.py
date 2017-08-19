@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
-from nodes import Node
 import nodes
+from nodes import Node
+
 
 class NodeClass(Node):
     args = 0

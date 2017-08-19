@@ -41,8 +41,8 @@ class FirstN(Node):
             return results
         return [results]
     
-    @Node.test_func([4], [[1,2,3,4]])
-    @Node.test_func([4], [[5,6,7,8]], "4>")
+    @Node.test_func([4], [[1, 2, 3, 4]])
+    @Node.test_func([4], [[5, 6, 7, 8]], "4>")
     def first_n(self, count: int):
         """return first_n_start(FirstN.contents)"""
         return self.first_n_start(count, FirstN.contents)

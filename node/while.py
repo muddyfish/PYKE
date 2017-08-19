@@ -24,4 +24,3 @@ return stack"""
             stack = self.ast.run(list(stack))[::-1]
             cont = stack.pop()
         return stack
-    

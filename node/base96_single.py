@@ -24,8 +24,18 @@ class Base96Single(Node):
     @classmethod
     def accepts(cls, code, accept=False):
         if accept:
-            code = "w"+code
-        if code == "" or (code[0] != cls.char):
+            code = b"w"+code
+        if not code:
             return None, None
-        value = ord(code[1])-32
-        return code[2:], cls(value)
+        if code[0] != cls.char[0]:
+            return None, None
+        value = 0
+        new = code[1]
+        code = code[2:]
+        while new & 0x80:
+            value |= (new & 0x7F)
+            value <<= 7
+            new = code[0]
+        value |= new
+        value -= 32
+        return code, cls(value)

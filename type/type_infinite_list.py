@@ -37,7 +37,8 @@ class InfiniteList(object):
 
     def __getitem__(self, item):
         if isinstance(item, int):
-            for i in range(item+1): rtn = next(self)
+            for i in range(item+1):
+                rtn = next(self)
             return rtn
         return [next(self) for i in range(item.stop)]
 
@@ -53,13 +54,13 @@ class InfiniteList(object):
 
     def modify_code(self, i, code):
         ast = lang_ast.AST()
-        ast.setup(code)
+        ast.setup(bytearray(code, "ascii"))
         rtn = ast.run([i])
         return rtn[0]
 
     def modify_filter(self, i, code):
         ast = lang_ast.AST()
-        ast.setup(code)
+        ast.setup(bytearray(code, "ascii"))
         rtn = ast.run([i])
         if all(rtn):
             return i

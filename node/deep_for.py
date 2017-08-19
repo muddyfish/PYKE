@@ -1,7 +1,7 @@
-import lang_ast
-from nodes import Node
-from node.numeric_literal import NumericLiteral
 import copy
+
+from nodes import Node
+
 
 class DeepFor(Node):
     char = ".F"
@@ -13,16 +13,16 @@ class DeepFor(Node):
         self.args = args
         self.ast = ast
         if self.ast.nodes == []:
-            self.ast.add_node("\n")
+            self.ast.add_node(b"\n")
     
-    @Node.test_func([[[[0],1,2,3],[4,5,6,7]]], [[[[2], 4, 6, 8], [10, 12, 14, 16]]], "h}")
-    @Node.test_func([[1,[[2,3,[4],5],6],7]], [[2, [[2, 4, [4], 6], 6], 8]], "D 2%+")
+    @Node.test_func([[[[0], 1, 2, 3], [4, 5, 6, 7]]], [[[[2], 4, 6, 8], [10, 12, 14, 16]]], "h}")
+    @Node.test_func([[1, [[2, 3, [4], 5], 6], 7]], [[2, [[2, 4, [4], 6], 6], 8]], "D 2%+")
     def func(self, *args):
         """Deeply run a for loop across a nD tree.
 Takes a list or tuple with a varying depth.
 Returns a list with the same depth all round with the function applied."""
         seq, *args = copy.deepcopy(args)
-        assert(isinstance(seq,Node.sequence))
+        assert(isinstance(seq, Node.sequence))
         self.type = None
         self.shared_type = False
         rtn = self.recurse(seq, args)
@@ -62,15 +62,16 @@ Returns a list with the same depth all round with the function applied."""
     def get_type(self, obj):
         if obj:
             rtn_type = {str: "",
-			int: 0,
-			list: [],
-			dict: {},
-			tuple: (),
-			set: set(),
-			bool: False}.get(type(obj), None)
+                        int: 0,
+                        list: [],
+                        dict: {},
+                        tuple: (),
+                        set: set(),
+                        bool: False}.get(type(obj), None)
             if self.type is None:
                 self.type = rtn_type
-            elif self.type == rtn_type: pass
+            elif self.type == rtn_type:
+                pass
             else:
                 self.shared_type = True
         return obj

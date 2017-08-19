@@ -1,4 +1,3 @@
-import lang_ast
 from nodes import Node
 
 class IntList(Node):
@@ -20,11 +19,24 @@ return [ord(a) for a in `arg`[1:length+1]]"""
         return "%s: %r"%(self.__class__.__name__, self.value)
         
     @classmethod
-    def accepts(cls, code, accept = False):
-        if accept: code = "u"+code
-        if code == "" or\
-           (code[0] != cls.char): return None, None
-        value = ord(code[1])
-        lst = [ord(i) for i in code[2:2+value]]
-        return code[2+value:], cls(lst)
-    
+    def accepts(cls, code, accept=False):
+        if accept:
+            code = b"u"+code
+        if not code:
+            return None, None
+        if code[0] != cls.char[0]:
+            return None, None
+        value = code[1]
+        lst = []
+        code = code[2:]
+        for i in range(value):
+            lst.append(0)
+            new = code[0]
+            code = code[1:]
+            while new & 0x80:
+                lst[-1] |= (new & 0x7F)
+                lst[-1] <<= 7
+                new = code[0]
+                code = code[1:]
+            lst[-1] |= new
+        return code, cls(lst)

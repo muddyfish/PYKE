@@ -21,7 +21,7 @@ class For(Node):
         if not hasattr(self.ast, "empty"):
             self.ast.empty = self.ast.nodes == []
             if self.ast.empty:
-                self.ast.add_node("\n")
+                self.ast.add_node(b"\n")
 
     def prepare(self, stack):
         if len(stack) == 0:

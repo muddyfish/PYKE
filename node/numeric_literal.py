@@ -1,8 +1,7 @@
 #!/usr/bin/env python
     
 from nodes import Node
-from node.autoassign_var import AutoAssignVar
-from node.assign_var import AssignVar
+
 
 class NumericLiteral(Node):
     args = 0
@@ -21,29 +20,29 @@ The "0" digit gets returned immediately if it is at the beginning."""
         return self.digits
 
     def __repr__(self):
-        return "%s: %s"%(self.__class__.__name__, self.digits)
+        return "%s: %s" % (self.__class__.__name__, self.digits)
         
     @classmethod
-    def accepts(cls, code, ignore_zeros = False):
-        if code == "": return None, None
+    def accepts(cls, code, ignore_zeros=False):
+        if code == "":
+            return None, None
         digits = ""
-        while len(code) != 0 and \
-              (code[0].isdigit() or code[0] == ".") and \
-              (ignore_zeros or digits != "0"):
-            digits += code[0]
+        while len(code) != 0 and\
+                (code[:1] in b".0123456789") and \
+                (ignore_zeros or digits != "0"):
+            digits += chr(code[0])
             code = code[1:]
         if digits.endswith("."):
             digits = digits[:-1]
-            code = "."+code
+            code = b"."+code
         if digits:
             if digits[0] == "0" and digits != "0":    
-                return code, cls(digits)
+                return bytearray(code), cls(digits)
             try:
-                return code, cls(int(digits))
+                return bytearray(code), cls(int(digits))
             except ValueError:
                 try:
-                    return code, cls(float(digits))
+                    return bytearray(code), cls(float(digits))
                 except ValueError:
                     return None, None
         return None, None
-    

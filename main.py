@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import argparse
+import codecs
 import sys
 from io import StringIO
 
@@ -27,24 +28,20 @@ def print_nodes():
     sys.exit()
 
 
-def run(code):  
-    try:
-        sys.stderr.write("RUNNING: {} ({} bytes)\n".format(repr(code), len(code.encode("utf-8"))))
-    except UnicodeEncodeError:
-        sys.stderr.write("RUNNING BAD UNICODE\n")
+def run(code):
+    if args.hex:
+        code = codecs.decode(code.replace(b" ", b""), 'hex_codec')
+    sys.stderr.write("RUNNING: {} ({} bytes)\n".format(repr(code), len(code)))
 
     ast = lang_ast.AST()
-    ast.setup(code, first=True)
+    ast.setup(bytearray(code), first=True)
     stack = ast.run()
     return stack
 
 
 def run_file(filename):
     with open(filename, "rb") as f_obj:
-        string = ""
-        for char in f_obj.read():
-            string += chr(char)
-        return run(string)
+        return run(f_obj.read())
 
 
 class Writer(type(sys.stdout)):
@@ -113,6 +110,12 @@ parser.add_argument('--print-nodes', dest='print_nodes', action='store_true',
                     help='Print out all nodes and debug conflicts')
 parser.add_argument('-f', '--file', dest="file", nargs=1,
                     help='The file to look in')
+parser.add_argument('-n', '--no-high', dest="high", action='store_const',
+                    const=True, default=False,
+                    help='Disable reading the high bit')
+parser.add_argument('-x', '--hex', dest="hex", action='store_const',
+                    const=True, default=False,
+                    help='First decode as hexadecimal codepoints')
 parser.add_argument('code', nargs="*",
                     help='The code to run')
 args = parser.parse_args()
@@ -127,7 +130,7 @@ if __name__ == "__main__":
         f_name = args.file[0]
         run_string = 'stack = run_file(f_name)'
     else:
-        run_string = 'stack = run(args.code[0])'
+        run_string = 'stack = run(args.code[0].encode("utf-8"))'
     run_func = exec
     if args.profile:
         import cProfile

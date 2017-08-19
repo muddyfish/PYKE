@@ -1,6 +1,7 @@
-import lang_ast
-from nodes import Node
 import copy
+
+from nodes import Node
+
 
 class DeepApply(Node):
     char = "A"
@@ -45,11 +46,11 @@ class DeepApply(Node):
             return rtn
     
     @Node.test_func([30], ["30"], '"')
-    @Node.test_func([3,4], [3,3,3,3], 'D')
+    @Node.test_func([3, 4], [3, 3, 3, 3], 'D')
     @Node.is_func
     def splat_args(self, *args):
         """Splat a node with a static suffix and run it"""
-        arg = str(args[-1])
+        arg = bytearray(str(args[-1]).encode("ascii"))
         code, node = self.node.accepts(self.node.char+arg)
         #Warn if code empty?
         stack = list(args[:-1])

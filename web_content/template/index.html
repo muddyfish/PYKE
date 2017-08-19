@@ -27,10 +27,9 @@
                 -->
                 <button id="button-copy" class="btn btn-primary">Copy Answer</button>
                 <i class="fa fa-spinner fa-spin" id="loading"></i>
-                <div class="checkbox">
-                    <input type="checkbox" id="checkbox-warn"  {{ "checked" * warnings }}>
-                    <label for="checkbox-warn">Warnings?</label>
-                </div>
+                <br/>
+                <label class="checkbox-inline"><input type="checkbox" id="checkbox-warn"  {{ "checked" if warnings }}>Warnings?</label>
+                <label class="checkbox-inline"><input type="checkbox" id="checkbox-hex"  {{ "checked" if hex }}>Use hex encoding?</label>
                 <textarea id="code" placeholder="Code" class="form-control pad-top pad-bottom" rows="{{ code.count("\n")+1 if code else 7 }}">{{ code }}</textarea>
                 <textarea id="input" placeholder="Input" class="form-control pad-top pad-bottom" rows="{{ input.count("\n")+1 if input else 3 }}">{{ input }}</textarea>
                 <pre class="scrollable" id="output"></pre>
@@ -50,6 +49,7 @@
                             code: $('#code').val(),
                             input: $('#input').val(),
                             warnings: document.getElementById("checkbox-warn").checked? 1 : 0,
+                            hex: document.getElementById("checkbox-hex").checked? 1 : 0,
                             },
                         function(data) {
                             $("#loading").hide()
@@ -65,6 +65,7 @@
                 params={code: $('#code').val()};
                 if ($('#input').val()) params.input=$('#input').val();
                 if (!document.getElementById("checkbox-warn").checked) params.warnings=0;
+                if (!document.getElementById("checkbox-hex").checked) params.hex=0;
                         history.pushState(null, null, "?" + $.param(params).replace(/[!'()*]/g, function(c) {return '%' + c.charCodeAt(0).toString(16)}))
                 }
 
@@ -109,7 +110,12 @@
             onresize();
 
             $('#code').keyup(function(c) {
-                $('#length').text(c.target.value.length);
+                if (document.getElementById("checkbox-hex").checked) {
+                    $('#length').text(c.target.value.replace(/\s/g, '').length / 2);
+                }
+                else {
+                    $('#length').text(c.target.value.length);
+                }
             }).keyup();
         </script>
     </body>

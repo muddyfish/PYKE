@@ -25,6 +25,7 @@ class Node(object):
     default_arg = None
     uses_i = False
     uses_j = False
+    ignore_dot = False
     
     sequence = (list, tuple)
     number = (int, float)
@@ -143,7 +144,7 @@ class Node(object):
 
     def add_arg(self, args):
         q = nodes["eval_input"]
-        sys.stderr.write("Missing arg to %r, evaling input.\n"%self)
+        sys.stderr.write("Missing arg to %r, evaling input.\n" % self)
         try:
             arg = safe_eval.evals[settings.SAFE](input())
         except EOFError:
@@ -155,15 +156,19 @@ class Node(object):
 
     @classmethod
     def accepts(cls, code, args=None):
-        if cls.char == "":
+        if not cls.char:
             return None, None
-        if code.startswith(cls.char):
-            code = code[len(cls.char):]
+        if code[:1] == b'.' and not cls.ignore_dot:
+            code[1] |= 0x80
+            code = code[1:]
+        if code[0] == cls.char[0]:
+            code = code[1:]
             func = cls.__init__
             annotations = func.__annotations__
             arg_names = func.__code__.co_varnames[1:func.__code__.co_argcount]
             overwrote_default = False
-            if args is None: args = []
+            if args is None:
+                args = []
             for arg in arg_names:
                 if arg in annotations:
                     const_arg = annotations[arg]
@@ -223,12 +228,14 @@ class Node(object):
             if hasattr(func, "tests"):
                 for test in func.tests[:]:
                     in_stack, out_stack, args = test
+                    if isinstance(args, str):
+                        args = bytearray(args.encode())
                     args = cls.char + args
                     code, node = cls.accepts(args)
+                    assert node is not None
                     in_stack = in_stack[::-1]
                     node.prepare(in_stack)
                     in_stack = in_stack[::-1]
-                    assert(node is not None), node
                     if node.choose_function(in_stack).__func__ is not func:
                         raise AssertionError(cls.__name__+"(%r): %r chose %r instead of %r"%(in_stack, out_stack, node.choose_function(in_stack).__name__, func.__name__))
                     rtn_stack = node(in_stack[::-1])
@@ -259,8 +266,16 @@ def load_node(node, file_path):
         try:
             if issubclass(c, Node) and c.__module__ is main_module.__name__:
                 nodes[node] = c
+                if c.char and isinstance(c.char, str):
+                    c.char = bytearray([ord(c.char[-1].encode()) | (0x80 * (len(c.char) == 2))])
+                elif isinstance(c.char, bytes):
+                    c.char = bytearray(c.char)
+                    c.ignore_dot = True
+                elif c.char == "":
+                    c.char = b""
                 return c
-        except TypeError: pass
+        except TypeError:
+            pass
 
 
 def get_nodes():

@@ -1,6 +1,7 @@
 import lang_ast
 from nodes import Node
 
+
 class Eval(Node):
     char = ""
     args = 0
@@ -14,11 +15,12 @@ class Eval(Node):
         return self.ast
     
     def __repr__(self):
-        return "%s: %r"%(self.__class__.__name__, self.args)
+        return "{}: {}".format(self.__class__.__name__, self.args)
         
     @classmethod
-    def accepts(cls, code, accept = False):
-        if not accept: return None, None
+    def accepts(cls, code, accept=False):
+        if not accept:
+            return None, None
         ast = lang_ast.AST()
         code = ast.setup(code)
         return code, cls(ast)
