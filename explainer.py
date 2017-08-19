@@ -12,7 +12,7 @@ class NodeExplainer(object):
         self.remaining = remaining
 
     def __str__(self):
-        rtn = [" "*self.indent + self.diff.replace("\n", r"\n") + " "*(self.remaining+1-self.diff.count("\n")) + "- " + self.explain()]
+        rtn = [b" "*self.indent + self.diff.replace(b"\n", rb"\n") + b" "*(self.remaining+1-self.diff.count(b"\n")) + b"- " + self.explain()]
         func = self.node.__class__.__init__
         annotations = func.__annotations__
         arg_names = func.__code__.co_varnames[1:func.__code__.co_argcount]
@@ -26,16 +26,17 @@ class NodeExplainer(object):
                 new_code, results = Node.add_const_arg(arg_code, node, const_arg)
                 if new_code is not None:
                     diff = arg_code[:-len(new_code)]
-                    if diff == "":
+                    if diff == b"":
                         diff = arg_code
                     if isinstance(results, (nodes["eval_literal"])):
                         rtn.append(str(Explainer(diff, [], self.indent, self.remaining+len(new_code))))
                     self.indent += len(diff)
                     arg_code = new_code
-        return "\n".join(rtn)
+        return "\n".join(i.decode("ascii") for i in rtn)
 
     def explain(self):
-        return ""
+        return b""
+
 
 class Explainer(object):
     def __init__(self, code: str, arg_types: List[type], indent: int=0, remaining: int=0):
@@ -43,27 +44,27 @@ class Explainer(object):
         self.arg_types = arg_types
         self.indent = indent
         if remaining == 0:
-            remaining = self.code.count("\n")
+            remaining = self.code.count(b"\n")
         self.remaining = remaining
         self.tokens = self.parse_code(self.code)
 
     def __str__(self):
-        return "\n".join(map(str, self.tokens))
+        return "\n".join(str(token) for token in self.tokens)
 
     def parse_code(self, code) -> List[Node]:
         rtn = []
         while code:
-            if code.startswith("(") or code.startswith(")"):
+            if code.startswith(b"(") or code.startswith(b")"):
                 self.indent += 1
                 code = code[1:]
             new_code, node = AST._add_node(code)
             diff = code[:-len(new_code)]
-            if diff == "":
+            if diff == b"":
                 diff = code
             code = new_code
             rtn.append(NodeExplainer(node, diff, self.indent, self.remaining+len(code)))
-            self.indent += len(diff) + diff.count("\n")
-            self.remaining -= diff.count("\n")
+            self.indent += len(diff) + diff.count(b"\n")
+            self.remaining -= diff.count(b"\n")
         return rtn
 
 if __name__ == '__main__':

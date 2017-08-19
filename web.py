@@ -112,7 +112,7 @@ def explain_code():
     code = request.form.get("code", "")
     hex_code = b" ".join(codecs.encode(i.encode("utf-8"), 'hex_codec') for i in code).upper().decode("ascii")
     try:
-        return ("\n{}\n{}".format(hex_code, explainer.Explainer(code, []))).replace("\n", "\n    ")
+        return "\n{}\n\n{}".format(explainer.Explainer(bytearray(code, "ascii"), []), hex_code).replace("\n", "\n    ")
     except:
         return "\n{}".format(hex_code)
 
