@@ -6,6 +6,7 @@ from nodes import Node
 class NumericLiteral(Node):
     args = 0
     results = 1
+    ignore_dot = True
 
     def __init__(self, digits):
         self.digits = digits

@@ -110,11 +110,18 @@ def submit_code(timeout=5):
 @app.route("/explain", methods=['POST'])
 def explain_code():
     code = request.form.get("code", "")
-    hex_code = b" ".join(codecs.encode(i.encode("utf-8"), 'hex_codec') for i in code).upper().decode("ascii")
+    error = ""
     try:
-        return "\n{}\n\n{}".format(explainer.Explainer(bytearray(code, "ascii"), []), hex_code).replace("\n", "\n    ")
+        hexified = (codecs.encode(bytes([byte]), "hex_codec") for byte in explainer.optimise(bytearray(code, "utf-8")))
     except:
-        return "\n{}".format(hex_code)
+        error = "Error whilst optimising hex"
+        hexified = (codecs.encode(bytes([byte]), "hex_codec") for byte in bytearray(code, "utf-8"))
+    hex_code = b" ".join(hexified).decode("ascii").upper()
+
+    try:
+        return "\n{}\n{}\n{}".format(explainer.Explainer(bytearray(code, "utf-8"), []), error, hex_code).replace("\n", "\n    ")
+    except:
+        return "\n    Error formatting explanation\n    {}\n    {}".format(error, hex_code)
 
 
 @app.route("/dictionary")
