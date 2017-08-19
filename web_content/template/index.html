@@ -78,7 +78,7 @@
 
             function copy_code() {
                 var length = $('#code').val().length;
-                var header = "##Pyke, "+(length.toString())+" bytes\n";
+                var header = "##[Pyke](https://github.com/muddyfish/PYKE), "+(length.toString())+" bytes\n";
                 var code = ("\n"+$('#code').val()).split("\n").join("\n    ");
                 create_permalink();
                 var link = window.location.href;
