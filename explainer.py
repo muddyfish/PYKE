@@ -4,40 +4,6 @@ from lang_ast import AST
 from nodes import Node, nodes
 
 
-class NodeExplainer(object):
-    def __init__(self, node: Node, diff: str, indent: int=0, remaining: int=0):
-        self.node = node
-        self.diff = diff
-        self.indent = indent
-        self.remaining = remaining
-
-    def __str__(self):
-        rtn = [b" "*self.indent + self.diff.replace(b"\n", rb"\n") + b" "*(self.remaining+1-self.diff.count(b"\n")) + b"- " + self.explain()]
-        func = self.node.__class__.__init__
-        annotations = func.__annotations__
-        arg_names = func.__code__.co_varnames[1:func.__code__.co_argcount]
-        arg_code = self.diff
-        arg_code = arg_code[len(self.node.char):]
-        self.indent += len(self.node.char)
-        for arg in arg_names:
-            if arg in annotations:
-                const_arg = annotations[arg]
-                node = nodes[const_arg]
-                new_code, results = Node.add_const_arg(arg_code, node, const_arg)
-                if new_code is not None:
-                    diff = arg_code[:-len(new_code)]
-                    if diff == b"":
-                        diff = arg_code
-                    if isinstance(results, (nodes["eval_literal"])):
-                        rtn.append(str(Explainer(diff, [], self.indent, self.remaining+len(new_code))))
-                    self.indent += len(diff)
-                    arg_code = new_code
-        return "\n".join(i.decode("ascii") for i in rtn)
-
-    def explain(self):
-        return b""
-
-
 class Explainer(object):
     def __init__(self, code: str, arg_types: List[type], indent: int=0, remaining: int=0):
         self.code = code
@@ -49,22 +15,66 @@ class Explainer(object):
         self.tokens = self.parse_code(self.code)
 
     def __str__(self):
-        return "\n".join(str(token) for token in self.tokens)
+        rtn = self.to_str(self.tokens).split("\n")
+        max_len = max(len(line) for line in rtn)
+        return "\n".join("{} - ".format(line.ljust(max_len)) for line in rtn)
 
-    def parse_code(self, code) -> List[Node]:
+    def to_str(self, tokens, indent=0):
+        rtn = []
+        for i in tokens:
+            line = i["char"]
+            extend = ""
+            for arg in i["args"]:
+                if isinstance(arg, list):
+                    if len(arg) == 1:
+                        line += arg[0]["char"]
+                    else:
+                        new = self.to_str(arg, indent+len(line))
+                        line += new.replace(" ", "").replace("\n", "")
+                        if new[-1] in "()":
+                            new = new[:-1].rstrip()
+                        extend = "\n{}".format(new)
+                else:
+                    line += arg
+            rtn.append(" "*indent+line+extend)
+            indent += len(line)
+        return "\n".join(rtn)
+
+    def parse_code(self, code):
         rtn = []
         while code:
-            if code.startswith(b"(") or code.startswith(b")"):
-                self.indent += 1
-                code = code[1:]
+            new = {}
             new_code, node = AST._add_node(code)
             diff = code[:-len(new_code)]
             if diff == b"":
                 diff = code
+            if diff.startswith(b"."):
+                if not node.ignore_dot:
+                    new["char"] = diff[:2].decode("ascii")
+                    diff = diff[2:]
+            else:
+                new["char"] = diff[:1].decode("ascii")
+                diff = diff[1:]
+            func = node.__init__
+            annotations = func.__annotations__
+            arg_names = func.__code__.co_varnames[1:func.__code__.co_argcount]
+            new["args"] = []
+            for arg in arg_names:
+                if arg in annotations:
+                    const_arg = annotations[arg]
+                    arg_node = nodes[const_arg]
+                    new_diff, results = node.add_const_arg(diff[:], arg_node, const_arg)
+                    if new_diff is None:
+                        continue
+                    if len(new_diff) != 0:
+                        diff = diff[:-len(new_diff)]
+                    if annotations[arg] in (Node.EvalLiteral, Node.NodeSingle, Node.NodeClass):
+                        new["args"].append(self.parse_code(diff))
+                    else:
+                        new["args"].append(diff.decode("utf-8"))
+                    diff = new_diff
             code = new_code
-            rtn.append(NodeExplainer(node, diff, self.indent, self.remaining+len(code)))
-            self.indent += len(diff) + diff.count(b"\n")
-            self.remaining -= diff.count(b"\n")
+            rtn.append(new)
         return rtn
 
 
