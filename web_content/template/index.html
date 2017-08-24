@@ -72,7 +72,7 @@
             });
 
             function copy_code() {
-                var length = $('#length').val();
+                var length = $('#length').text();
                 var header = "#[Pyke](https://github.com/muddyfish/PYKE), "+(length.toString())+" bytes\n";
                 var code = ("\n"+$('#code').val()).split("\n").join("\n    ");
                 create_permalink();
