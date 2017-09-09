@@ -73,7 +73,8 @@
 
             function copy_code() {
                 var length = $('#length').text();
-                var header = "#[Pyke](https://github.com/muddyfish/PYKE), "+(length.toString())+" bytes\n";
+                var header = "#[Pyke](https://github.com/muddyfish/PYKE), "+(length.toString())+" byte";
+                if (length != 1) {header += "s"}
                 var code = ("\n"+$('#code').val()).split("\n").join("\n    ");
                 create_permalink();
                 var link = window.location.href;
@@ -84,7 +85,7 @@
                                 code: $('#code').val()
                         },
                         function (explanation) {
-                            $("#answer").text(header + code + "\n\n" + try_it + "\n\n" + explanation);
+                            $("#answer").text(header + "\n" + code + "\n\n" + try_it + "\n\n" + explanation);
                             dialog.dialog("open");
                         }
                     );
