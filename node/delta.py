@@ -9,6 +9,19 @@ class Delta(Node):
     char = "$"
     args = 1
     results = 1
+    contents = ["PADDING",
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December"]
     
     @Node.test_func([[1, 2, 3, 5]], [[1, 1, 2]])
     def delta(self, seq: Node.sequence):
