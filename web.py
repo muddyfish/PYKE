@@ -71,7 +71,7 @@ def submit_code(timeout=5):
     print(code, inp)
     warnings = int(request.form.get("warnings", "0"), 10)
     use_hex = int(request.form.get("hex", "0"), 10)
-    args = ['python3',
+    args = [sys.executable,
             'main.py',
             '--safe',
             '--',
