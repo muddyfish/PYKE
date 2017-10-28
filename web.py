@@ -11,7 +11,7 @@ from io import StringIO
 from subprocess import Popen, PIPE, STDOUT, TimeoutExpired
 
 from flask import Flask, request, redirect, render_template, send_from_directory
-from flask.ext.cache import Cache
+from flask_cache import Cache
 
 import explainer
 import lang_ast
