@@ -7,7 +7,7 @@
 
 ### Extra requirements in requirements.txt
 
-Copyright (c) 2016 muddyfish
+Copyright (c) 2016, 2017 muddyfish
 
 Pyke is a golfing language designed to be as concise as possible.
 
