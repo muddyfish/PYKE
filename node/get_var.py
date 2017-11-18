@@ -19,11 +19,10 @@ class GetVar(Node):
             if issubclass(self.node, Node):
                 return [getattr(self.node, "contents")]
         except TypeError:
-            if self.node.isnumeric():
+            if isinstance(self.node, int):
                 inf = CountList()
                 inf.modify(inf.every, int(self.node), count())
                 return inf
-
     
     @classmethod
     def run_tests(cls):
