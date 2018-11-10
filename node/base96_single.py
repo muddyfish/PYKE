@@ -2,6 +2,7 @@
 
 from nodes import Node
 
+
 class Base96Single(Node):
     char = "w"
     args = 0
@@ -14,6 +15,7 @@ class Base96Single(Node):
     @Node.test_func([], [0], " ")
     @Node.test_func([], [1], "!")
     @Node.test_func([], [-32], "\x00")
+    @Node.test_func([], [4815162342], bytearray(b"\x91\xf8\x86\x98\x06"))
     def func(self):
         """Return ord(const_arg)-32"""
         return self.value
@@ -36,6 +38,7 @@ class Base96Single(Node):
             value |= (new & 0x7F)
             value <<= 7
             new = code[0]
+            code = code[1:]
         value |= new
         value -= 32
         return code, cls(value)

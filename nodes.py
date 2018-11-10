@@ -85,7 +85,8 @@ class Node(object):
 
     def choose_function(self, args):
         funcs = {}
-        for cur_func in self.get_functions(self):
+        all_funcs = self.get_functions(self)
+        for cur_func in all_funcs:
             arg_types_dict = cur_func.__annotations__
             has_star_args = cur_func.__code__.co_flags & 4
             func_arg_names = cur_func.__code__.co_varnames[1:cur_func.__code__.co_argcount+has_star_args]
@@ -113,7 +114,7 @@ class Node(object):
         try:
             func = funcs[max(funcs.keys())]
         except ValueError:
-            sys.stderr.write("No valid func for node %r, args: %r. Trying with Map.\n"%(self.__class__.__name__, args))
+            sys.stderr.write("No valid func for node %r, args: %r (All: %r). Trying with Map.\n"%(self.__class__.__name__, args, all_funcs))
             return nodes["map"](self).choose_function(args)
         return func
     

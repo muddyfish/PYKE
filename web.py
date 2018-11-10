@@ -11,7 +11,7 @@ from io import StringIO
 from subprocess import Popen, PIPE, STDOUT, TimeoutExpired
 
 from flask import Flask, request, redirect, render_template, send_from_directory
-from flask_cache import Cache
+from flask_caching import Cache
 
 import explainer
 import lang_ast
@@ -221,14 +221,16 @@ def get_docs():
                     pass
                 for test in func.tests[::-1]:
                     try:
-                        #print(node, test, end=" ")
                         inp = literal_gen.stack_literal(test[0])
-                        #print(test)
                         if isinstance(test[-1], bytearray):
                             cmd = nodes.nodes[node].char + test[-1]
                         else:
                             cmd = nodes.nodes[node].char+bytearray(test[-1].encode("ascii"))
-                        lang_ast.test_code(inp+cmd, test[1])
+                        try:
+                            lang_ast.test_code(inp+cmd, test[1])
+                        except AssertionError:
+                            print(func)
+                            raise
                     except NotImplementedError:
                         func_doc["input"] = "Literal Undefined\n"
                         func_doc["output"] = str(test[1])+"\n"
@@ -240,8 +242,11 @@ def get_docs():
                                 cmd = "." + chr(cmd[0] & 0x7F) + cmd[1:].decode("ascii")
                             elif cmd[:1] == b"~":
                                 cmd = "~." + chr(cmd[1] & 0x7F)
-                        func_doc["input"] += (inp.decode("ascii")+cmd+"\n")
-                        func_doc["output"] += (str(test[1])+"\n")
+                        try:
+                            func_doc["input"] += (inp.decode("ascii")+cmd+"\n")
+                            func_doc["output"] += (str(test[1])+"\n")
+                        except TypeError:
+                            pass
                 func_doc["input"] = func_doc["input"][:-1]
                 func_doc["output"] = func_doc["output"][:-1]
                 func_doc["output"] = func_doc["output"].replace("<", "&lt;")

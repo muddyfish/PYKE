@@ -10,7 +10,7 @@ class List(Node):
     default_arg = 2
     contents = []
     
-    def __init__(self, size: Node.Base10Single):
+    def __init__(self, size: Node.NumericLiteral):
         self.args = size
         
     def prepare(self, stack):
