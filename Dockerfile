@@ -7,6 +7,6 @@ RUN pip install -U pip wheel setuptools \
 
 ADD . .
 
-EXPOSE 8888
+EXPOSE 5000
 
 CMD python web.py
