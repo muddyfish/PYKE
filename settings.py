@@ -2,5 +2,5 @@
 
 WARNINGS = True
 SAFE = True
-DEBUG = True
-IS_WEB = False
+DEBUG = False
+IS_WEB = True

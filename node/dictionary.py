@@ -41,5 +41,5 @@ class Dictionary(Node):
 
 
 def init_words(dict_file):
-    with open(os.path.join(os.path.split(__main__.__file__)[0], dict_file)) as words_f:
+    with open(os.path.join(os.path.split(__main__.__file__)[0], dict_file), encoding="utf-8") as words_f:
         return json.load(words_f)
