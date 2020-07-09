@@ -267,7 +267,7 @@ def send_js(path):
     return send_from_directory('web_content/static', path)
 
 
-def main(debug=settings.DEBUG, url="127.0.0.1"):
+def main(debug=settings.DEBUG, url="127.0.0.1", port=5000):
     log = logging.getLogger('werkzeug')
     log.setLevel(logging.DEBUG)
     file_handler = logging.FileHandler("log.log", "a")
@@ -277,7 +277,11 @@ def main(debug=settings.DEBUG, url="127.0.0.1"):
     stream_handler.setLevel(logging.DEBUG)
     log.addHandler(stream_handler)
     app.debug = debug
+
+    from waitress import serve
+    serve(app, host=url, port=port)
     app.run(url)
+
 
 if __name__ == '__main__':
     main()

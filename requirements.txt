@@ -2,3 +2,4 @@ flask
 python-dateutil
 pyephem
 flask-caching
+waitress
